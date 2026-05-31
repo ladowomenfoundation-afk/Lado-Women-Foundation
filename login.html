@@ -1,26 +1,32 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Admin Login - MIS</title>
+<title>NGO MIS Login</title>
 
 <style>
 body{
   font-family:Arial;
-  background:#0b3d91;
+  background:linear-gradient(135deg,#0b3d91,#00c6ff);
   color:white;
   text-align:center;
-  padding-top:100px;
+  padding-top:120px;
 }
 
 input{
   padding:10px;
-  width:200px;
   margin:5px;
+  width:220px;
+  border-radius:5px;
+  border:none;
 }
 
 button{
   padding:10px 20px;
-  margin-top:10px;
+  border:none;
+  border-radius:5px;
+  background:#28a745;
+  color:white;
+  font-weight:bold;
 }
 </style>
 
@@ -28,7 +34,7 @@ button{
 
 <body>
 
-<h2>NGO MIS LOGIN</h2>
+<h2>NGO MIS LOGIN SYSTEM</h2>
 
 <input id="user" placeholder="Username"><br>
 <input id="pass" type="password" placeholder="Password"><br>
@@ -56,15 +62,22 @@ function login(){
 
     if(data.status=="success"){
 
-      localStorage.setItem("token",data.token);
+      localStorage.setItem("user",data.user);
       localStorage.setItem("role",data.role);
+      localStorage.setItem("token",data.token);
 
+      // 🔥 ROLE ROUTING
       if(data.role=="ADMIN"){
         window.location.href="dashboard.html";
       }
-
-      if(data.role=="FIELD"){
+      else if(data.role=="FIELD"){
         window.location.href="field.html";
+      }
+      else if(data.role=="MEMBER"){
+        window.location.href="membership.html";
+      }
+      else if(data.role=="INTERN"){
+        window.location.href="internship.html";
       }
 
     }else{
