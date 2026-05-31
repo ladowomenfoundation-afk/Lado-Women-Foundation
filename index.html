@@ -1,21 +1,27 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Lado Women Foundation</title>
+<title>Lado Women Foundation MIS</title>
 
 <style>
 
-body{margin:0;font-family:Arial;background:#f4f6ff}
+body{
+margin:0;
+font-family:Arial;
+background:#eef2ff;
+}
 
+/* HEADER */
 header{
-background:#8e24aa;
+background:linear-gradient(90deg,#6a1b9a,#8e24aa);
 color:white;
-padding:20px;
+padding:18px;
 text-align:center;
-font-size:22px;
+font-size:20px;
 font-weight:bold;
 }
 
+/* NAVBAR */
 nav{
 display:flex;
 flex-wrap:wrap;
@@ -26,21 +32,53 @@ top:0;
 
 nav button{
 flex:1;
-padding:12px;
+padding:10px;
 border:none;
 color:white;
 background:#3949ab;
+cursor:pointer;
+font-size:13px;
 }
 
-section{display:none;padding:15px}
-.active{display:block}
+nav button:hover{
+background:#5c6bc0;
+}
 
+/* SECTIONS */
+section{
+display:none;
+padding:15px;
+min-height:80vh;
+}
+
+.active{
+display:block;
+}
+
+/* CARD */
 .card{
 background:white;
-padding:10px;
+padding:12px;
 margin:10px;
 border-radius:10px;
-box-shadow:0 2px 8px rgba(0,0,0,0.1);
+box-shadow:0 2px 6px rgba(0,0,0,0.1);
+}
+
+/* INPUT */
+input{
+padding:8px;
+margin:5px;
+width:90%;
+}
+
+button.action{
+padding:10px;
+margin:5px;
+background:#6a1b9a;
+color:white;
+border:none;
+border-radius:5px;
+cursor:pointer;
 }
 
 </style>
@@ -48,140 +86,120 @@ box-shadow:0 2px 8px rgba(0,0,0,0.1);
 
 <body>
 
-<header>🌸 LADO WOMEN FOUNDATION</header>
+<header>
+🌸 LADO WOMEN FOUNDATION - MIS DASHBOARD
+</header>
 
+<!-- NAVIGATION (FULL RESTORED TABS) -->
 <nav>
 <button onclick="show('home')">Dashboard</button>
 <button onclick="show('shg')">SHG</button>
 <button onclick="show('members')">Members</button>
+<button onclick="show('intern')">Internship</button>
+<button onclick="show('field')">Field</button>
+<button onclick="show('verify')">Verify</button>
 <button onclick="show('otp')">OTP Login</button>
+<button onclick="show('idcard')">ID Card</button>
+<button onclick="show('control')">Control Room</button>
+<button onclick="show('login')">Login</button>
 </nav>
 
 <!-- DASHBOARD -->
 <section id="home" class="active">
-
-<div class="card" id="t"></div>
-<div class="card" id="a"></div>
-<div class="card" id="p"></div>
-<div class="card" id="r"></div>
-
+<div class="card" id="stats">Loading dashboard...</div>
 </section>
 
 <!-- SHG -->
 <section id="shg">
-
-<h3>SHG</h3>
-
-<input placeholder="Name"><br>
+<h3>SHG MODULE</h3>
+<input placeholder="SHG Name"><br>
 <input placeholder="Leader"><br>
 <input placeholder="Mobile"><br>
-
-<button onclick="createSHG()">Create</button>
-
-<div id="shgList"></div>
-
+<button class="action">Create SHG</button>
+<div class="card">SHG list will load here</div>
 </section>
 
 <!-- MEMBERS -->
 <section id="members">
-
-<h3>Members</h3>
-
+<h3>MEMBERS MODULE</h3>
 <input placeholder="Name"><br>
 <input placeholder="Mobile"><br>
 <input placeholder="Role"><br>
+<button class="action">Add Member</button>
+<div class="card">Members list</div>
+</section>
 
-<button onclick="createMember()">Create</button>
+<!-- INTERNSHIP -->
+<section id="intern">
+<h3>INTERNSHIP</h3>
+<div class="card">Internship system (training + certificate)</div>
+</section>
 
-<div id="memberList"></div>
+<!-- FIELD -->
+<section id="field">
+<h3>FIELD MODULE</h3>
+<div class="card">Field reports + attendance</div>
+</section>
 
+<!-- VERIFY -->
+<section id="verify">
+<h3>VERIFY CERTIFICATE / ID</h3>
+<input placeholder="Enter ID"><br>
+<button class="action">Verify</button>
 </section>
 
 <!-- OTP -->
 <section id="otp">
-
 <h3>OTP LOGIN</h3>
+<input placeholder="Mobile"><br>
+<button class="action">Send OTP</button><br><br>
+<input placeholder="OTP"><br>
+<button class="action">Verify OTP</button>
+</section>
 
-<input id="mobile" placeholder="Mobile"><br>
-<button onclick="sendOTP()">Send OTP</button><br><br>
+<!-- ID CARD -->
+<section id="idcard">
+<h3>ID CARD</h3>
+<div class="card">Generate & Download ID Card</div>
+</section>
 
-<input id="otp" placeholder="Enter OTP"><br>
-<button onclick="verifyOTP()">Verify</button>
+<!-- CONTROL ROOM -->
+<section id="control">
+<h3>CONTROL ROOM</h3>
+<div class="card">Admin level control panel</div>
+</section>
 
+<!-- LOGIN -->
+<section id="login">
+<h3>LOGIN</h3>
+<input placeholder="Username"><br>
+<input placeholder="Password"><br>
+<button class="action">Login</button>
 </section>
 
 <script>
 
 const API="YOUR_SCRIPT_URL_HERE";
 
+// PAGE SWITCH
 function show(id){
 document.querySelectorAll("section").forEach(s=>s.classList.remove("active"));
 document.getElementById(id).classList.add("active");
 }
 
-// DASHBOARD
+// DASHBOARD LOAD
 fetch(API)
 .then(r=>r.json())
 .then(d=>{
-document.getElementById("t").innerHTML="Total SHG: "+d.total;
-document.getElementById("a").innerHTML="Approved: "+d.approved;
-document.getElementById("p").innerHTML="Pending: "+d.pending;
-document.getElementById("r").innerHTML="Rejected: "+d.rejected;
+
+document.getElementById("stats").innerHTML=`
+Total SHG: ${d.total}<br>
+Approved: ${d.approved}<br>
+Pending: ${d.pending}<br>
+Rejected: ${d.rejected}
+`;
+
 });
-
-// SHG
-function createSHG(){
-
-let i=document.querySelectorAll("#shg input");
-
-fetch(API,{
-method:"POST",
-headers:{"Content-Type":"application/x-www-form-urlencoded"},
-body:action=shg&name=${i[0].value}&leader=${i[1].value}&mobile=${i[2].value}&district=NA&block=NA&members=0
-});
-
-alert("SHG Created");
-}
-
-// MEMBERS
-function createMember(){
-
-let i=document.querySelectorAll("#members input");
-
-fetch(API,{
-method:"POST",
-headers:{"Content-Type":"application/x-www-form-urlencoded"},
-body:action=member&name=${i[0].value}&mobile=${i[1].value}&role=${i[2].value}&photo=NA&district=NA&block=NA
-});
-
-alert("Member Created");
-}
-
-// OTP
-function sendOTP(){
-
-fetch(API,{
-method:"POST",
-headers:{"Content-Type":"application/x-www-form-urlencoded"},
-body:action=sendotp&mobile=${document.getElementById("mobile").value}
-});
-
-alert("OTP Sent");
-}
-
-function verifyOTP(){
-
-fetch(API,{
-method:"POST",
-headers:{"Content-Type":"application/x-www-form-urlencoded"},
-body:action=verifyotp&mobile=${document.getElementById("mobile").value}&otp=${document.getElementById("otp").value}
-})
-.then(r=>r.json())
-.then(d=>{
-alert(d.status);
-});
-
-}
 
 </script>
 
