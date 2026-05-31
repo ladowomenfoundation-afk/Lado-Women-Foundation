@@ -2,84 +2,91 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Dashboard - Lado Women Foundation</title>
-
-<link rel="stylesheet" href="style.css">
+<title>Lado Women Foundation - Dashboard</title>
 
 <style>
 body{
 margin:0;
 font-family:Arial;
-background:#f4f4f4;
+background:#f5f5f5;
 }
 
 .header{
 background:#6a1b9a;
 color:white;
-padding:18px;
+padding:15px;
 text-align:center;
+font-size:20px;
+font-weight:bold;
 }
 
-.header h1{
-margin:0;
-font-size:22px;
+.container{
+display:flex;
 }
 
-.header p{
-margin:5px 0 0 0;
-font-size:14px;
-opacity:0.9;
+.sidebar{
+width:220px;
+background:#2c2c2c;
+height:100vh;
+color:white;
+padding-top:20px;
 }
 
-.grid{
+.sidebar button{
+width:100%;
+padding:12px;
+background:none;
+border:none;
+color:white;
+text-align:left;
+cursor:pointer;
+border-bottom:1px solid #444;
+}
+
+.sidebar button:hover{
+background:#6a1b9a;
+}
+
+.main{
+flex:1;
+padding:20px;
+}
+
+.cards{
 display:grid;
 grid-template-columns:repeat(3,1fr);
 gap:15px;
-padding:20px;
+margin-bottom:20px;
 }
 
 .card{
 background:white;
 padding:20px;
-border-radius:12px;
+border-radius:10px;
 box-shadow:0 0 8px rgba(0,0,0,0.1);
 text-align:center;
 }
 
-.value{
-font-size:28px;
-font-weight:bold;
+.card h2{
+margin:0;
 color:#6a1b9a;
-margin-top:10px;
 }
 
-.menu{
-display:flex;
-flex-wrap:wrap;
-justify-content:center;
-gap:10px;
-padding:10px;
-}
-
-.menu button{
-padding:10px 15px;
-border:none;
-background:#6a1b9a;
-color:white;
-border-radius:6px;
-cursor:pointer;
-}
-
-.menu button:hover{
-background:#4a148c;
-}
-
-#content{
-padding:20px;
+.box{
 background:white;
-margin:10px;
+padding:15px;
 border-radius:10px;
-min-height:200px;
+box-shadow:0 0 8px rgba(0,0,0,0.1);
+}
+
+.item{
+padding:10px;
+border-bottom:1px solid #eee;
+}
+
+.logout{
+background:red;
+margin-top:20px;
 }
 </style>
 
@@ -87,81 +94,118 @@ min-height:200px;
 
 <body>
 
-<!-- HEADER -->
 <div class="header">
-<h1>Lado Women Foundation NGO</h1>
-<p>Women Empowerment • MIS Dashboard System</p>
+Lado Women Foundation - MIS Dashboard
 </div>
+
+<div class="container">
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+
+<button onclick="loadData('shg')">SHG</button>
+<button onclick="loadData('members')">Members</button>
+<button onclick="loadData('volunteers')">Volunteers</button>
+<button onclick="loadData('field')">Field Reports</button>
+
+<button class="logout" onclick="logout()">Logout</button>
+
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+<div id="userBox"></div>
 
 <!-- STATS -->
-<div class="grid">
-
+<div class="cards">
 <div class="card">
-SHG
-<div class="value" id="shg">0</div>
-</div>
-
-<div class="card">
-Members
-<div class="value" id="members">0</div>
+<h2 id="shgCount">0</h2>
+<p>SHG Groups</p>
 </div>
 
 <div class="card">
-Volunteers
-<div class="value" id="volunteers">0</div>
+<h2 id="memCount">0</h2>
+<p>Members</p>
+</div>
+
+<div class="card">
+<h2 id="volCount">0</h2>
+<p>Volunteers</p>
+</div>
+</div>
+
+<!-- DATA AREA -->
+<div class="box" id="dataBox">
+Select menu to load data
 </div>
 
 </div>
 
-<!-- MENU -->
-<div class="menu">
-
-<button onclick="load('shg')">SHG</button>
-<button onclick="load('members')">Members</button>
-<button onclick="load('volunteers')">Volunteers</button>
-<button onclick="load('control')">Control Room</button>
-<button onclick="load('field')">Field Reports</button>
-
-</div>
-
-<!-- CONTENT -->
-<div id="content">
-Select a module to view data
 </div>
 
 <script>
 
 const API = "PASTE_YOUR_APPS_SCRIPT_URL_HERE";
 
-// STATS LOAD
+// CHECK LOGIN
+let user = localStorage.getItem("user");
+
+if(!user){
+window.location.href="login.html";
+}
+
+user = JSON.parse(user);
+
+document.getElementById("userBox").innerHTML =
+"<h3>Welcome, " + user.username + " (" + user.role + ")</h3>";
+
+// LOAD STATS
 function loadStats(){
 
 fetch(API)
 .then(r=>r.json())
-.then(d=>{
+.then(data=>{
 
-document.getElementById("shg").innerText = d.total_shg || 0;
-document.getElementById("members").innerText = d.total_members || 0;
-document.getElementById("volunteers").innerText = d.total_volunteers || 0;
+document.getElementById("shgCount").innerText = data.total_shg || 0;
+document.getElementById("memCount").innerText = data.total_members || 0;
+document.getElementById("volCount").innerText = data.total_volunteers || 0;
 
 });
 
 }
 
-// MODULE LOAD
-function load(type){
+// LOAD DATA
+function loadData(type){
 
 fetch(API + "?type=" + type)
 .then(r=>r.json())
-.then(d=>{
+.then(data=>{
 
-document.getElementById("content").innerHTML =
-"<pre style='text-align:left'>" + JSON.stringify(d,null,2) + "</pre>";
+let html="";
+
+data.forEach(d=>{
+html += `
+<div class="item">
+<b>${d.name || d.title || d.id}</b><br>
+${d.district || ""} ${d.block || ""} ${d.status || ""}
+</div>
+`;
+});
+
+document.getElementById("dataBox").innerHTML = html;
 
 });
 
 }
 
+// LOGOUT
+function logout(){
+localStorage.removeItem("user");
+window.location.href="login.html";
+}
+
+// INIT
 loadStats();
 
 </script>
