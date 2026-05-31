@@ -1,77 +1,45 @@
-<!DOCTYPE html>
-<html>
-<head>
-<title>Gov Control Room</title>
+<h3>CONTROL ROOM</h3>
 
-<style>
-body{
-  font-family:Arial;
-  background:#0b1220;
-  color:white;
-}
+<select id="role">
+<option>admin</option>
+<option>state</option>
+<option>district</option>
+<option>block</option>
+</select>
 
-.header{
-  background:#0b3d91;
-  padding:15px;
-  text-align:center;
-}
+<input id="level" placeholder="Enter Level (State/District/Block)"><br>
 
-.card{
-  background:#1c2333;
-  margin:10px;
-  padding:10px;
-  border-left:4px solid #00ff99;
-  border-radius:5px;
-}
-</style>
+<button onclick="loadControl()">Load Data</button>
 
-</head>
-
-<body>
-
-<div class="header">
-  <h2>LIVE CONTROL ROOM (NGO MIS)</h2>
-</div>
-
-<div id="logs"></div>
+<div id="controldata"></div>
 
 <script>
 
-const API = "YOUR_APPS_SCRIPT_URL?type=logs";
+function loadControl(){
 
-function load(){
+let role=document.getElementById("role").value;
+let level=document.getElementById("level").value;
 
-  fetch(API)
-  .then(res=>res.json())
-  .then(data=>{
+fetch(API+"?type=control&role="+role+"&level="+level)
+.then(r=>r.json())
+.then(data=>{
 
-    let html="";
+let html="";
 
-    data.forEach(d=>{
+data.forEach(d=>{
+html+=`
+<div class="card">
+<b>${d.name}</b><br>
+Leader: ${d.leader}<br>
+District: ${d.district}<br>
+Status: ${d.status}
+</div>`;
+});
 
-      html += `
-        <div class="card">
-          👤 <b>${d.user}</b><br>
-          ⚙️ ${d.action}<br>
-          🕒 ${d.time}<br>
-          🏷️ ${d.type}
-        </div>
-      `;
+document.getElementById("controldata").innerHTML=html;
 
-    });
-
-    document.getElementById("logs").innerHTML = html;
-
-  });
+});
 
 }
 
-load();
-
-// 🔁 auto refresh every 3 seconds
-setInterval(load,3000);
-
 </script>
-
-</body>
-</html>
