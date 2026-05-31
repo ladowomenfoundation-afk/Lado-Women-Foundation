@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta charset="UTF-8">
 <title>Donate - Lado Women Foundation</title>
 
 <style>
@@ -11,14 +12,14 @@ background:#f4f6f9;
 display:flex;
 justify-content:center;
 align-items:center;
-height:100vh;
+min-height:100vh;
 }
 
 .card{
 background:white;
 padding:25px;
 border-radius:12px;
-width:360px;
+width:380px;
 text-align:center;
 box-shadow:0 0 20px rgba(0,0,0,.2);
 }
@@ -45,12 +46,13 @@ border:1px solid #ccc;
 border-radius:6px;
 }
 
-#qr{
-margin:10px 0;
+#qrimg{
+margin-top:10px;
 }
 
-.hidden{
-display:none;
+#msg{
+margin-top:10px;
+font-weight:bold;
 }
 </style>
 
@@ -62,7 +64,7 @@ display:none;
 
 <h2>Support Women Empowerment</h2>
 
-<p>Select Amount</p>
+<p>Select Donation Amount</p>
 
 <button onclick="setAmount(500)">₹500</button>
 <button onclick="setAmount(1100)">₹1100</button>
@@ -75,22 +77,17 @@ display:none;
 <input id="custom" placeholder="Enter Custom Amount">
 <button onclick="setCustom()">Add</button>
 
-<div id="qr">
+<div>
 <img id="qrimg" width="200">
 </div>
 
 <h3 id="amt">Amount: ₹0</h3>
 
-<!-- DONOR FORM -->
-<div>
-
 <input id="name" placeholder="Your Name">
-<input id="mobile" placeholder="Mobile">
-<input id="email" placeholder="Email">
+<input id="mobile" placeholder="Mobile Number">
+<input id="email" placeholder="Email (optional)">
 
 <button onclick="submitDonation()">Donate Now</button>
-
-</div>
 
 <p id="msg"></p>
 
@@ -98,46 +95,58 @@ display:none;
 
 <script>
 
-const API="YOUR_APPS_SCRIPT_URL";
-let amount=0;
+// 🔥 CHANGE THIS
+const API="https://script.google.com/macros/s/YOUR_DEPLOYED_ID/exec";
+
+let amount = 0;
 
 // ===== SET AMOUNT =====
 function setAmount(val){
-amount=val;
+amount = val;
 updateQR();
 }
 
 // ===== CUSTOM AMOUNT =====
 function setCustom(){
-amount=parseInt(document.getElementById("custom").value)||0;
+amount = parseInt(document.getElementById("custom").value) || 0;
 updateQR();
 }
 
-// ===== QR UPDATE =====
+// ===== UPDATE QR =====
 function updateQR(){
-document.getElementById("amt").innerText="Amount: ₹"+amount;
 
-let upi="upi://pay?pa=ladowomen@upi&am="+amount+"&cu=INR";
+document.getElementById("amt").innerText = "Amount: ₹" + amount;
 
-document.getElementById("qrimg").src=
-"https://api.qrserver.com/v1/create-qr-code/?size=200x200&data="+upi;
+if(amount <= 0) return;
+
+let upi = "upi://pay?pa=ladowomen@upi&am=" + amount + "&cu=INR";
+
+document.getElementById("qrimg").src =
+"https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=" + upi;
+
 }
 
 // ===== SUBMIT DONATION =====
 function submitDonation(){
 
-if(amount<=0){
-alert("Select amount first");
+let name = document.getElementById("name").value;
+let mobile = document.getElementById("mobile").value;
+let email = document.getElementById("email").value;
+
+if(!name || amount <= 0){
+document.getElementById("msg").innerText = "❌ Please enter name & select amount";
 return;
 }
 
-let form=new URLSearchParams();
+let form = new URLSearchParams();
 
 form.append("action","donation");
-form.append("name",name.value);
-form.append("mobile",mobile.value);
-form.append("email",email.value);
+form.append("name",name);
+form.append("mobile",mobile);
+form.append("email",email);
 form.append("amount",amount);
+
+document.getElementById("msg").innerText = "Processing...";
 
 fetch(API,{
 method:"POST",
@@ -147,11 +156,17 @@ body:form
 .then(res=>{
 
 if(res.status=="success"){
-msg.innerText="Donation recorded successfully!";
+document.getElementById("msg").innerText =
+"✅ Donation successful! Receipt: " + res.receiptNo;
 }else{
-msg.innerText="Error saving data";
+document.getElementById("msg").innerText =
+"❌ Error: " + res.message;
 }
 
+})
+.catch(err=>{
+document.getElementById("msg").innerText =
+"❌ Server Error";
 });
 
 }
