@@ -1,25 +1,157 @@
-<input id="memberId" placeholder="Enter Member ID"><br>
-<button onclick="createIDCard()">Generate ID Card</button>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>ID Card - Lado Women Foundation</title>
 
-<div id="idresult"></div>
+<link rel="stylesheet" href="style.css">
+
+<style>
+body{
+font-family:Arial;
+background:#f4f4f4;
+margin:0;
+}
+
+.header{
+background:#6a1b9a;
+color:white;
+padding:15px;
+text-align:center;
+}
+
+.container{
+padding:20px;
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:20px;
+}
+
+.box{
+background:white;
+padding:20px;
+border-radius:10px;
+box-shadow:0 0 8px rgba(0,0,0,0.1);
+}
+
+input{
+width:90%;
+padding:10px;
+margin:5px 0;
+border:1px solid #ccc;
+border-radius:6px;
+}
+
+button{
+padding:10px 15px;
+background:#6a1b9a;
+color:white;
+border:none;
+border-radius:6px;
+cursor:pointer;
+margin-top:10px;
+}
+
+button:hover{
+background:#4a148c;
+}
+
+.card{
+width:300px;
+background:white;
+padding:15px;
+border-radius:10px;
+text-align:center;
+box-shadow:0 0 10px rgba(0,0,0,0.2);
+margin:auto;
+}
+
+.card img{
+width:100px;
+height:100px;
+border-radius:50%;
+}
+
+.qr{
+margin-top:10px;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="header">
+ID CARD SYSTEM - Lado Women Foundation NGO
+</div>
+
+<div class="container">
+
+<!-- SEARCH -->
+<div class="box">
+
+<h3>Generate ID Card</h3>
+
+<input id="id" placeholder="Enter Member ID">
+
+<button onclick="loadCard()">Generate</button>
+
+<p id="msg"></p>
+
+</div>
+
+<!-- CARD -->
+<div class="box">
+
+<h3>Preview</h3>
+
+<div id="cardArea">No ID Selected</div>
+
+</div>
+
+</div>
 
 <script>
 
-function createIDCard(){
+const API = "PASTE_YOUR_APPS_SCRIPT_URL_HERE";
 
-fetch(API,{
-method:"POST",
-headers:{"Content-Type":"application/x-www-form-urlencoded"},
-body:action=idcard&id=${document.getElementById("memberId").value}
-})
+// LOAD MEMBER DATA
+function loadCard(){
+
+fetch(API+"?type=member&id="+id.value)
 .then(r=>r.json())
 .then(d=>{
 
-document.getElementById("idresult").innerHTML=
-<a href="${d.url}" target="_blank">Download ID Card</a>;
+if(d.status=="not found"){
+document.getElementById("msg").innerText="Invalid ID";
+return;
+}
+
+document.getElementById("cardArea").innerHTML = `
+<div class="card">
+
+<h3>Lado Women Foundation</h3>
+
+<img src="${d.photo || 'https://via.placeholder.com/100'}">
+
+<h4>${d.name}</h4>
+
+<p>ID: ${d.id}</p>
+<p>Role: ${d.role}</p>
+<p>${d.district || ''} - ${d.block || ''}</p>
+
+<div class="qr">
+<img src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=${d.id}">
+</div>
+
+</div>
+`;
 
 });
 
 }
 
 </script>
+
+</body>
+</html>
