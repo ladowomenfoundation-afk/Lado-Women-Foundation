@@ -1,25 +1,162 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Donate</title>
-<link rel="stylesheet" href="style.css">
+<title>Donate - Lado Women Foundation</title>
+
+<style>
+body{
+margin:0;
+font-family:Arial;
+background:#f4f6f9;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+}
+
+.card{
+background:white;
+padding:25px;
+border-radius:12px;
+width:360px;
+text-align:center;
+box-shadow:0 0 20px rgba(0,0,0,.2);
+}
+
+button{
+margin:5px;
+padding:10px;
+border:none;
+border-radius:6px;
+cursor:pointer;
+background:#6a1b9a;
+color:white;
+}
+
+button:hover{
+background:#8e24aa;
+}
+
+input{
+width:90%;
+padding:10px;
+margin:6px;
+border:1px solid #ccc;
+border-radius:6px;
+}
+
+#qr{
+margin:10px 0;
+}
+
+.hidden{
+display:none;
+}
+</style>
+
 </head>
 
 <body>
-<div class="overlay">
 
 <div class="card">
+
 <h2>Support Women Empowerment</h2>
 
-<p>Donate for education, training & rural women support</p>
+<p>Select Amount</p>
 
-<img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=upi://pay">
+<button onclick="setAmount(500)">₹500</button>
+<button onclick="setAmount(1100)">₹1100</button>
+<button onclick="setAmount(2100)">₹2100</button>
+<button onclick="setAmount(5100)">₹5100</button>
+<button onclick="setAmount(11000)">₹11000</button>
 
-<h3>UPI: ladowomen@upi</h3>
+<br>
+
+<input id="custom" placeholder="Enter Custom Amount">
+<button onclick="setCustom()">Add</button>
+
+<div id="qr">
+<img id="qrimg" width="200">
+</div>
+
+<h3 id="amt">Amount: ₹0</h3>
+
+<!-- DONOR FORM -->
+<div>
+
+<input id="name" placeholder="Your Name">
+<input id="mobile" placeholder="Mobile">
+<input id="email" placeholder="Email">
+
+<button onclick="submitDonation()">Donate Now</button>
 
 </div>
 
+<p id="msg"></p>
+
 </div>
+
+<script>
+
+const API="YOUR_APPS_SCRIPT_URL";
+let amount=0;
+
+// ===== SET AMOUNT =====
+function setAmount(val){
+amount=val;
+updateQR();
+}
+
+// ===== CUSTOM AMOUNT =====
+function setCustom(){
+amount=parseInt(document.getElementById("custom").value)||0;
+updateQR();
+}
+
+// ===== QR UPDATE =====
+function updateQR(){
+document.getElementById("amt").innerText="Amount: ₹"+amount;
+
+let upi="upi://pay?pa=ladowomen@upi&am="+amount+"&cu=INR";
+
+document.getElementById("qrimg").src=
+"https://api.qrserver.com/v1/create-qr-code/?size=200x200&data="+upi;
+}
+
+// ===== SUBMIT DONATION =====
+function submitDonation(){
+
+if(amount<=0){
+alert("Select amount first");
+return;
+}
+
+let form=new URLSearchParams();
+
+form.append("action","donation");
+form.append("name",name.value);
+form.append("mobile",mobile.value);
+form.append("email",email.value);
+form.append("amount",amount);
+
+fetch(API,{
+method:"POST",
+body:form
+})
+.then(r=>r.json())
+.then(res=>{
+
+if(res.status=="success"){
+msg.innerText="Donation recorded successfully!";
+}else{
+msg.innerText="Error saving data";
+}
+
+});
+
+}
+
+</script>
 
 </body>
 </html>
