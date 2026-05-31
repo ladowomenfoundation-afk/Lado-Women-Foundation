@@ -1,8 +1,62 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Login - Lado Women Foundation</title>
+<title>Lado Women Foundation - Login</title>
 <link rel="stylesheet" href="style.css">
+
+<style>
+body{
+margin:0;
+font-family:Arial;
+background:url("https://images.unsplash.com/photo-1589571894960-20bbe2828d0a") no-repeat center;
+background-size:cover;
+}
+
+.overlay{
+background:rgba(0,0,0,0.6);
+min-height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+}
+
+.card{
+background:white;
+padding:25px;
+border-radius:12px;
+width:320px;
+text-align:center;
+box-shadow:0 0 10px rgba(0,0,0,0.3);
+}
+
+input{
+width:90%;
+padding:10px;
+margin:8px 0;
+border:1px solid #ccc;
+border-radius:6px;
+}
+
+button{
+width:95%;
+padding:10px;
+background:#6a1b9a;
+color:white;
+border:none;
+border-radius:6px;
+cursor:pointer;
+}
+
+button:hover{
+background:#4a148c;
+}
+
+#msg{
+color:red;
+margin-top:10px;
+}
+</style>
+
 </head>
 
 <body>
@@ -10,21 +64,25 @@
 <div class="overlay">
 
 <div class="card">
+
 <h2>Lado Women Foundation</h2>
 <p>NGO MIS Login Panel</p>
 
-<input id="username" placeholder="Username"><br><br>
-<input id="password" type="password" placeholder="Password"><br><br>
+<input id="username" placeholder="Username">
+<input id="password" type="password" placeholder="Password">
 
-<button onclick="login()">Login</button>
+<button onclick="login()">LOGIN</button>
 
 <p id="msg"></p>
+
 </div>
 
 </div>
 
 <script>
-const API = "PASTE_YOUR_APPS_SCRIPT_URL_HERE";
+
+// ✅ YOUR APPS SCRIPT URL ADDED
+const API = "https://script.google.com/macros/s/AKfycbzkSxqeJ4IUPkJj3AMI-c6zxZvaovO_0YIGLyKjIif03xVnwknCir80CiRHqJtZw4wwPg/exec";
 
 function login(){
 
@@ -35,7 +93,7 @@ formData.append("password",document.getElementById("password").value);
 
 fetch(API,{
 method:"POST",
-body: formData
+body:formData
 })
 .then(res=>res.json())
 .then(data=>{
@@ -44,12 +102,12 @@ if(data.status=="success"){
 localStorage.setItem("user",JSON.stringify(data));
 window.location.href="dashboard.html";
 }else{
-document.getElementById("msg").innerText="Invalid Login";
+document.getElementById("msg").innerText="Invalid Username or Password";
 }
 
 })
-.catch(err=>{
-document.getElementById("msg").innerText="Server Error";
+.catch(()=>{
+document.getElementById("msg").innerText="Server Error / API Issue";
 });
 
 }
