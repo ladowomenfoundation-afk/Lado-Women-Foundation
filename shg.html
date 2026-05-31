@@ -1,180 +1,132 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html>
 <head>
 <meta charset="UTF-8">
-<title>SHG Module - Lado Women Foundation</title>
+<meta name="viewport" content="width=device-width, initial-scale=1"><title>SHG Management - Lado Women Foundation</title><style>
 
-<link rel="stylesheet" href="style.css">
-
-<style>
 body{
-font-family:Arial;
-background:#f4f4f4;
-margin:0;
-}
-
-.header{
-background:#6a1b9a;
-color:white;
-padding:15px;
-text-align:center;
+font-family:Arial,sans-serif;
+background:#f4f6f9;
+padding:20px;
 }
 
 .container{
-padding:20px;
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:20px;
+max-width:1200px;
+margin:auto;
 }
 
-.box{
+.card{
 background:white;
 padding:20px;
-border-radius:10px;
-box-shadow:0 0 8px rgba(0,0,0,0.1);
+border-radius:12px;
+box-shadow:0 2px 10px rgba(0,0,0,.1);
+margin-bottom:20px;
+}
+
+h2{
+color:#6a1b9a;
+margin-bottom:15px;
 }
 
 input{
-width:90%;
+width:100%;
 padding:10px;
-margin:5px 0;
+margin-bottom:10px;
 border:1px solid #ccc;
 border-radius:6px;
 }
 
 button{
-padding:10px 15px;
 background:#6a1b9a;
 color:white;
 border:none;
+padding:10px 15px;
 border-radius:6px;
 cursor:pointer;
-margin-top:10px;
 }
 
 button:hover{
-background:#4a148c;
+background:#8e24aa;
 }
 
 table{
 width:100%;
 border-collapse:collapse;
+}
+
+table th{
+background:#6a1b9a;
+color:white;
+padding:10px;
+}
+
+table td{
+padding:10px;
+border:1px solid #ddd;
+}
+
+.success{
+color:green;
+font-weight:bold;
 margin-top:10px;
 }
 
-th,td{
-border:1px solid #ddd;
-padding:8px;
-text-align:left;
-font-size:14px;
-}
-
-th{
-background:#6a1b9a;
-color:white;
-}
-</style>
-
-</head>
-
-<body>
-
-<div class="header">
-SHG MODULE - Lado Women Foundation
-</div>
-
-<div class="container">
-
-<!-- FORM -->
-<div class="box">
-<h3>Create SHG</h3>
-
-<input id="name" placeholder="SHG Name">
-<input id="leader" placeholder="Leader Name">
-<input id="mobile" placeholder="Mobile">
-<input id="district" placeholder="District">
+</style></head><body><div class="container"><div class="card"><h2>🤝 Create SHG</h2><input id="shgname" placeholder="SHG Name">
+<input id="president" placeholder="President Name">
+<input id="mobile" placeholder="Mobile Number">
+<input id="village" placeholder="Village">
+<input id="panchayat" placeholder="Gram Panchayat">
 <input id="block" placeholder="Block">
-<input id="members" placeholder="No. of Members">
+<input id="district" placeholder="District">
+<input id="state" placeholder="State">
+<input id="members" placeholder="Total Members"><button onclick="saveSHG()">Create SHG</button>
 
-<button onclick="saveSHG()">SAVE SHG</button>
-
-<p id="msg"></p>
-</div>
-
-<!-- LIST -->
-<div class="box">
-<h3>SHG LIST</h3>
-
-<table>
-<thead>
-<tr>
-<th>ID</th>
+<p id="msg"></p></div><div class="card"><h2>📋 SHG Records</h2><table><tr>
+<th>SHG ID</th>
 <th>Name</th>
-<th>Leader</th>
+<th>President</th>
+<th>Mobile</th>
+<th>Members</th>
 <th>Status</th>
-</tr>
-</thead>
+</tr><tbody id="shgTable"><tr>
+<td colspan="6">Records will appear here</td>
+</tr></tbody></table></div></div><script>
 
-<tbody id="list"></tbody>
-</table>
+const API="https://script.google.com/macros/s/AKfycbzkSxqeJ4IUPkJj3AMI-c6zxZvaovO_0YIGLyKjIif03xVnwknCir80CiRHqJtZw4wwPg/exec";
 
-<button onclick="loadSHG()">REFRESH</button>
-
-</div>
-
-</div>
-
-<script>
-
-const API = "PASTE_YOUR_APPS_SCRIPT_URL_HERE";
-
-// SAVE SHG
 function saveSHG(){
+
+let formData=new URLSearchParams();
+
+formData.append("action","shg");
+formData.append("name",document.getElementById("shgname").value);
+formData.append("leader",document.getElementById("president").value);
+formData.append("mobile",document.getElementById("mobile").value);
+formData.append("district",document.getElementById("district").value);
+formData.append("block",document.getElementById("block").value);
+formData.append("members",document.getElementById("members").value);
 
 fetch(API,{
 method:"POST",
-body:action=shg&name=${name.value}&leader=${leader.value}&mobile=${mobile.value}&district=${district.value}&block=${block.value}&members=${members.value}
+body:formData
 })
-.then(r=>r.json())
-.then(d=>{
-
-document.getElementById("msg").innerText = "SHG Created: " + d.id;
-
-loadSHG();
-
-});
-}
-
-// LOAD SHG LIST
-function loadSHG(){
-
-fetch(API+"?type=shg")
 .then(r=>r.json())
 .then(data=>{
 
-let html="";
+if(data.status=="success"){
 
-data.forEach(d=>{
-html += `
-<tr>
-<td>${d.id}</td>
-<td>${d.name}</td>
-<td>${d.leader}</td>
-<td>${d.status}</td>
-</tr>
-`;
-});
+document.getElementById("msg").innerHTML=
+"✅ SHG Created Successfully : "+data.id;
 
-document.getElementById("list").innerHTML = html;
+}else{
+
+document.getElementById("msg").innerHTML=
+"❌ Error";
+
+}
 
 });
 
 }
 
-// INIT
-loadSHG();
-
-</script>
-
-</body>
+</script></body>
 </html>
