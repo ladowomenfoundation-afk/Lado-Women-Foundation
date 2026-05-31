@@ -4,35 +4,38 @@
 <title>Admin SHG Panel</title>
 
 <style>
-body{font-family:Arial;background:#f4f6f9;}
+body{font-family:Arial;background:#f4f6f9;padding:20px;}
+
 .card{
   background:white;
-  margin:10px;
-  padding:10px;
-  border-left:5px solid #0b3d91;
-  border-radius:5px;
+  margin:10px 0;
+  padding:15px;
+  border-left:5px solid #6a1b9a;
+  border-radius:8px;
 }
+
 button{
-  margin:3px;
-  padding:5px 10px;
+  margin:5px;
+  padding:6px 12px;
+  cursor:pointer;
 }
 </style>
-
 </head>
 
 <body>
 
 <h2>SHG Admin Panel</h2>
 
-<div id="data"></div>
+<div id="data">Loading...</div>
 
 <script>
 
 const API="https://script.google.com/macros/s/AKfycbxx-xBQcPPBnA14qTgjwdAJNbUDwNtwEicao0PoDrDl0gevTz7voZANpxZO77O7ai44dQ/exec";
 
+// ===== LOAD SHG LIST =====
 function load(){
 
-fetch(API+"?type=shg")
+fetch(API+"?type=shglist")
 .then(r=>r.json())
 .then(data=>{
 
@@ -44,10 +47,11 @@ html+=`
 <div class="card">
 <b>${d.name}</b><br>
 Leader: ${d.leader}<br>
+Mobile: ${d.mobile}<br>
 Status: ${d.status}<br>
 
-<button onclick="update('${d.id}','Approved')">Approve</button>
-<button onclick="update('${d.id}','Rejected')">Reject</button>
+<button onclick="update('${d.id}','APPROVED')">Approve</button>
+<button onclick="update('${d.id}','REJECTED')">Reject</button>
 </div>
 `;
 
@@ -59,16 +63,22 @@ document.getElementById("data").innerHTML=html;
 
 }
 
+// ===== UPDATE STATUS =====
 function update(id,status){
 
 fetch(API,{
 method:"POST",
 body:new URLSearchParams({
-action:"updateStatus",
+action:"updateShgStatus",
 id:id,
 status:status
 })
-}).then(()=>load());
+})
+.then(r=>r.json())
+.then(res=>{
+alert(res.status);
+load();
+});
 
 }
 
