@@ -30,50 +30,54 @@
 
 const API = "YOUR_APPS_SCRIPT_URL";
 
+// ===== SEND OTP =====
 function sendOtp(){
 
-  fetch(API,{
-    method:"POST",
-    body:new URLSearchParams({
-      action:"sendOtp",
-      username:document.getElementById("user").value,
-      password:document.getElementById("pass").value
-    })
-  })
-  .then(res=>res.json())
-  .then(data=>{
+fetch(API,{
+method:"POST",
+body:new URLSearchParams({
+action:"sendOtp",
+username:user.value,
+password:pass.value
+})
+})
+.then(r=>r.json())
+.then(data=>{
 
-    if(data.status=="otp_sent"){
-      document.getElementById("step1").style.display="none";
-      document.getElementById("step2").style.display="block";
-      document.getElementById("msg").innerHTML="OTP sent!";
-    }
+if(data.status=="otp_sent"){
+document.getElementById("step1").style.display="none";
+document.getElementById("step2").style.display="block";
+msg.innerText="OTP sent to your system";
+}else{
+msg.innerText="Invalid login";
+}
 
-  });
+});
 
 }
 
+// ===== VERIFY OTP =====
 function verifyOtp(){
 
-  fetch(API,{
-    method:"POST",
-    body:new URLSearchParams({
-      action:"verifyOtp",
-      username:document.getElementById("user").value,
-      otp:document.getElementById("otp").value
-    })
-  })
-  .then(res=>res.json())
-  .then(data=>{
+fetch(API,{
+method:"POST",
+body:new URLSearchParams({
+action:"verifyOtp",
+username:user.value,
+otp:otp.value
+})
+})
+.then(r=>r.json())
+.then(data=>{
 
-    if(data.status=="success"){
-      localStorage.setItem("token",data.token);
-      window.location.href="dashboard.html";
-    }else{
-      document.getElementById("msg").innerHTML="Invalid OTP";
-    }
+if(data.status=="success"){
+localStorage.setItem("token",data.token);
+window.location.href="dashboard.html";
+}else{
+msg.innerText="Invalid OTP";
+}
 
-  });
+});
 
 }
 
