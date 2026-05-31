@@ -1,71 +1,75 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Dashboard</title>
+<title>MIS Dashboard</title>
+
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
-body{font-family:Arial;background:#eef2f7;margin:0;}
-
-.header{
-background:#0b3d91;
-color:white;
-padding:15px;
-text-align:center;
-}
-
-.grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-gap:10px;
-padding:10px;
+body{
+  font-family:Arial;
+  background:#f4f6f9;
+  text-align:center;
 }
 
 .card{
-background:white;
-padding:15px;
-border-radius:10px;
-text-align:center;
+  background:white;
+  padding:20px;
+  margin:10px;
+  display:inline-block;
+  border-radius:10px;
+  width:150px;
 }
 </style>
+
 </head>
 
 <body>
 
-<div class="header">
-MIS DASHBOARD
-</div>
+<h2>NGO MIS Dashboard</h2>
 
-<div class="grid">
+<div class="card" id="total">Total</div>
+<div class="card" id="approved">Approved</div>
+<div class="card" id="pending">Pending</div>
+<div class="card" id="rejected">Rejected</div>
 
-<div class="card">Total <h2 id="t">0</h2></div>
-<div class="card">Approved <h2 id="a">0</h2></div>
-<div class="card">Pending <h2 id="p">0</h2></div>
-<div class="card">Rejected <h2 id="r">0</h2></div>
-
-</div>
-
-<canvas id="c"></canvas>
+<canvas id="pie" width="300"></canvas>
+<canvas id="bar" width="300"></canvas>
 
 <script>
 
-const API="https://script.google.com/macros/s/AKfycbxx-xBQcPPBnA14qTgjwdAJNbUDwNtwEicao0PoDrDl0gevTz7voZANpxZO77O7ai44dQ/exec";
+const API="https://script.google.com/macros/s/AKfycbzkSxqeJ4IUPkJj3AMI-c6zxZvaovO_0YIGLyKjIif03xVnwknCir80CiRHqJtZw4wwPg/exec";
 
 fetch(API)
 .then(r=>r.json())
 .then(d=>{
 
-document.getElementById("t").innerText=d.total;
-document.getElementById("a").innerText=d.approved;
-document.getElementById("p").innerText=d.pending;
-document.getElementById("r").innerText=d.rejected;
+// CARDS
+document.getElementById("total").innerHTML="Total<br>"+d.total;
+document.getElementById("approved").innerHTML="Approved<br>"+d.approved;
+document.getElementById("pending").innerHTML="Pending<br>"+d.pending;
+document.getElementById("rejected").innerHTML="Rejected<br>"+d.rejected;
 
-new Chart(document.getElementById("c"),{
-type:"doughnut",
-data:{
-labels:["Approved","Pending","Rejected"],
-datasets:[{data:[d.approved,d.pending,d.rejected]}]
-}
+// PIE CHART
+new Chart(document.getElementById("pie"), {
+  type: 'pie',
+  data: {
+    labels: ['Approved','Pending','Rejected'],
+    datasets: [{
+      data: [d.approved, d.pending, d.rejected]
+    }]
+  }
+});
+
+// BAR CHART
+new Chart(document.getElementById("bar"), {
+  type: 'bar',
+  data: {
+    labels: ['Approved','Pending','Rejected'],
+    datasets: [{
+      data: [d.approved, d.pending, d.rejected]
+    }]
+  }
 });
 
 });
