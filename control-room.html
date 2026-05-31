@@ -1,124 +1,29 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<title>Control Room - Lado Women Foundation</title>
-
+<title>Dashboard</title>
 <link rel="stylesheet" href="style.css">
-
-<style>
-body{
-font-family:Arial;
-background:#f4f4f4;
-margin:0;
-}
-
-.header{
-background:#6a1b9a;
-color:white;
-padding:15px;
-text-align:center;
-}
-
-.container{
-padding:20px;
-}
-
-.box{
-background:white;
-padding:20px;
-border-radius:10px;
-box-shadow:0 0 8px rgba(0,0,0,0.1);
-margin-bottom:15px;
-}
-
-select,input,button{
-padding:10px;
-margin:5px;
-border-radius:6px;
-border:1px solid #ccc;
-}
-
-button{
-background:#6a1b9a;
-color:white;
-border:none;
-cursor:pointer;
-}
-
-button:hover{
-background:#4a148c;
-}
-
-.card{
-background:#fff;
-padding:10px;
-margin:5px 0;
-border-left:5px solid #6a1b9a;
-}
-</style>
-
 </head>
 
 <body>
+<div class="overlay">
 
-<div class="header">
-CONTROL ROOM - Lado Women Foundation MIS
-</div>
+<h2>CONTROL ROOM - NGO MIS</h2>
 
-<div class="container">
+<div class="nav">
 
-<!-- FILTER PANEL -->
-<div class="box">
-
-<h3>Filter Data</h3>
-
-<select id="role">
-<option value="admin">Admin</option>
-<option value="state">State</option>
-<option value="district">District</option>
-<option value="block">Block</option>
-</select>
-
-<input id="level" placeholder="Enter Level (State/District/Block)">
-
-<button onclick="loadData()">LOAD DATA</button>
+<button onclick="load('members')">Members</button>
+<button onclick="load('shg')">SHG</button>
+<button onclick="load('volunteers')">Volunteers</button>
+<button onclick="load('internship')">Internship</button>
+<button onclick="window.location='donate.html'">Donate</button>
 
 </div>
 
-<!-- OUTPUT -->
-<div class="box">
-
-<h3>CONTROL DATA</h3>
-
-<div id="out">No Data Loaded</div>
+<div id="data" class="card"></div>
 
 </div>
 
-</div>
-
-<script>
-
-const API = "PASTE_YOUR_APPS_SCRIPT_URL_HERE";
-
-// LOAD CONTROL DATA
-function loadData(){
-
-let role = document.getElementById("role").value;
-let level = document.getElementById("level").value;
-
-fetch(API + "?type=control&role=" + role + "&level=" + level)
-.then(r=>r.json())
-.then(data=>{
-
-let html="";
-
-if(data.length == 0){
-html = "No data found";
-}
-
-data.forEach(d=>{
-html += `
-<div class="card">
-<b>${d.name}</b><br>
-Leader: ${d.leader || ''}<
+<script src="app.js"></script>
+</body>
+</html>
