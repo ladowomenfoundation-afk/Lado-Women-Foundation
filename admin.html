@@ -1,88 +1,161 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Admin SHG Panel</title>
+<meta charset="UTF-8">
+<title>NGO Admin Panel</title>
 
 <style>
-body{font-family:Arial;background:#f4f6f9;padding:20px;}
+body{
+margin:0;
+font-family:Arial;
+background:#f4f6f9;
+}
+
+/* SIDEBAR */
+.sidebar{
+position:fixed;
+left:0;
+top:0;
+width:220px;
+height:100%;
+background:#6a1b9a;
+color:white;
+padding-top:20px;
+}
+
+.sidebar h3{
+text-align:center;
+}
+
+.sidebar a{
+display:block;
+color:white;
+padding:12px;
+text-decoration:none;
+cursor:pointer;
+}
+
+.sidebar a:hover{
+background:#8e24aa;
+}
+
+/* MAIN */
+.main{
+margin-left:220px;
+padding:20px;
+}
 
 .card{
-  background:white;
-  margin:10px 0;
-  padding:15px;
-  border-left:5px solid #6a1b9a;
-  border-radius:8px;
+background:white;
+padding:15px;
+border-radius:10px;
+margin-bottom:15px;
+box-shadow:0 0 10px rgba(0,0,0,0.1);
 }
 
-button{
-  margin:5px;
-  padding:6px 12px;
-  cursor:pointer;
+/* TOP BAR */
+.top{
+background:white;
+padding:15px;
+border-radius:10px;
+margin-bottom:20px;
 }
 </style>
+
 </head>
 
 <body>
 
-<h2>SHG Admin Panel</h2>
+<!-- SIDEBAR -->
+<div class="sidebar">
+<h3>ADMIN PANEL</h3>
 
-<div id="data">Loading...</div>
+<a onclick="load('dashboard')">Dashboard</a>
+<a onclick="load('shg')">SHG</a>
+<a onclick="load('members')">Members</a>
+<a onclick="load('volunteers')">Volunteers</a>
+<a onclick="load('donation')">Donation</a>
+<a onclick="load('committee')">Committee</a>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+<div class="top">
+<h2>NGO MIS ADMIN</h2>
+</div>
+
+<div id="content"></div>
+
+</div>
 
 <script>
 
-const API="https://script.google.com/macros/s/AKfycbxx-xBQcPPBnA14qTgjwdAJNbUDwNtwEicao0PoDrDl0gevTz7voZANpxZO77O7ai44dQ/exec";
+const API="YOUR_APPS_SCRIPT_URL";
 
-// ===== LOAD SHG LIST =====
-function load(){
+// ===== LOAD SECTIONS =====
+function load(page){
+
+document.getElementById("content").innerHTML="Loading...";
+
+if(page=="dashboard") loadDashboard();
+if(page=="shg") loadSHG();
+if(page=="members") loadMembers();
+if(page=="volunteers") loadVolunteers();
+if(page=="donation") loadDonation();
+if(page=="committee") loadCommittee();
+}
+
+// ===== DASHBOARD =====
+function loadDashboard(){
+
+fetch(API+"?type=stats")
+.then(r=>r.json())
+.then(d=>{
+document.getElementById("content").innerHTML=`
+<div class="card">SHG: ${d.shg}</div>
+<div class="card">Members: ${d.members}</div>
+<div class="card">Volunteers: ${d.volunteers}</div>
+<div class="card">Internships: ${d.internships}</div>
+`;
+});
+}
+
+// ===== SHG =====
+function loadSHG(){
 
 fetch(API+"?type=shglist")
 .then(r=>r.json())
 .then(data=>{
-
-let html="";
-
-data.forEach(d=>{
-
-html+=`
+document.getElementById("content").innerHTML=
+data.map(d=>`
 <div class="card">
 <b>${d.name}</b><br>
 Leader: ${d.leader}<br>
-Mobile: ${d.mobile}<br>
-Status: ${d.status}<br>
-
-<button onclick="update('${d.id}','APPROVED')">Approve</button>
-<button onclick="update('${d.id}','REJECTED')">Reject</button>
+Status: ${d.status}
 </div>
-`;
-
+`).join("");
 });
-
-document.getElementById("data").innerHTML=html;
-
-});
-
 }
 
-// ===== UPDATE STATUS =====
-function update(id,status){
-
-fetch(API,{
-method:"POST",
-body:new URLSearchParams({
-action:"updateShgStatus",
-id:id,
-status:status
-})
-})
-.then(r=>r.json())
-.then(res=>{
-alert(res.status);
-load();
-});
-
+// ===== PLACEHOLDERS =====
+function loadMembers(){
+document.getElementById("content").innerHTML="<div class='card'>Members Module Coming...</div>";
 }
 
-load();
+function loadVolunteers(){
+document.getElementById("content").innerHTML="<div class='card'>Volunteers Module Coming...</div>";
+}
+
+function loadDonation(){
+document.getElementById("content").innerHTML="<div class='card'>Donation Module Coming...</div>";
+}
+
+function loadCommittee(){
+document.getElementById("content").innerHTML="<div class='card'>Committee Module Coming...</div>";
+}
+
+load("dashboard");
 
 </script>
 
