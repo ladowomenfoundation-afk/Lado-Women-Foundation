@@ -4,4 +4,31 @@
   Village: <input type="text"><br><br>
   President Name: <input type="text"><br><br>
   <button>Apply</button>
+<form id="shgForm">
+
+<input name="shgName" placeholder="SHG Name" required><br><br>
+<input name="president" placeholder="President Name" required><br><br>
+<input name="mobile" placeholder="Mobile" required><br><br>
+<input name="village" placeholder="Village" required><br><br>
+<input name="district" placeholder="District"><br><br>
+
+<button type="submit">Submit SHG</button>
+
 </form>
+
+<script>
+document.getElementById("shgForm").addEventListener("submit", function(e){
+  e.preventDefault();
+
+  fetch("https://script.google.com/macros/s/AKfycby-aRk22tChBbqLEjgPNi2y6Hu38RYwMmPzj6QS8RdkT6qVqtAAU6xpAaLSoIXHN9Rr/exec", {
+    method: "POST",
+    body: new FormData(this)
+  })
+  .then(res => res.text())
+  .then(data => {
+    alert("SHG Registered Successfully!");
+    document.getElementById("shgForm").reset();
+  });
+
+});
+</script>
