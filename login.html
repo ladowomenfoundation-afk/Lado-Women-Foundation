@@ -1,28 +1,25 @@
-if(action=="login"){
+fetch(API,{
+  method:"POST",
+  body: formData
+})
+.then(response => response.text())
+.then(text => {
 
-  let d = sheet("Users").getDataRange().getValues();
+  console.log(text);
 
-  for(let i=1;i<d.length;i++){
+  let data = JSON.parse(text);
 
-    if(
-      String(d[i][1]).trim() == String(e.parameter.username).trim() &&
-      String(d[i][2]).trim() == String(e.parameter.password).trim() &&
-      String(d[i][4]).trim().toUpperCase() == "ACTIVE"
-    ){
-
-      return json({
-        status:"success",
-        userId:d[i][0],
-        username:d[i][1],
-        role:d[i][3],
-        level:d[i][5],
-        state:d[i][6],
-        district:d[i][7],
-        block:d[i][8],
-        token:Utilities.getUuid()
-      });
-    }
+  if(data.status=="success"){
+      localStorage.setItem("user",JSON.stringify(data));
+      window.location.href="dashboard.html";
+  }else{
+      document.getElementById("msg").innerText =
+      "Invalid Username or Password";
   }
 
-  return json({status:"failed"});
-}
+})
+.catch(error=>{
+   console.log(error);
+   document.getElementById("msg").innerText =
+   "Server Error";
+});
