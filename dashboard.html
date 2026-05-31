@@ -1,229 +1,56 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<title>Lado Women Foundation MIS</title>
-
-<style>
-body{
-margin:0;
-font-family:Arial;
-background:#f4f6f9;
-}
-
-/* HEADER */
-.header{
-background:linear-gradient(90deg,#6a1b9a,#8e24aa);
-color:white;
-padding:15px;
-text-align:center;
-font-size:20px;
-font-weight:bold;
-}
-
-/* LAYOUT */
-.container{
-display:flex;
-}
-
-/* SIDEBAR */
-.sidebar{
-width:240px;
-height:100vh;
-background:#1e1e2f;
-color:white;
-padding-top:20px;
-}
-
-.sidebar button{
-width:100%;
-padding:12px;
-border:none;
-background:none;
-color:white;
-text-align:left;
-cursor:pointer;
-border-bottom:1px solid #333;
-font-size:14px;
-}
-
-.sidebar button:hover{
-background:#6a1b9a;
-}
-
-/* MAIN */
-.main{
-flex:1;
-padding:20px;
-}
-
-/* CARDS */
-.cards{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:15px;
-margin-bottom:20px;
-}
-
-.card{
-background:white;
-padding:20px;
-border-radius:12px;
-box-shadow:0 2px 10px rgba(0,0,0,0.1);
-text-align:center;
-}
-
-.card h2{
-margin:0;
-color:#6a1b9a;
-}
-
-/* LIST */
-.box{
-background:white;
-padding:15px;
-border-radius:10px;
-box-shadow:0 2px 10px rgba(0,0,0,0.1);
-min-height:200px;
-}
-
-.item{
-padding:10px;
-border-bottom:1px solid #eee;
-}
-
-/* USER */
-.user{
-margin-bottom:10px;
-font-weight:bold;
-color:#333;
-}
-
-/* LOGOUT */
-.logout{
-background:red;
-color:white;
-margin-top:20px;
-}
-</style>
+<title>Dashboard</title>
+<link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<div class="header">
-Lado Women Foundation - NGO MIS DASHBOARD
-</div>
+<div class="overlay">
 
-<div class="container">
+<h2>NGO MIS DASHBOARD</h2>
 
-<!-- SIDEBAR -->
-<div class="sidebar">
-
-<button onclick="loadData('shg')">🏠 SHG</button>
-<button onclick="loadData('members')">👩‍👩‍👧 Members</button>
-<button onclick="loadData('volunteers')">🤝 Volunteers</button>
-<button onclick="loadData('field')">📍 Field Reports</button>
-<button onclick="loadData('internshipList')">🎓 Internship</button>
-<button onclick="window.location.href='control.html'">⚙️ Control Room</button>
-
-<button class="logout" onclick="logout()">🚪 Logout</button>
-
-</div>
-
-<!-- MAIN -->
-<div class="main">
-
-<div class="user" id="userBox"></div>
-
-<!-- STATS -->
-<div class="cards">
 <div class="card">
-<h2 id="shg">0</h2>
-<p>SHG</p>
+<p id="user"></p>
+
+<div class="nav">
+
+<button onclick="load('members')">Members</button>
+<button onclick="load('shg')">SHG</button>
+<button onclick="load('volunteers')">Volunteers</button>
+<button onclick="load('internshipList')">Internship</button>
+
+</div>
+
 </div>
 
 <div class="card">
-<h2 id="mem">0</h2>
-<p>Members</p>
-</div>
-
-<div class="card">
-<h2 id="vol">0</h2>
-<p>Volunteers</p>
-</div>
-</div>
-
-<!-- DATA -->
-<div class="box" id="dataBox">
-Select menu to view data
-</div>
-
+<pre id="data">Loading...</pre>
 </div>
 
 </div>
 
 <script>
-
 const API = "PASTE_YOUR_APPS_SCRIPT_URL_HERE";
 
-// LOGIN CHECK
-let user = localStorage.getItem("user");
+let user = JSON.parse(localStorage.getItem("user") || "{}");
 
-if(!user){
-window.location.href="login.html";
-}
+document.getElementById("user").innerText =
+"Welcome: " + (user.role || "Guest");
 
-user = JSON.parse(user);
+function load(type){
 
-document.getElementById("userBox").innerHTML =
-"Welcome: " + user.username + " | Role: " + user.role;
-
-// LOAD STATS
-function loadStats(){
-
-fetch(API)
-.then(r=>r.json())
-.then(d=>{
-
-document.getElementById("shg").innerText = d.total_shg || 0;
-document.getElementById("mem").innerText = d.total_members || 0;
-document.getElementById("vol").innerText = d.total_volunteers || 0;
-
-});
-}
-
-// LOAD DATA
-function loadData(type){
-
-fetch(API + "?type=" + type)
-.then(r=>r.json())
+fetch(API+"?type="+type)
+.then(res=>res.json())
 .then(data=>{
-
-let html="";
-
-data.forEach(d=>{
-html += `
-<div class="item">
-<b>${d.name || d.title || d.id}</b><br>
-${d.district || ""} ${d.block || ""} ${d.status || ""}
-</div>
-`;
-});
-
-document.getElementById("dataBox").innerHTML = html;
-
+document.getElementById("data").innerText =
+JSON.stringify(data,null,2);
+})
+.catch(()=>{
+document.getElementById("data").innerText="Error loading data";
 });
 }
-
-// LOGOUT
-function logout(){
-localStorage.removeItem("user");
-window.location.href="login.html";
-}
-
-// INIT
-loadStats();
-
 </script>
 
 </body>
