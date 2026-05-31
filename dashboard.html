@@ -2,370 +2,230 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lado Women Foundation</title><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet"><style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:'Poppins',sans-serif;
-scroll-behavior:smooth;
-}
+<title>Lado Women Foundation - Advanced Dashboard</title><style>
 
 body{
-background:#f8f8f8;
+margin:0;
+font-family:Arial,sans-serif;
+background:linear-gradient(135deg,#f3e5f5,#e1f5fe,#fff3e0);
 overflow-x:hidden;
 }
 
-/* FLOWERS */
-
-.flower{
-position:fixed;
-top:-50px;
-font-size:25px;
-pointer-events:none;
-animation:fall linear infinite;
-z-index:999;
-}
-
-@keyframes fall{
-to{
-transform:translateY(110vh) rotate(360deg);
-}
-}
-
-/* BIRDS */
-
-.bird{
-position:fixed;
-font-size:35px;
-z-index:1000;
-animation:fly 25s linear infinite;
-}
-
-@keyframes fly{
-0%{
-left:-100px;
-top:120px;
-}
-100%{
-left:110%;
-top:250px;
-}
-}
-
-/* HEADER */
-
-header{
-position:fixed;
+/* TOP HEADER */
+.header{
+position:sticky;
 top:0;
-left:0;
-width:100%;
-background:rgba(255,255,255,.95);
-backdrop-filter:blur(10px);
+z-index:100;
+background:#6a1b9a;
+color:white;
+padding:12px;
 display:flex;
 justify-content:space-between;
 align-items:center;
-padding:15px 30px;
-z-index:9999;
-box-shadow:0 2px 15px rgba(0,0,0,.15);
 }
 
-.logo-area{
-display:flex;
-align-items:center;
-gap:10px;
+.header h1{
+font-size:20px;
+margin:0;
 }
 
-.logo-area img{
-width:60px;
-height:60px;
-border-radius:50%;
+.logo-right{
+font-size:14px;
+background:white;
+color:#6a1b9a;
+padding:5px 10px;
+border-radius:20px;
 }
 
+/* CORNER ELEMENTS */
 .flag{
+position:fixed;
+left:10px;
+top:80px;
 font-size:40px;
+z-index:999;
+}
+
+.donate-btn{
+position:fixed;
+right:15px;
+bottom:15px;
+background:#ff4081;
+color:white;
+padding:12px 15px;
+border-radius:30px;
+z-index:999;
+font-weight:bold;
+}
+
+/* HERO */
+.hero{
+height:80vh;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+text-align:center;
+background:url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f') center/cover;
+position:relative;
+color:white;
+}
+
+.hero::after{
+content:"";
+position:absolute;
+inset:0;
+background:rgba(0,0,0,0.5);
+}
+
+.hero h2,.hero p{
+z-index:2;
+position:relative;
+}
+
+/* SECTIONS */
+.section{
+padding:60px 20px;
+min-height:100vh;
 }
 
 .title{
 text-align:center;
+color:#6a1b9a;
+margin-bottom:20px;
 }
 
-.title h1{
-color:#b71c1c;
-font-size:30px;
-}
-
-.title p{
-color:#ff6f00;
-font-weight:600;
-}
-
-nav ul{
-display:flex;
-gap:15px;
-list-style:none;
-}
-
-nav a{
-text-decoration:none;
-color:#333;
-font-weight:600;
-}
-
-/* HERO */
-
-.hero{
-height:100vh;
-background:
-linear-gradient(rgba(0,0,0,.5),rgba(0,0,0,.5)),
-url('banner.jpg');
-background-size:cover;
-background-position:center;
-display:flex;
-justify-content:center;
-align-items:center;
-text-align:center;
-color:white;
-padding:20px;
-}
-
-.hero-content h2{
-font-size:60px;
-text-shadow:0 0 20px gold;
-}
-
-.hero-content p{
-font-size:22px;
-margin-top:15px;
-}
-
-.hero-btn{
-display:inline-block;
-margin-top:25px;
-padding:15px 30px;
-background:#e53935;
-color:white;
-border-radius:50px;
-text-decoration:none;
-font-weight:bold;
-}
-
-/* SECTION */
-
-section{
-padding:90px 5%;
-}
-
-.section-title{
-text-align:center;
-font-size:38px;
-margin-bottom:40px;
-color:#880e4f;
-}
-
-/* STATS */
-
-.stats{
+.cards{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-gap:20px;
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+gap:15px;
 }
 
 .card{
 background:white;
-padding:30px;
-border-radius:20px;
+padding:20px;
+border-radius:15px;
+box-shadow:0 8px 20px rgba(0,0,0,0.1);
 text-align:center;
-box-shadow:0 10px 25px rgba(0,0,0,.15);
-transition:.4s;
+transform:perspective(600px) rotateX(2deg);
+transition:0.3s;
 }
 
 .card:hover{
-transform:translateY(-10px);
+transform:scale(1.05);
 }
 
-.card h3{
-font-size:35px;
-color:#e65100;
+/* FLOAT ANIMATION */
+.float{
+position:fixed;
+font-size:22px;
+opacity:0.4;
+animation:floatUp 8s infinite linear;
 }
 
-.card p{
-margin-top:10px;
+@keyframes floatUp{
+0%{transform:translateY(100vh);opacity:0}
+10%{opacity:1}
+100%{transform:translateY(-10vh);opacity:0}
 }
 
-/* PROJECTS */
-
-.projects{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
-gap:25px;
+/* NAV */
+.nav{
+display:flex;
+gap:10px;
+flex-wrap:wrap;
 }
 
-.project{
+.nav button{
 background:white;
+color:#6a1b9a;
+border:none;
+padding:8px 12px;
 border-radius:20px;
-overflow:hidden;
-box-shadow:0 10px 20px rgba(0,0,0,.12);
+cursor:pointer;
+font-weight:bold;
 }
 
-.project img{
+.nav button:hover{
+background:#fce4ec;
+}
+
+/* SLIDER */
+.slider{
 width:100%;
-height:220px;
+overflow:hidden;
+border-radius:15px;
+}
+
+.slides{
+display:flex;
+width:500%;
+animation:slide 20s infinite;
+}
+
+.slides img{
+width:100%;
+height:400px;
 object-fit:cover;
 }
 
-.project h3{
-padding:15px;
-color:#ad1457;
+@keyframes slide{
+0%{transform:translateX(0)}
+20%{transform:translateX(-100%)}
+40%{transform:translateX(-200%)}
+60%{transform:translateX(-300%)}
+80%{transform:translateX(-400%)}
+100%{transform:translateX(0)}
 }
-
-.project p{
-padding:0 15px 20px;
-}
-
-/* DIRECTORS */
-
-.directors{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
-gap:25px;
-}
-
-.message{
-background:white;
-padding:25px;
-border-radius:20px;
-box-shadow:0 10px 20px rgba(0,0,0,.1);
-}
-
-/* PARTNERS */
-
-.partner-box{
-background:white;
-padding:30px;
-border-radius:20px;
-text-align:center;
-box-shadow:0 10px 20px rgba(0,0,0,.1);
-}
-
-/* FOOTER */
 
 footer{
 background:#4a148c;
 color:white;
-padding:40px;
 text-align:center;
+padding:30px;
 }
 
-/* DONATE BUTTON */
-
-.floating-donate{
-position:fixed;
-right:20px;
-bottom:20px;
-background:red;
-color:white;
-padding:15px 20px;
-border-radius:50px;
-text-decoration:none;
-font-weight:bold;
-z-index:9999;
-}
-
-@media(max-width:768px){
-
-.hero-content h2{
-font-size:35px;
-}
-
-nav{
-display:none;
-}
-
-.title h1{
-font-size:20px;
-}
-
-}
-
-</style></head><body><div class="bird">🕊️</div><header><div class="flag">🇮🇳</div><div class="title">
-<h1>LADO WOMEN FOUNDATION</h1>
+</style></head><body><div class="flag">🇮🇳</div>
+<div class="donate-btn">Donate</div><div class="header">
+<h1>🌸 Lado Women Foundation</h1>
+<div class="logo-right">NGO LOGO</div>
+</div><div class="hero">
+<h2>Beti Bachao • Beti Padhao</h2>
 <p>Empowering Women Through Skill & Livelihood</p>
-</div><div class="logo-area">
-<img src="logo.png">
-</div></header><section class="hero"><div class="hero-content"><h2>बेटी बचाओ • बेटी पढ़ाओ</h2><p>Women Empowerment | Education | Livelihood | Skill Development</p><a href="#donate" class="hero-btn">
-Donate For Social Change
-</a></div></section><section><h2 class="section-title">Our Impact</h2><div class="stats"><div class="card">
-<h3 id="members">5000+</h3>
-<p>Total Members</p>
-</div><div class="card">
-<h3 id="shg">300+</h3>
-<p>Self Help Groups</p>
-</div><div class="card">
-<h3 id="beneficiary">25000+</h3>
-<p>Beneficiaries</p>
-</div><div class="card">
-<h3 id="skill">50+</h3>
-<p>Skill Centres</p>
-</div><div class="card">
-<h3 id="livelihood">30+</h3>
-<p>Livelihood Centres</p>
-</div></div></section><section><h2 class="section-title">What We Do</h2><div class="projects"><div class="project">
-<img src="slide1.jpg">
-<h3>Lado Pathshala</h3>
-<p>Education support for slum and rural children.</p>
-</div><div class="project">
-<img src="slide2.jpg">
-<h3>Lado Arogya</h3>
-<p>Health awareness and community support programs.</p>
-</div><div class="project">
-<img src="slide3.jpg">
-<h3>Lado Swarojgar Kendra</h3>
-<p>Skill training and livelihood promotion.</p>
-</div></div></section><section><h2 class="section-title">Director's Message</h2><div class="directors"><div class="message">
-<h3>Founder Message</h3>
-<p>Message from Founder.</p>
-</div><div class="message">
-<h3>National President</h3>
-<p>Message from National President.</p>
-</div><div class="message">
-<h3>Director</h3>
-<p>Message from Director.</p>
-</div></div></section><section><h2 class="section-title">Partners</h2><div class="partner-box">
-Government • CSR • NGOs • Corporate Partners
-</div></section><section id="donate"><h2 class="section-title">Donate For Social Change</h2><div class="partner-box"><img src="qr.png" width="250"><p style="margin-top:20px;">
-Scan QR Code To Donate
-</p></div></section><footer><h3>Lado Women Foundation</h3><p>
-Women Empowerment | Education | Livelihood | Social Change
-</p><br><p>
-Facebook | Instagram | YouTube | LinkedIn
-</p><br><p>
-© 2026 Lado Women Foundation
-</p></footer><a href="#donate" class="floating-donate">
-❤️ Donate
-</a><script>
-
-setInterval(()=>{
-
-let flower=document.createElement('div');
-
-flower.className='flower';
-
-flower.innerHTML='🌸';
-
-flower.style.left=Math.random()*100+'%';
-
-flower.style.animationDuration=
-(5+Math.random()*5)+'s';
-
-document.body.appendChild(flower);
-
-setTimeout(()=>{
-flower.remove();
-},10000);
-
-},400);
-
-</script></body>
+</div><!-- IMPACT SECTION --><div class="section">
+<h2 class="title">Our Impact</h2>
+<div class="cards">
+<div class="card"><h2>1200+</h2><p>SHG</p></div>
+<div class="card"><h2>8500+</h2><p>Members</p></div>
+<div class="card"><h2>300+</h2><p>Skill Centres</p></div>
+<div class="card"><h2>120+</h2><p>Livelihood Centres</p></div>
+</div>
+</div><!-- SLIDER --><div class="section">
+<h2 class="title">Success Stories</h2>
+<div class="slider">
+<div class="slides">
+<img src="https://images.unsplash.com/photo-1509099836639-18ba1795216d">
+<img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f">
+<img src="https://images.unsplash.com/photo-1559027615-cd4628902d4a">
+<img src="https://images.unsplash.com/photo-1588072432836-e10032774350">
+<img src="https://images.unsplash.com/photo-1544717305-2782549b5136">
+</div>
+</div>
+</div><!-- WHO WE ARE --><div class="section">
+<h2 class="title">Who We Are</h2>
+<p style="text-align:center">About Us • Why Lado NGO • Our Impact • Outreach Programs</p>
+</div><!-- WHAT WE DO --><div class="section">
+<h2 class="title">What We Do</h2>
+<p style="text-align:center">Lado Pathshala • Arogya • Serojgar Kendra • Skill Development</p>
+</div><!-- GET INVOLVED --><div class="section">
+<h2 class="title">Get Involved</h2>
+<p style="text-align:center">Volunteers • Internship • Corporate Partners • Careers</p>
+</div><!-- CAMPAIGNS --><div class="section">
+<h2 class="title">Campaigns</h2>
+<p style="text-align:center">All Social Campaigns Listed Here</p>
+</div><footer>
+Donate for a Cause • Social Change • Lado Women Foundation
+</footer><!-- FLOATING ELEMENTS --><div class="float" style="left:20px">🌸</div>
+<div class="float" style="right:30px">🕊️</div>
+<div class="float" style="left:60%">🌼</div></body>
 </html>
