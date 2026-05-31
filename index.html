@@ -2,98 +2,249 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Lado Women Foundation</title>
+<title>Lado Women Foundation Portal</title>
 
 <style>
+
+/* ===== BODY ===== */
 body{
 margin:0;
 font-family:Arial;
-background: linear-gradient(135deg,#6a1b9a,#9c27b0);
+background:linear-gradient(180deg,#f3e5f5,#fce4ec);
+overflow-x:hidden;
+}
+
+/* ===== TOP BAR ===== */
+.topbar{
+position:fixed;
+top:0;
+width:100%;
+background:#6a1b9a;
+color:white;
 display:flex;
-justify-content:center;
+justify-content:space-between;
 align-items:center;
-height:100vh;
+padding:10px 20px;
+z-index:1000;
+}
+
+.logo{
+font-weight:bold;
+}
+
+.menu a{
+color:white;
+margin:0 10px;
+text-decoration:none;
+font-size:14px;
+}
+
+/* ===== HERO ===== */
+.hero{
+margin-top:60px;
+height:420px;
+background:url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f') center/cover;
+display:flex;
+align-items:center;
+justify-content:center;
+position:relative;
 color:white;
 text-align:center;
 }
 
-.container{
-background:rgba(255,255,255,0.12);
-padding:40px;
-border-radius:16px;
-box-shadow:0 10px 25px rgba(0,0,0,0.3);
-backdrop-filter: blur(10px);
-width:360px;
-}
-
-h1{
-margin-bottom:10px;
-font-size:26px;
-}
-
-p{
-font-size:14px;
-margin-bottom:15px;
-opacity:0.9;
-}
-
-button{
-padding:12px 20px;
+.hero::after{
+content:"";
+position:absolute;
 width:100%;
-border:none;
-border-radius:8px;
+height:100%;
+background:rgba(0,0,0,0.5);
+}
+
+.hero h1{
+z-index:2;
+font-size:28px;
+}
+
+/* ===== STATS ===== */
+.stats{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+gap:15px;
+padding:30px;
+}
+
+.card{
 background:white;
-color:#6a1b9a;
-font-size:15px;
+padding:20px;
+border-radius:12px;
+box-shadow:0 5px 15px rgba(0,0,0,0.2);
+text-align:center;
+transform:perspective(500px) rotateX(5deg);
+}
+
+/* ===== SECTIONS ===== */
+.section{
+padding:40px;
+}
+
+/* ===== DONATE BUTTON ===== */
+.donate-btn{
+position:fixed;
+bottom:20px;
+right:20px;
+background:#e91e63;
+color:white;
+padding:15px 20px;
+border-radius:50px;
 cursor:pointer;
-font-weight:bold;
-transition:0.3s;
-margin-top:10px;
 }
 
-button:hover{
-background:#eee;
-transform:scale(1.03);
+/* ===== POPUP QR ===== */
+.popup{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.6);
+display:none;
+align-items:center;
+justify-content:center;
 }
 
-.small{
-font-size:12px;
-opacity:0.8;
-margin-top:10px;
+.popup-content{
+background:white;
+padding:20px;
+border-radius:10px;
+text-align:center;
 }
+
+/* ===== FLOWERS ===== */
+.flower{
+position:fixed;
+top:-50px;
+font-size:18px;
+animation:fall 10s linear infinite;
+}
+
+@keyframes fall{
+0%{transform:translateY(-50px);}
+100%{transform:translateY(110vh);}
+}
+
+/* ===== BIRDS ===== */
+.bird{
+position:fixed;
+top:80px;
+left:-100px;
+animation:fly 15s linear infinite;
+}
+
+@keyframes fly{
+0%{left:-100px;}
+100%{left:110%;}
+}
+
 </style>
-
 </head>
 
 <body>
 
-<div class="container">
+<!-- TOP BAR -->
+<div class="topbar">
+<div class="logo">🌸 Lado Women Foundation</div>
 
-<h1>Lado Women Foundation</h1>
-<p>Women Empowerment NGO MIS System</p>
-
-<p>Official Digital Management Portal</p>
-
-<!-- PUBLIC ACTIONS -->
-
-<a href="shg.html">
-<button>🤝 Apply for SHG</button>
-</a>
-
-<a href="verify.html">
-<button>🔍 Verify Certificate</button>
-</a>
-
-<a href="login.html">
-<button>🔐 Admin Login</button>
-</a>
-
-<p class="small">
-All applications are processed by Lado Women Foundation MIS System
-</p>
-
+<div class="menu">
+<a href="#">Home</a>
+<a href="#">Who We Are</a>
+<a href="#">What We Do</a>
+<a href="#">Get Involved</a>
+<a href="#">Resources</a>
+<a href="#">Campaigns</a>
+<a href="#">Contact</a>
 </div>
+</div>
+
+<!-- ANIMATION -->
+<div class="flower">🌸</div>
+<div class="flower" style="left:20%">🌼</div>
+<div class="flower" style="left:40%">🌸</div>
+<div class="bird">🕊️</div>
+
+<!-- HERO -->
+<div class="hero">
+<h1>“Beti Bachao, Beti Padhao – Empowering Rural Women”</h1>
+</div>
+
+<!-- STATS -->
+<div class="stats">
+<div class="card"><h2 id="shg">0</h2><p>SHG</p></div>
+<div class="card"><h2 id="members">0</h2><p>Members</p></div>
+<div class="card"><h2 id="volunteers">0</h2><p>Volunteers</p></div>
+<div class="card"><h2 id="internships">0</h2><p>Internships</p></div>
+</div>
+
+<!-- ABOUT -->
+<div class="section">
+<h2>About Us</h2>
+<p>We empower rural women through skill development, education & livelihood programs.</p>
+</div>
+
+<!-- DIRECTOR -->
+<div class="section">
+<h2>Director Message</h2>
+<p>"Our mission is to create self-reliant women across India."</p>
+</div>
+
+<!-- PARTNERS -->
+<div class="section">
+<h2>Our Partners</h2>
+<p>Government • CSR • NGOs • Corporates</p>
+</div>
+
+<!-- SOCIAL -->
+<div class="section">
+<h2>Social Media</h2>
+<p>Facebook | Instagram | YouTube | WhatsApp</p>
+</div>
+
+<!-- DONATE BUTTON -->
+<div class="donate-btn" onclick="openQR()">💖 Donate</div>
+
+<!-- POPUP -->
+<div class="popup" id="popup">
+<div class="popup-content">
+<h3>Donate for Social Change</h3>
+<img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=upi://pay">
+<br><br>
+<button onclick="closeQR()">Close</button>
+</div>
+</div>
+
+<script>
+
+const API="YOUR_APPS_SCRIPT_URL";
+
+// ===== LOAD STATS =====
+fetch(API+"?type=stats")
+.then(r=>r.json())
+.then(d=>{
+document.getElementById("shg").innerText=d.shg;
+document.getElementById("members").innerText=d.members;
+document.getElementById("volunteers").innerText=d.volunteers;
+document.getElementById("internships").innerText=d.internships;
+});
+
+// ===== POPUP =====
+function openQR(){
+document.getElementById("popup").style.display="flex";
+}
+
+function closeQR(){
+document.getElementById("popup").style.display="none";
+}
+
+</script>
 
 </body>
 </html>
