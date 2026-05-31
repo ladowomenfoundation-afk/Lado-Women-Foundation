@@ -2,17 +2,18 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Lado Women Foundation MIS Dashboard</title>
+<title>Lado Women Foundation MIS</title>
 
 <style>
 body{
 margin:0;
 font-family:Arial;
-background:#f5f5f5;
+background:#f4f6f9;
 }
 
+/* HEADER */
 .header{
-background:#6a1b9a;
+background:linear-gradient(90deg,#6a1b9a,#8e24aa);
 color:white;
 padding:15px;
 text-align:center;
@@ -20,15 +21,16 @@ font-size:20px;
 font-weight:bold;
 }
 
+/* LAYOUT */
 .container{
 display:flex;
 }
 
 /* SIDEBAR */
 .sidebar{
-width:230px;
-background:#2c2c2c;
+width:240px;
 height:100vh;
+background:#1e1e2f;
 color:white;
 padding-top:20px;
 }
@@ -36,12 +38,13 @@ padding-top:20px;
 .sidebar button{
 width:100%;
 padding:12px;
-background:none;
 border:none;
+background:none;
 color:white;
 text-align:left;
 cursor:pointer;
-border-bottom:1px solid #444;
+border-bottom:1px solid #333;
+font-size:14px;
 }
 
 .sidebar button:hover{
@@ -65,22 +68,23 @@ margin-bottom:20px;
 .card{
 background:white;
 padding:20px;
-border-radius:10px;
-box-shadow:0 0 10px rgba(0,0,0,0.1);
+border-radius:12px;
+box-shadow:0 2px 10px rgba(0,0,0,0.1);
 text-align:center;
 }
 
 .card h2{
-color:#6a1b9a;
 margin:0;
+color:#6a1b9a;
 }
 
-/* DATA BOX */
+/* LIST */
 .box{
 background:white;
 padding:15px;
 border-radius:10px;
-box-shadow:0 0 10px rgba(0,0,0,0.1);
+box-shadow:0 2px 10px rgba(0,0,0,0.1);
+min-height:200px;
 }
 
 .item{
@@ -89,13 +93,16 @@ border-bottom:1px solid #eee;
 }
 
 /* USER */
-.userbox{
+.user{
 margin-bottom:10px;
 font-weight:bold;
+color:#333;
 }
 
+/* LOGOUT */
 .logout{
 background:red;
+color:white;
 margin-top:20px;
 }
 </style>
@@ -104,7 +111,7 @@ margin-top:20px;
 <body>
 
 <div class="header">
-Lado Women Foundation - GOVERNMENT MIS DASHBOARD
+Lado Women Foundation - NGO MIS DASHBOARD
 </div>
 
 <div class="container">
@@ -112,36 +119,36 @@ Lado Women Foundation - GOVERNMENT MIS DASHBOARD
 <!-- SIDEBAR -->
 <div class="sidebar">
 
-<button onclick="loadData('shg')">SHG</button>
-<button onclick="loadData('members')">Members</button>
-<button onclick="loadData('volunteers')">Volunteers</button>
-<button onclick="loadData('field')">Field Reports</button>
+<button onclick="loadData('shg')">🏠 SHG</button>
+<button onclick="loadData('members')">👩‍👩‍👧 Members</button>
+<button onclick="loadData('volunteers')">🤝 Volunteers</button>
+<button onclick="loadData('field')">📍 Field Reports</button>
+<button onclick="loadData('internshipList')">🎓 Internship</button>
+<button onclick="window.location.href='control.html'">⚙️ Control Room</button>
 
-<button onclick="window.location.href='control.html'">Control Room</button>
-
-<button class="logout" onclick="logout()">Logout</button>
+<button class="logout" onclick="logout()">🚪 Logout</button>
 
 </div>
 
-<!-- MAIN AREA -->
+<!-- MAIN -->
 <div class="main">
 
-<div class="userbox" id="userInfo"></div>
+<div class="user" id="userBox"></div>
 
 <!-- STATS -->
 <div class="cards">
 <div class="card">
-<h2 id="shgCount">0</h2>
-<p>SHG Groups</p>
+<h2 id="shg">0</h2>
+<p>SHG</p>
 </div>
 
 <div class="card">
-<h2 id="memberCount">0</h2>
+<h2 id="mem">0</h2>
 <p>Members</p>
 </div>
 
 <div class="card">
-<h2 id="volCount">0</h2>
+<h2 id="vol">0</h2>
 <p>Volunteers</p>
 </div>
 </div>
@@ -159,7 +166,7 @@ Select menu to view data
 
 const API = "PASTE_YOUR_APPS_SCRIPT_URL_HERE";
 
-// CHECK LOGIN
+// LOGIN CHECK
 let user = localStorage.getItem("user");
 
 if(!user){
@@ -168,22 +175,21 @@ window.location.href="login.html";
 
 user = JSON.parse(user);
 
-document.getElementById("userInfo").innerHTML =
-"Welcome: " + user.username + " | Role: " + user.role + " | Level: " + user.level;
+document.getElementById("userBox").innerHTML =
+"Welcome: " + user.username + " | Role: " + user.role;
 
 // LOAD STATS
 function loadStats(){
 
 fetch(API)
 .then(r=>r.json())
-.then(data=>{
+.then(d=>{
 
-document.getElementById("shgCount").innerText = data.total_shg || 0;
-document.getElementById("memberCount").innerText = data.total_members || 0;
-document.getElementById("volCount").innerText = data.total_volunteers || 0;
+document.getElementById("shg").innerText = d.total_shg || 0;
+document.getElementById("mem").innerText = d.total_members || 0;
+document.getElementById("vol").innerText = d.total_volunteers || 0;
 
 });
-
 }
 
 // LOAD DATA
@@ -207,7 +213,6 @@ ${d.district || ""} ${d.block || ""} ${d.status || ""}
 document.getElementById("dataBox").innerHTML = html;
 
 });
-
 }
 
 // LOGOUT
