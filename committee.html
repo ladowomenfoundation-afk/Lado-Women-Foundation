@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Committee Members</title>
+<style>
+body{font-family:Arial;background:#f4f6f9;padding:20px;}
+.container{max-width:600px;margin:auto;background:#fff;padding:20px;border-radius:10px;}
+input,select,button{width:100%;padding:10px;margin:6px 0;}
+button{background:#6a1b9a;color:#fff;border:none;}
+button:hover{background:#8e24aa;}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>🏛️ Committee Registration</h2>
+
+<input id="name" placeholder="Name">
+<input id="mobile" placeholder="Mobile">
+<input id="email" placeholder="Email">
+
+<select id="gender">
+<option>Male</option>
+<option>Female</option>
+</select>
+
+<input id="skills" placeholder="Skills">
+
+<select id="level">
+<option>National Level</option>
+<option>State Level</option>
+<option>District Level</option>
+<option>Block Level</option>
+<option>Member Level</option>
+</select>
+
+<input id="state" placeholder="State">
+<input id="district" placeholder="District">
+<input id="block" placeholder="Block">
+
+<input id="photo" placeholder="Photo URL">
+<input id="signature" placeholder="Signature URL">
+
+<button onclick="submitData()">Submit</button>
+
+<p id="msg"></p>
+
+</div>
+
+<script>
+
+const API="YOUR_DEPLOYED_URL";
+
+function submitData(){
+
+let form=new URLSearchParams();
+
+form.append("action","committeeMember");
+form.append("name",name.value);
+form.append("mobile",mobile.value);
+form.append("email",email.value);
+form.append("gender",gender.value);
+form.append("skills",skills.value);
+form.append("level",level.value);
+form.append("state",state.value);
+form.append("district",district.value);
+form.append("block",block.value);
+form.append("photoUrl",photo.value);
+form.append("signature",signature.value);
+
+msg.innerText="Saving...";
+
+fetch(API,{method:"POST",body:form})
+.then(r=>r.json())
+.then(res=>{
+
+if(res.status=="success"){
+msg.innerText="✅ Saved ID: "+res.id;
+}else{
+msg.innerText="❌ Error";
+}
+
+});
+
+}
+
+</script>
+
+</body>
+</html>
