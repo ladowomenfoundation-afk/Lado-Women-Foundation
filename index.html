@@ -1,88 +1,80 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lado Women Foundation</title>
+<title>NGO MIS Control Room</title>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
 body{
   margin:0;
-  font-family: Arial;
-  background:#f4f6f9;
+  font-family:Arial;
+  background:#eef3ff;
 }
 
-/* HEADER */
-.header{
-  background:#0b3d91;
+header{
+  background:#1a237e;
   color:white;
   padding:15px;
   text-align:center;
+  font-size:20px;
 }
 
-.header h1{
-  margin:0;
-  font-size:22px;
-}
-
-/* NAVBAR */
-.nav{
-  background:#062a66;
+nav{
   display:flex;
   flex-wrap:wrap;
-  justify-content:center;
+  background:#283593;
 }
 
-.nav a{
+nav button{
+  flex:1;
+  padding:12px;
+  border:none;
+  cursor:pointer;
   color:white;
-  padding:12px 15px;
-  text-decoration:none;
-  font-size:14px;
+  background:#3949ab;
 }
 
-.nav a:hover{
-  background:#0b3d91;
+nav button:hover{
+  background:#5c6bc0;
 }
 
-/* DASHBOARD CARDS */
-.container{
+section{
+  display:none;
   padding:20px;
-  display:grid;
-  grid-template-columns: repeat(auto-fit,minmax(200px,1fr));
-  gap:15px;
+}
+
+.active{
+  display:block;
+}
+
+/* cards */
+.grid{
+  display:flex;
+  flex-wrap:wrap;
 }
 
 .card{
   background:white;
   padding:15px;
-  border-radius:8px;
-  box-shadow:0 2px 6px rgba(0,0,0,0.1);
+  margin:10px;
+  border-radius:10px;
+  flex:1;
+  min-width:150px;
+  box-shadow:0 2px 8px rgba(0,0,0,0.1);
   text-align:center;
 }
 
-.card h2{
-  margin:10px 0;
-  color:#0b3d91;
+input, select{
+  padding:10px;
+  margin:5px;
+  width:200px;
 }
 
-/* BUTTONS */
-.btn{
-  display:inline-block;
-  margin-top:10px;
-  padding:8px 12px;
-  background:#0b3d91;
-  color:white;
-  text-decoration:none;
-  border-radius:5px;
-}
-
-/* FOOTER */
-.footer{
-  background:#062a66;
-  color:white;
-  text-align:center;
-  padding:15px;
-  margin-top:20px;
+button{
+  padding:10px;
+  margin:5px;
+  cursor:pointer;
 }
 </style>
 
@@ -90,67 +82,121 @@ body{
 
 <body>
 
-<div class="header">
-  <h1>Lado Women Foundation</h1>
-  <p>NGO MIS Portal | Women Empowerment | SHG | Training</p>
+<header>🏛️ NGO GOV MIS CONTROL ROOM</header>
+
+<nav>
+<button onclick="show('home')">Dashboard</button>
+<button onclick="show('shg')">SHG</button>
+<button onclick="show('members')">Members</button>
+<button onclick="show('intern')">Internship</button>
+<button onclick="show('projects')">Projects</button>
+<button onclick="show('reports')">Reports</button>
+<button onclick="show('admin')">Admin</button>
+</nav>
+
+<!-- ================= HOME DASHBOARD ================= -->
+<section id="home" class="active">
+
+<h2>Dashboard Overview</h2>
+
+<div class="grid">
+<div class="card" id="total">Total SHG</div>
+<div class="card" id="approved">Approved</div>
+<div class="card" id="pending">Pending</div>
+<div class="card" id="rejected">Rejected</div>
 </div>
 
-<div class="nav">
-  <a href="index.html">Home</a>
-  <a href="membership.html">Membership</a>
-  <a href="shg.html">SHG Portal</a>
-  <a href="internship.html">Internship</a>
-  <a href="projects.html">Projects</a>
-  <a href="gallery.html">Gallery</a>
-  <a href="documents.html">Documents</a>
-  <a href="contact.html">Contact</a>
-</div>
+<canvas id="chart" height="100"></canvas>
 
-<div class="container">
+</section>
 
-  <div class="card">
-    <h2>Total Members</h2>
-    <p>0</p>
-  </div>
+<!-- ================= SHG ================= -->
+<section id="shg">
+<h2>SHG Management</h2>
 
-  <div class="card">
-    <h2>Total SHGs</h2>
-    <p>0</p>
-  </div>
+<input placeholder="Name">
+<input placeholder="Leader">
+<input placeholder="Mobile">
+<button>Create SHG</button>
 
-  <div class="card">
-    <h2>Beneficiaries</h2>
-    <p>0</p>
-  </div>
+<div id="shgList"></div>
+</section>
 
-  <div class="card">
-    <h2>Active Projects</h2>
-    <p>0</p>
-  </div>
+<!-- ================= MEMBERS ================= -->
+<section id="members">
+<h2>Members & ID Cards</h2>
 
-</div>
+<input placeholder="Name">
+<input placeholder="Mobile">
+<input placeholder="Role">
+<button>Create Member</button>
 
-<div class="container">
+<div id="memberList"></div>
+</section>
 
-  <div class="card">
-    <h2>Quick Actions</h2>
-    <a class="btn" href="membership.html">Join Membership</a><br>
-    <a class="btn" href="shg.html">Register SHG</a><br>
-    <a class="btn" href="internship.html">Apply Internship</a>
-  </div>
+<!-- ================= INTERNSHIP ================= -->
+<section id="intern">
+<h2>Internship Module</h2>
+<p>Internship registration, training, certificate system</p>
+</section>
 
-  <div class="card">
-    <h2>Transparency</h2>
-    <a class="btn" href="documents.html">Annual Reports</a><br>
-    <a class="btn" href="#">Audit Reports</a><br>
-    <a class="btn" href="gallery.html">Gallery</a>
-  </div>
+<!-- ================= PROJECTS ================= -->
+<section id="projects">
+<h2>Projects</h2>
+<p>Project upload, photos, videos, location tracking</p>
+</section>
 
-</div>
+<!-- ================= REPORTS ================= -->
+<section id="reports">
+<h2>Reports</h2>
+<canvas id="bar"></canvas>
+</section>
 
-<div class="footer">
-  © 2026 Lado Women Foundation | All Rights Reserved
-</div>
+<!-- ================= ADMIN ================= -->
+<section id="admin">
+<h2>Admin Control Room</h2>
+
+<input placeholder="Username">
+<input placeholder="Password">
+<button>Login</button>
+
+<p>Role based access system (Gov MIS)</p>
+</section>
+
+<script>
+
+const API="https://script.google.com/macros/s/AKfycbzkSxqeJ4IUPkJj3AMI-c6zxZvaovO_0YIGLyKjIif03xVnwknCir80CiRHqJtZw4wwPg/exec";
+
+function show(id){
+  document.querySelectorAll("section").forEach(s=>s.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+}
+
+// LOAD DASHBOARD
+fetch(API)
+.then(r=>r.json())
+.then(d=>{
+
+  document.getElementById("total").innerHTML="Total SHG<br><b>"+d.total+"</b>";
+  document.getElementById("approved").innerHTML="Approved<br><b>"+d.approved+"</b>";
+  document.getElementById("pending").innerHTML="Pending<br><b>"+d.pending+"</b>";
+  document.getElementById("rejected").innerHTML="Rejected<br><b>"+d.rejected+"</b>";
+
+  new Chart(document.getElementById("chart"),{
+    type:"pie",
+    data:{
+      labels:["Approved","Pending","Rejected"],
+      datasets:[{data:[d.approved,d.pending,d.rejected]}]
+    }
+  });
+
+});
+
+// SAMPLE UI PLACEHOLDERS
+document.getElementById("shgList").innerHTML="SHG list will load from API";
+document.getElementById("memberList").innerHTML="Members list + ID card download";
+
+</script>
 
 </body>
 </html>
