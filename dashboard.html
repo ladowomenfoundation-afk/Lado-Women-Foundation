@@ -1,7 +1,12 @@
-<!DOCTYPE html><html>
+<!DOCTYPE html>
+<html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1"><title>Lado Women Foundation Dashboard</title><style>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Lado Women Foundation Dashboard</title>
+
+<style>
 
 *{
 margin:0;
@@ -14,6 +19,7 @@ body{
 background:#f4f6f9;
 }
 
+/* SIDEBAR */
 .sidebar{
 position:fixed;
 left:0;
@@ -45,6 +51,7 @@ border-bottom:1px solid rgba(255,255,255,.08);
 background:#8e24aa;
 }
 
+/* MAIN */
 .main{
 margin-left:260px;
 padding:20px;
@@ -81,6 +88,7 @@ text-align:center;
 color:white;
 }
 
+/* CARDS */
 .cards{
 display:grid;
 grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
@@ -99,25 +107,21 @@ text-align:center;
 color:#6a1b9a;
 }
 
-button{
-background:#6a1b9a;
-color:white;
-border:none;
-padding:10px;
-width:100%;
-border-radius:8px;
-cursor:pointer;
-margin-top:10px;
-}
+</style>
 
-button:hover{
-background:#8e24aa;
-}
+</head>
 
-</style></head><body><div class="sidebar"><div class="logo">
+<body>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+
+<div class="logo">
 LADO NGO MIS
-</div><a href="#">Dashboard</a>
-<a href="#">SHG Management</a>
+</div>
+
+<a href="#">Dashboard</a>
+<a href="shg.html">SHG Management</a>
 <a href="#">Members</a>
 <a href="#">Committee Members</a>
 <a href="#">Volunteers</a>
@@ -132,42 +136,73 @@ LADO NGO MIS
 <a href="#">Office Locations</a>
 <a href="#">Users</a>
 
-</div><div class="main"><div class="topbar">
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+<div class="topbar">
 <h2>🌸 Lado Women Foundation Digital Management System</h2>
 <p>Empowering Women • Building Communities • Digital Transformation</p>
-</div><div class="banner">
+</div>
+
+<!-- BANNER -->
+<div class="banner">
 <div class="overlay">
 <div>
 <h1>Empowering Women, Transforming Society</h1>
 <p>National NGO MIS Platform</p>
 </div>
 </div>
-</div><div class="cards"><div class="card">
+</div>
+
+<!-- STATS -->
+<div class="cards">
+
+<div class="card">
 <h2 id="shg">0</h2>
 <p>Total SHG</p>
-</div><div class="card">
+</div>
+
+<div class="card">
 <h2 id="members">0</h2>
 <p>Total Members</p>
-</div><div class="card">
+</div>
+
+<div class="card">
 <h2 id="volunteers">0</h2>
 <p>Total Volunteers</p>
-</div><div class="card">
+</div>
+
+<div class="card">
 <h2 id="internships">0</h2>
 <p>Total Internships</p>
-</div></div></div><script>
+</div>
+
+</div>
+
+</div>
+
+<!-- SCRIPT -->
+<script>
 
 const API="https://script.google.com/macros/s/AKfycbzkSxqeJ4IUPkJj3AMI-c6zxZvaovO_0YIGLyKjIif03xVnwknCir80CiRHqJtZw4wwPg/exec";
 
-fetch(API)
+fetch(API+"?type=stats")
 .then(r=>r.json())
 .then(data=>{
 
-document.getElementById("shg").innerHTML=data.total_shg||0;
-document.getElementById("members").innerHTML=data.total_members||0;
-document.getElementById("volunteers").innerHTML=data.total_volunteers||0;
-document.getElementById("internships").innerHTML=data.total_internships||0;
+document.getElementById("shg").innerText=data.shg||0;
+document.getElementById("members").innerText=data.members||0;
+document.getElementById("volunteers").innerText=data.volunteers||0;
+document.getElementById("internships").innerText=data.internships||0;
 
+})
+.catch(err=>{
+console.log("API Error",err);
 });
 
-</script></body>
+</script>
+
+</body>
 </html>
