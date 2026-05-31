@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Admin Login - MIS</title>
+
+<style>
+body{
+  font-family:Arial;
+  background:#0b3d91;
+  color:white;
+  text-align:center;
+  padding-top:100px;
+}
+
+input{
+  padding:10px;
+  width:200px;
+  margin:5px;
+}
+
+button{
+  padding:10px 20px;
+  margin-top:10px;
+}
+</style>
+
+</head>
+
+<body>
+
+<h2>NGO MIS LOGIN</h2>
+
+<input id="user" placeholder="Username"><br>
+<input id="pass" type="password" placeholder="Password"><br>
+
+<button onclick="login()">Login</button>
+
+<p id="msg"></p>
+
+<script>
+
+const API = "YOUR_APPS_SCRIPT_URL";
+
+function login(){
+
+  fetch(API,{
+    method:"POST",
+    body:new URLSearchParams({
+      action:"login",
+      username:document.getElementById("user").value,
+      password:document.getElementById("pass").value
+    })
+  })
+  .then(res=>res.json())
+  .then(data=>{
+
+    if(data.status=="success"){
+
+      localStorage.setItem("token",data.token);
+      localStorage.setItem("role",data.role);
+
+      if(data.role=="ADMIN"){
+        window.location.href="dashboard.html";
+      }
+
+      if(data.role=="FIELD"){
+        window.location.href="field.html";
+      }
+
+    }else{
+      document.getElementById("msg").innerHTML="Invalid Login";
+    }
+
+  });
+
+}
+
+</script>
+
+</body>
+</html>
