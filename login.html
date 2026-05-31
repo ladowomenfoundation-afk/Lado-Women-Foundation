@@ -1,17 +1,14 @@
-if(!localStorage.getItem("token")){
-  window.location.href="login.html";
-}
 <!DOCTYPE html>
 <html>
 <head>
-<title>NGO MIS Login</title>
+<title>NGO Login</title>
 
 <style>
 body{
   font-family:Arial;
   background:linear-gradient(135deg,#0b3d91,#00c6ff);
-  color:white;
   text-align:center;
+  color:white;
   padding-top:120px;
 }
 
@@ -19,17 +16,16 @@ input{
   padding:10px;
   margin:5px;
   width:220px;
-  border-radius:5px;
   border:none;
+  border-radius:5px;
 }
 
 button{
   padding:10px 20px;
-  border:none;
-  border-radius:5px;
   background:#28a745;
+  border:none;
   color:white;
-  font-weight:bold;
+  border-radius:5px;
 }
 </style>
 
@@ -37,7 +33,7 @@ button{
 
 <body>
 
-<h2>NGO MIS LOGIN SYSTEM</h2>
+<h2>NGO MIS LOGIN</h2>
 
 <input id="user" placeholder="Username"><br>
 <input id="pass" type="password" placeholder="Password"><br>
@@ -48,46 +44,37 @@ button{
 
 <script>
 
-const API = "YOUR_APPS_SCRIPT_URL";
+const API="https://script.google.com/macros/s/AKfycbxx-xBQcPPBnA14qTgjwdAJNbUDwNtwEicao0PoDrDl0gevTz7voZANpxZO77O7ai44dQ/exec";
 
 function login(){
 
-  fetch(API,{
-    method:"POST",
-    body:new URLSearchParams({
-      action:"login",
-      username:document.getElementById("user").value,
-      password:document.getElementById("pass").value
-    })
-  })
-  .then(res=>res.json())
-  .then(data=>{
+fetch(API,{
+method:"POST",
+body:new URLSearchParams({
+action:"login",
+username:document.getElementById("user").value,
+password:document.getElementById("pass").value
+})
+})
+.then(r=>r.json())
+.then(d=>{
 
-    if(data.status=="success"){
+if(d.status=="success"){
 
-      localStorage.setItem("user",data.user);
-      localStorage.setItem("role",data.role);
-      localStorage.setItem("token",data.token);
+localStorage.setItem("user",d.user);
+localStorage.setItem("role",d.role);
+localStorage.setItem("token",d.token);
 
-      // 🔥 ROLE ROUTING
-      if(data.role=="ADMIN"){
-        window.location.href="dashboard.html";
-      }
-      else if(data.role=="FIELD"){
-        window.location.href="field.html";
-      }
-      else if(data.role=="MEMBER"){
-        window.location.href="membership.html";
-      }
-      else if(data.role=="INTERN"){
-        window.location.href="internship.html";
-      }
+if(d.role=="ADMIN") window.location="dashboard.html";
+else if(d.role=="FIELD") window.location="field.html";
+else if(d.role=="MEMBER") window.location="membership.html";
+else window.location="internship.html";
 
-    }else{
-      document.getElementById("msg").innerHTML="Invalid Login";
-    }
+}else{
+document.getElementById("msg").innerHTML="Invalid Login";
+}
 
-  });
+});
 
 }
 
