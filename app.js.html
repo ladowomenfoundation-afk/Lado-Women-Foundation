@@ -1,0 +1,28 @@
+const API = "PASTE_YOUR_SCRIPT_URL";
+
+function login(){
+
+fetch(API,{
+method:"POST",
+body:action=login&username=${u.value}&password=${p.value}
+})
+.then(r=>r.json())
+.then(d=>{
+if(d.status=="success"){
+localStorage.setItem("user",JSON.stringify(d));
+window.location="dashboard.html";
+}else{
+msg.innerText="Invalid Login";
+}
+});
+}
+
+function load(type){
+
+fetch(API+"?type="+type)
+.then(r=>r.json())
+.then(d=>{
+document.getElementById("data").innerHTML =
+JSON.stringify(d,null,2);
+});
+}
