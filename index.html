@@ -1,24 +1,156 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Lado Women Foundation</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lado Women Foundation</title>
+
+<style>
+body{
+  margin:0;
+  font-family: Arial;
+  background:#f4f6f9;
+}
+
+/* HEADER */
+.header{
+  background:#0b3d91;
+  color:white;
+  padding:15px;
+  text-align:center;
+}
+
+.header h1{
+  margin:0;
+  font-size:22px;
+}
+
+/* NAVBAR */
+.nav{
+  background:#062a66;
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+}
+
+.nav a{
+  color:white;
+  padding:12px 15px;
+  text-decoration:none;
+  font-size:14px;
+}
+
+.nav a:hover{
+  background:#0b3d91;
+}
+
+/* DASHBOARD CARDS */
+.container{
+  padding:20px;
+  display:grid;
+  grid-template-columns: repeat(auto-fit,minmax(200px,1fr));
+  gap:15px;
+}
+
+.card{
+  background:white;
+  padding:15px;
+  border-radius:8px;
+  box-shadow:0 2px 6px rgba(0,0,0,0.1);
+  text-align:center;
+}
+
+.card h2{
+  margin:10px 0;
+  color:#0b3d91;
+}
+
+/* BUTTONS */
+.btn{
+  display:inline-block;
+  margin-top:10px;
+  padding:8px 12px;
+  background:#0b3d91;
+  color:white;
+  text-decoration:none;
+  border-radius:5px;
+}
+
+/* FOOTER */
+.footer{
+  background:#062a66;
+  color:white;
+  text-align:center;
+  padding:15px;
+  margin-top:20px;
+}
+</style>
+
 </head>
+
 <body>
 
-<h1>Welcome to Lado Women Foundation</h1>
+<div class="header">
+  <h1>Lado Women Foundation</h1>
+  <p>NGO MIS Portal | Women Empowerment | SHG | Training</p>
+</div>
 
-<nav>
-  <a href="index.html">Home</a> |
-  <a href="membership.html">Membership</a> |
-  <a href="shg.html">SHG Portal</a> |
-  <a href="internship.html">Internship</a> |
+<div class="nav">
+  <a href="index.html">Home</a>
+  <a href="membership.html">Membership</a>
+  <a href="shg.html">SHG Portal</a>
+  <a href="internship.html">Internship</a>
   <a href="projects.html">Projects</a>
-</nav>
+  <a href="gallery.html">Gallery</a>
+  <a href="documents.html">Documents</a>
+  <a href="contact.html">Contact</a>
+</div>
 
-<hr>
+<div class="container">
 
-<h2>NGO MIS Portal</h2>
-<p>Women Empowerment | SHG Development | Training | Internship</p>
+  <div class="card">
+    <h2>Total Members</h2>
+    <p>0</p>
+  </div>
+
+  <div class="card">
+    <h2>Total SHGs</h2>
+    <p>0</p>
+  </div>
+
+  <div class="card">
+    <h2>Beneficiaries</h2>
+    <p>0</p>
+  </div>
+
+  <div class="card">
+    <h2>Active Projects</h2>
+    <p>0</p>
+  </div>
+
+</div>
+
+<div class="container">
+
+  <div class="card">
+    <h2>Quick Actions</h2>
+    <a class="btn" href="membership.html">Join Membership</a><br>
+    <a class="btn" href="shg.html">Register SHG</a><br>
+    <a class="btn" href="internship.html">Apply Internship</a>
+  </div>
+
+  <div class="card">
+    <h2>Transparency</h2>
+    <a class="btn" href="documents.html">Annual Reports</a><br>
+    <a class="btn" href="#">Audit Reports</a><br>
+    <a class="btn" href="gallery.html">Gallery</a>
+  </div>
+
+</div>
+
+<div class="footer">
+  © 2026 Lado Women Foundation | All Rights Reserved
+</div>
 
 </body>
 </html>
