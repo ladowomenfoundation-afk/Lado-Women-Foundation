@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>SHG Admin Panel</title>
+<style>
+body{font-family:Arial;background:#f4f6f9;}
+.card{background:white;margin:10px;padding:10px;border-radius:5px;}
+button{margin:5px;padding:8px;}
+.approve{background:green;color:white;}
+.reject{background:red;color:white;}
+</style>
+</head>
+
+<body>
+
+<h2>SHG Admin Panel</h2>
+
+<div id="data"></div>
+
+<script>
+
+const API = "YOUR_APPS_SCRIPT_URL";
+
+fetch(API)
+.then(res => res.json())
+.then(data => {
+
+  let html = "";
+
+  for(let i=1;i<data.length;i++){
+
+    html += `
+    <div class="card">
+      <b>${data[i][1]}</b> (ID: ${data[i][0]})<br>
+      ${data[i][3]} | ${data[i][4]}<br>
+      Status: ${data[i][7]}<br>
+
+      <button class="approve" onclick="update('${data[i][0]}','Approved')">Approve</button>
+      <button class="reject" onclick="update('${data[i][0]}','Rejected')">Reject</button>
+    </div>
+    `;
+  }
+
+  document.getElementById("data").innerHTML = html;
+});
+
+function update(id,status){
+
+  fetch(API, {
+    method:"POST",
+    body: new URLSearchParams({
+      shgId:id,
+      status:status
+    })
+  })
+  .then(()=>location.reload());
+
+}
+
+</script>
+
+</body>
+</html>
