@@ -1,195 +1,230 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>NGO Dashboard Pro</title>
+<title>Lado Women Foundation</title>
 
 <style>
+
+/* ===== BODY ===== */
 body{
 margin:0;
 font-family:Arial;
-background:#f4f6f9;
+overflow-x:hidden;
+background:linear-gradient(180deg,#fce4ec,#f3e5f5);
 }
 
-/* TOP NAV */
+/* ===== TOP BAR ===== */
 .topbar{
+position:fixed;
+top:0;
+left:0;
+width:100%;
 background:#6a1b9a;
 color:white;
-padding:10px;
 display:flex;
-gap:10px;
-flex-wrap:wrap;
+align-items:center;
+justify-content:space-between;
+padding:10px 20px;
+z-index:1000;
 }
 
-.tab{
-padding:10px 15px;
-background:rgba(255,255,255,0.2);
-border-radius:8px;
-cursor:pointer;
+.logo{
+font-weight:bold;
+font-size:18px;
 }
 
-.tab:hover{
-background:white;
-color:#6a1b9a;
+.menu a{
+color:white;
+margin:0 10px;
+text-decoration:none;
 }
 
-/* CONTENT */
-.container{
-padding:20px;
+/* ===== HERO ===== */
+.hero{
+margin-top:60px;
+height:450px;
+background:url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f') center/cover;
+position:relative;
+display:flex;
+align-items:center;
+justify-content:center;
+color:white;
+text-align:center;
+}
+
+.hero::after{
+content:"";
+position:absolute;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.5);
+}
+
+.hero h1{
+position:relative;
+font-size:32px;
+z-index:2;
+}
+
+/* ===== STATS ===== */
+.stats{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+gap:15px;
+padding:30px;
 }
 
 .card{
 background:white;
-padding:15px;
-border-radius:10px;
-margin-top:10px;
-box-shadow:0 0 10px rgba(0,0,0,0.1);
+padding:20px;
+border-radius:12px;
+box-shadow:0 5px 15px rgba(0,0,0,0.2);
+text-align:center;
+transform:perspective(500px) rotateX(5deg);
 }
 
-/* FILTERS */
-select{
-padding:10px;
-margin:5px;
+.card h2{
+color:#6a1b9a;
 }
+
+/* ===== SECTION ===== */
+.section{
+padding:40px;
+}
+
+/* ===== FLOATING BUTTON ===== */
+.donate{
+position:fixed;
+bottom:20px;
+right:20px;
+background:#e91e63;
+color:white;
+padding:15px 20px;
+border-radius:50px;
+cursor:pointer;
+box-shadow:0 5px 10px rgba(0,0,0,0.3);
+}
+
+/* ===== FOOTER ===== */
+footer{
+background:#4a148c;
+color:white;
+padding:30px;
+text-align:center;
+}
+
+/* ===== FLAGS ===== */
+.flag{
+position:fixed;
+top:80px;
+right:10px;
+width:50px;
+}
+
+/* ===== ANIMATION FLOWERS ===== */
+.flower{
+position:fixed;
+top:-50px;
+font-size:20px;
+animation:fall 10s linear infinite;
+}
+
+@keyframes fall{
+0%{transform:translateY(-50px);}
+100%{transform:translateY(110vh);}
+}
+
+/* ===== BIRDS ===== */
+.bird{
+position:fixed;
+top:80px;
+left:-100px;
+font-size:20px;
+animation:fly 15s linear infinite;
+}
+
+@keyframes fly{
+0%{left:-100px;}
+100%{left:110%;}
+}
+
 </style>
 </head>
 
 <body>
 
-<!-- TOP MENU -->
+<!-- TOP BAR -->
 <div class="topbar">
-
-<div class="tab" onclick="showTab('dashboard')">Dashboard</div>
-<div class="tab" onclick="showTab('team')">Our Team</div>
-<div class="tab" onclick="showTab('shg')">SHG</div>
-<div class="tab" onclick="showTab('members')">Members</div>
-<div class="tab" onclick="showTab('donation')">Donation</div>
-
+<div class="logo">🌸 Lado Women Foundation</div>
+<div class="menu">
+<a href="#">Home</a>
+<a href="#">Who We Are</a>
+<a href="#">What We Do</a>
+<a href="#">Get Involved</a>
+<a href="#">Resources</a>
+<a href="#">Campaigns</a>
+<a href="#">Contact</a>
+</div>
 </div>
 
-<!-- CONTENT -->
-<div class="container">
+<!-- FLAG -->
+<img class="flag" src="https://upload.wikimedia.org/wikipedia/en/4/41/Flag_of_India.svg">
 
-<!-- DASHBOARD -->
-<div id="dashboard" class="section">
-<h2>Welcome Dashboard</h2>
-<div class="card" id="stats"></div>
+<!-- FLOWERS -->
+<div class="flower">🌸</div>
+<div class="flower" style="left:20%">🌼</div>
+<div class="flower" style="left:40%">🌸</div>
+<div class="flower" style="left:60%">🌼</div>
+
+<!-- BIRDS -->
+<div class="bird">🕊️</div>
+
+<!-- HERO -->
+<div class="hero">
+<h1>“Beti Bachao, Beti Padhao – Empowering Rural Women”</h1>
 </div>
 
-<!-- TEAM FILTER SYSTEM -->
-<div id="team" class="section" style="display:none">
-
-<h2>Our Team (Hierarchy View)</h2>
-
-<select id="level" onchange="loadState()">
-<option value="">Select Level</option>
-<option>National</option>
-<option>State</option>
-<option>District</option>
-<option>Block</option>
-</select>
-
-<select id="state" onchange="loadDistrict()"></select>
-<select id="district" onchange="loadBlock()"></select>
-<select id="block"></select>
-
-<button onclick="loadTeam()">View Team</button>
-
-<div id="teamData"></div>
-
+<!-- STATS -->
+<div class="stats">
+<div class="card"><h2>1200+</h2><p>SHG Groups</p></div>
+<div class="card"><h2>5000+</h2><p>Members</p></div>
+<div class="card"><h2>300+</h2><p>Skill Centres</p></div>
+<div class="card"><h2>150+</h2><p>Livelihood Centres</p></div>
 </div>
 
-<!-- OTHER TABS -->
-<div id="shg" class="section" style="display:none">
-<h2>SHG Data</h2>
-<div id="shgData"></div>
+<!-- ABOUT -->
+<div class="section">
+<h2>About Us</h2>
+<p>We empower women through education, skill development and entrepreneurship.</p>
 </div>
 
-<div id="members" class="section" style="display:none">
-<h2>Members</h2>
-<div id="memberData"></div>
+<!-- DIRECTOR MESSAGE -->
+<div class="section">
+<h2>Director Message</h2>
+<p>"Together we can build a strong rural women ecosystem."</p>
 </div>
 
-<div id="donation" class="section" style="display:none">
-<h2>Donation Records</h2>
-<div id="donationData"></div>
+<!-- PARTNERS -->
+<div class="section">
+<h2>Our Partners</h2>
+<p>Government • CSR • NGOs • International Donors</p>
 </div>
 
+<!-- SOCIAL -->
+<div class="section">
+<h2>Social Media</h2>
+<p>Facebook | Instagram | YouTube | WhatsApp</p>
 </div>
 
-<script>
+<!-- DONATE -->
+<div class="donate">💖 Donate Now</div>
 
-const API="YOUR_APPS_SCRIPT_URL";
-
-// ================= TAB SWITCH =================
-function showTab(tab){
-
-document.querySelectorAll(".section").forEach(s=>s.style.display="none");
-document.getElementById(tab).style.display="block";
-
-if(tab=="dashboard") loadStats();
-if(tab=="shg") loadSHG();
-if(tab=="members") loadMembers();
-if(tab=="donation") loadDonation();
-}
-
-// ================= STATS =================
-function loadStats(){
-fetch(API+"?type=stats")
-.then(r=>r.json())
-.then(d=>{
-document.getElementById("stats").innerHTML=`
-SHG: ${d.shg}<br>
-Members: ${d.members}<br>
-Volunteers: ${d.volunteers}<br>
-Internships: ${d.internships}
-`;
-});
-}
-
-// ================= TEAM FILTER =================
-function loadState(){
-let level=document.getElementById("level").value;
-
-if(level=="National"){
-alert("National Team View");
-}
-}
-
-// dummy hierarchy (later DB se connect kar dena)
-function loadDistrict(){
-document.getElementById("district").innerHTML="<option>District A</option>";
-}
-function loadBlock(){
-document.getElementById("block").innerHTML="<option>Block A</option>";
-}
-
-function loadTeam(){
-document.getElementById("teamData").innerHTML=
-"Filtered Team Data will show here...";
-}
-
-// ================= SHG =================
-function loadSHG(){
-fetch(API+"?type=shglist")
-.then(r=>r.json())
-.then(data=>{
-document.getElementById("shgData").innerHTML=
-data.map(d=><div class="card">${d.name} - ${d.leader}</div>).join("");
-});
-}
-
-// ================= MEMBERS =================
-function loadMembers(){
-document.getElementById("memberData").innerHTML="Members loading...";
-}
-
-// ================= DONATION =================
-function loadDonation(){
-document.getElementById("donationData").innerHTML="Donation data loading...";
-}
-
-</script>
+<!-- FOOTER -->
+<footer>
+<p>© 2026 Lado Women Foundation</p>
+<p>Beti Bachao • Beti Padhao • Women Empowerment</p>
+</footer>
 
 </body>
 </html>
