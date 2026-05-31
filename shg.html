@@ -3,11 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <title>SHG Apply</title>
+
 <style>
 body{font-family:Arial;background:#f4f6f9;padding:20px;}
 .container{max-width:600px;margin:auto;background:#fff;padding:20px;border-radius:10px;}
 input,button{width:100%;padding:10px;margin:8px 0;}
-button{background:#6a1b9a;color:#fff;border:none;}
+button{background:#6a1b9a;color:#fff;border:none;cursor:pointer;}
+button:hover{background:#8e24aa;}
 </style>
 </head>
 
@@ -35,33 +37,45 @@ button{background:#6a1b9a;color:#fff;border:none;}
 
 <script>
 
-const API="https://script.google.com/macros/s/YOUR_ID/exec";
+// 🔥 MUST PUT REAL DEPLOYED URL HERE
+const API="https://script.google.com/macros/s/PASTE_YOUR_REAL_ID_HERE/exec";
 
 function saveSHG(){
 
-let data=new URLSearchParams();
+let data = new URLSearchParams();
 
 data.append("action","shg");
-data.append("name",shgname.value);
-data.append("leader",president.value);
-data.append("mobile",mobile.value);
-data.append("village",village.value);
-data.append("panchayat",panchayat.value);
-data.append("block",block.value);
-data.append("district",district.value);
-data.append("state",state.value);
-data.append("members",members.value);
+data.append("name",document.getElementById("shgname").value);
+data.append("leader",document.getElementById("president").value);
+data.append("mobile",document.getElementById("mobile").value);
+data.append("village",document.getElementById("village").value);
+data.append("panchayat",document.getElementById("panchayat").value);
+data.append("block",document.getElementById("block").value);
+data.append("district",document.getElementById("district").value);
+data.append("state",document.getElementById("state").value);
+data.append("members",document.getElementById("members").value);
 
-fetch(API,{method:"POST",body:data})
+document.getElementById("msg").innerText="Submitting...";
+
+fetch(API,{
+method:"POST",
+body:data
+})
 .then(r=>r.json())
 .then(res=>{
 
+console.log(res);
+
 if(res.status=="success"){
-msg.innerHTML="✅ Application Submitted Successfully";
+document.getElementById("msg").innerText="✅ Application Submitted Successfully (ID: "+res.id+")";
 }else{
-msg.innerHTML="❌ Error";
+document.getElementById("msg").innerText="❌ Error: "+res.status;
 }
 
+})
+.catch(err=>{
+console.log(err);
+document.getElementById("msg").innerText="❌ Network/Server Error";
 });
 
 }
