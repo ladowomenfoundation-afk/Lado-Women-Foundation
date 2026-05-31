@@ -2,60 +2,57 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Lado Women Foundation - Login</title>
-<link rel="stylesheet" href="style.css">
+<title>Lado Women Foundation</title>
 
 <style>
 body{
-background:#f4f4f4;
+margin:0;
 font-family:Arial;
+background: linear-gradient(135deg,#6a1b9a,#9c27b0);
 display:flex;
 justify-content:center;
 align-items:center;
 height:100vh;
-margin:0;
-}
-
-.box{
-background:white;
-padding:25px;
-width:320px;
-border-radius:12px;
-box-shadow:0 0 10px rgba(0,0,0,0.2);
+color:white;
 text-align:center;
 }
 
-h2{
-color:#6a1b9a;
-margin-bottom:20px;
+.container{
+background:rgba(255,255,255,0.1);
+padding:40px;
+border-radius:15px;
+box-shadow:0 10px 25px rgba(0,0,0,0.3);
+backdrop-filter: blur(8px);
+width:350px;
 }
 
-input{
-width:90%;
-padding:10px;
-margin:8px 0;
-border:1px solid #ccc;
-border-radius:6px;
+h1{
+margin-bottom:10px;
+font-size:26px;
+}
+
+p{
+font-size:14px;
+margin-bottom:25px;
+opacity:0.9;
 }
 
 button{
-width:95%;
-padding:10px;
-background:#6a1b9a;
-color:white;
+padding:12px 20px;
+width:100%;
 border:none;
-border-radius:6px;
-cursor:pointer;
+border-radius:8px;
+background:white;
+color:#6a1b9a;
 font-size:16px;
+cursor:pointer;
+font-weight:bold;
+transition:0.3s;
 }
 
 button:hover{
-background:#4a148c;
-}
-
-#msg{
-color:red;
-margin-top:10px;
+background:#eee;
+transform:scale(1.03);
 }
 </style>
 
@@ -63,56 +60,19 @@ margin-top:10px;
 
 <body>
 
-<div class="box">
+<div class="container">
 
-<h2>Lado Women Foundation</h2>
-<p>NGO MIS LOGIN PANEL</p>
+<h1>Lado Women Foundation</h1>
+<p>Women Empowerment NGO MIS System</p>
 
-<input type="text" id="username" placeholder="Enter Username">
-<input type="password" id="password" placeholder="Enter Password">
+<p>Welcome to Official Management Portal</p>
 
-<button onclick="login()">LOGIN</button>
-
-<p id="msg"></p>
+<!-- LOGIN BUTTON -->
+<a href="login.html">
+<button>Enter Login Panel</button>
+</a>
 
 </div>
-
-<script>
-
-const API = "PASTE_YOUR_APPS_SCRIPT_URL_HERE";
-
-function login(){
-
-let u = document.getElementById("username").value;
-let p = document.getElementById("password").value;
-
-if(u=="" || p==""){
-document.getElementById("msg").innerText = "Please fill all fields";
-return;
-}
-
-fetch(API,{
-method:"POST",
-body:action=login&username=${u}&password=${p}
-})
-.then(res=>res.json())
-.then(data=>{
-
-if(data.status=="success"){
-localStorage.setItem("user",JSON.stringify(data));
-window.location.href="dashboard.html";
-}else{
-document.getElementById("msg").innerText="Invalid Login";
-}
-
-})
-.catch(err=>{
-document.getElementById("msg").innerText="Server Error";
-});
-
-}
-
-</script>
 
 </body>
 </html>
