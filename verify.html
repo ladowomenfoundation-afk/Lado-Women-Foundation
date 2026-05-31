@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Verify SHG</title>
+</head>
+
+<body>
+
+<h2>SHG Verification</h2>
+
+<div id="result">Loading...</div>
+
+<script>
+
+const urlParams = new URLSearchParams(window.location.search);
+const shg = urlParams.get("shg");
+
+fetch("YOUR_APPS_SCRIPT_URL?shg=" + shg)
+.then(res => res.json())
+.then(data => {
+
+  document.getElementById("result").innerHTML = `
+    <h3>${data.name}</h3>
+    <p><b>SHG ID:</b> ${data.shgId}</p>
+    <p><b>President:</b> ${data.president}</p>
+    <p><b>Village:</b> ${data.village}</p>
+    <p><b>District:</b> ${data.district}</p>
+    <p><b>Status:</b> ${data.status}</p>
+    <p><b>Certificate:</b> ${data.certificate}</p>
+  `;
+
+});
+
+</script>
+
+</body>
+</html>
