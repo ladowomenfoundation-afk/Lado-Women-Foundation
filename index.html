@@ -1,191 +1,115 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Lado Women Foundation MIS</title>
+<meta charset="UTF-8">
+<title>Lado Women Foundation - Login</title>
+<link rel="stylesheet" href="style.css">
 
 <style>
-
-body{margin:0;font-family:Arial;background:#eef2ff}
-
-header{
-background:#6a1b9a;
-color:white;
-padding:18px;
-text-align:center;
-font-size:20px;
-}
-
-nav{
+body{
+background:#f4f4f4;
+font-family:Arial;
 display:flex;
-flex-wrap:wrap;
-background:#283593;
-position:sticky;
-top:0;
+justify-content:center;
+align-items:center;
+height:100vh;
+margin:0;
 }
 
-nav button{
-flex:1;
-padding:10px;
-border:none;
-color:white;
-background:#3949ab;
-cursor:pointer;
-font-size:12px;
-}
-
-section{display:none;padding:15px}
-.active{display:block}
-
-.card{
+.box{
 background:white;
-padding:10px;
-margin:10px;
-border-radius:10px;
-box-shadow:0 2px 5px rgba(0,0,0,0.1);
+padding:25px;
+width:320px;
+border-radius:12px;
+box-shadow:0 0 10px rgba(0,0,0,0.2);
+text-align:center;
+}
+
+h2{
+color:#6a1b9a;
+margin-bottom:20px;
 }
 
 input{
-padding:8px;
-margin:5px;
 width:90%;
+padding:10px;
+margin:8px 0;
+border:1px solid #ccc;
+border-radius:6px;
 }
 
 button{
-padding:8px;
-margin:5px;
+width:95%;
+padding:10px;
 background:#6a1b9a;
 color:white;
 border:none;
+border-radius:6px;
+cursor:pointer;
+font-size:16px;
 }
 
+button:hover{
+background:#4a148c;
+}
+
+#msg{
+color:red;
+margin-top:10px;
+}
 </style>
+
 </head>
 
 <body>
 
-<header>
-🌸 LADO WOMEN FOUNDATION - GOV MIS SYSTEM
-</header>
+<div class="box">
 
-<nav>
-<button onclick="show('home')">Dashboard</button>
-<button onclick="show('shg')">SHG</button>
-<button onclick="show('members')">Members</button>
-<button onclick="show('otp')">OTP</button>
-<button onclick="show('control')">Control Room</button>
-</nav>
+<h2>Lado Women Foundation</h2>
+<p>NGO MIS LOGIN PANEL</p>
 
-<!-- DASHBOARD -->
-<section id="home" class="active">
-<div class="card" id="dash">Loading...</div>
-</section>
+<input type="text" id="username" placeholder="Enter Username">
+<input type="password" id="password" placeholder="Enter Password">
 
-<!-- SHG -->
-<section id="shg">
-<h3>SHG</h3>
-<input placeholder="Name">
-<input placeholder="Leader">
-<input placeholder="Mobile">
-<button>Create</button>
-<div class="card">SHG list</div>
-</section>
+<button onclick="login()">LOGIN</button>
 
-<!-- MEMBERS -->
-<section id="members">
-<h3>Members</h3>
-<input placeholder="Name">
-<input placeholder="Mobile">
-<input placeholder="Role">
-<button>Create</button>
-<div class="card">Members list</div>
-</section>
+<p id="msg"></p>
 
-<!-- OTP -->
-<section id="otp">
-<h3>OTP LOGIN</h3>
-<input id="mobile" placeholder="Mobile">
-<button onclick="sendOTP()">Send OTP</button>
-<br>
-<input id="otp" placeholder="OTP">
-<button onclick="verifyOTP()">Verify</button>
-</section>
-
-<!-- CONTROL ROOM -->
-<section id="control">
-<h3>CONTROL ROOM</h3>
-
-<select id="role">
-<option>admin</option>
-<option>state</option>
-<option>district</option>
-<option>block</option>
-</select>
-
-<input id="level" placeholder="Level"><br>
-
-<button onclick="loadControl()">Load</button>
-
-<div id="data"></div>
-</section>
+</div>
 
 <script>
 
-const API="YOUR_SCRIPT_URL_HERE";
+const API = "PASTE_YOUR_APPS_SCRIPT_URL_HERE";
 
-function show(id){
-document.querySelectorAll("section").forEach(s=>s.classList.remove("active"));
-document.getElementById(id).classList.add("active");
+function login(){
+
+let u = document.getElementById("username").value;
+let p = document.getElementById("password").value;
+
+if(u=="" || p==""){
+document.getElementById("msg").innerText = "Please fill all fields";
+return;
 }
 
-// DASHBOARD
-fetch(API)
-.then(r=>r.json())
-.then(d=>{
-document.getElementById("dash").innerHTML=`
-Total SHG: ${d.total}<br>
-Approved: ${d.approved}<br>
-Pending: ${d.pending}<br>
-Rejected: ${d.rejected}
-`;
-});
-
-// CONTROL ROOM
-function loadControl(){
-
-let role=document.getElementById("role").value;
-let level=document.getElementById("level").value;
-
-fetch(API+"?type=control&role="+role+"&level="+level)
-.then(r=>r.json())
+fetch(API,{
+method:"POST",
+body:action=login&username=${u}&password=${p}
+})
+.then(res=>res.json())
 .then(data=>{
 
-let html="";
-
-data.forEach(d=>{
-html+=`
-<div class="card">
-${d.name}<br>
-${d.leader}<br>
-${d.district}<br>
-${d.status}
-</div>`;
-});
-
-document.getElementById("data").innerHTML=html;
-
-});
-
+if(data.status=="success"){
+localStorage.setItem("user",JSON.stringify(data));
+window.location.href="dashboard.html";
+}else{
+document.getElementById("msg").innerText="Invalid Login";
 }
 
-// OTP
-function sendOTP(){
-fetch(API,{method:"POST",body:action=sendotp&mobile=${mobile.value}});
-}
+})
+.catch(err=>{
+document.getElementById("msg").innerText="Server Error";
+});
 
-function verifyOTP(){
-fetch(API,{method:"POST",body:action=verifyotp&mobile=${mobile.value}&otp=${otp.value}})
-.then(r=>r.json())
-.then(d=>alert(d.status));
 }
 
 </script>
