@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Gov Control Room</title>
+
+<style>
+body{
+  font-family:Arial;
+  background:#0b1220;
+  color:white;
+}
+
+.header{
+  background:#0b3d91;
+  padding:15px;
+  text-align:center;
+}
+
+.card{
+  background:#1c2333;
+  margin:10px;
+  padding:10px;
+  border-left:4px solid #00ff99;
+  border-radius:5px;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="header">
+  <h2>LIVE CONTROL ROOM (NGO MIS)</h2>
+</div>
+
+<div id="logs"></div>
+
+<script>
+
+const API = "YOUR_APPS_SCRIPT_URL?type=logs";
+
+function load(){
+
+  fetch(API)
+  .then(res=>res.json())
+  .then(data=>{
+
+    let html="";
+
+    data.forEach(d=>{
+
+      html += `
+        <div class="card">
+          👤 <b>${d.user}</b><br>
+          ⚙️ ${d.action}<br>
+          🕒 ${d.time}<br>
+          🏷️ ${d.type}
+        </div>
+      `;
+
+    });
+
+    document.getElementById("logs").innerHTML = html;
+
+  });
+
+}
+
+load();
+
+// 🔁 auto refresh every 3 seconds
+setInterval(load,3000);
+
+</script>
+
+</body>
+</html>
