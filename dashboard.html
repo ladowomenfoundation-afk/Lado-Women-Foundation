@@ -1,32 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Lado Women Foundation</title>
-
-<style>
-
-/* ===== BODY ===== */
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lado Women Foundation Dashboard</title><style>
 body{
 margin:0;
-font-family:Arial;
+font-family:Arial,sans-serif;
+background:linear-gradient(135deg,#f3e5f5,#e1f5fe);
 overflow-x:hidden;
-background:linear-gradient(180deg,#fce4ec,#f3e5f5);
 }
 
-/* ===== TOP BAR ===== */
+/* TOP BAR */
 .topbar{
-position:fixed;
-top:0;
-left:0;
-width:100%;
 background:#6a1b9a;
 color:white;
+padding:15px;
 display:flex;
-align-items:center;
 justify-content:space-between;
-padding:10px 20px;
-z-index:1000;
+align-items:center;
+position:sticky;
+top:0;
+z-index:10;
 }
 
 .logo{
@@ -34,197 +28,169 @@ font-weight:bold;
 font-size:18px;
 }
 
-.menu a{
-color:white;
-margin:0 10px;
-text-decoration:none;
+.nav{
+display:flex;
+gap:15px;
+flex-wrap:wrap;
 }
 
-/* ===== HERO ===== */
+.nav button{
+background:white;
+color:#6a1b9a;
+border:none;
+padding:8px 12px;
+border-radius:20px;
+cursor:pointer;
+font-weight:bold;
+}
+
+.nav button:hover{
+background:#f3e5f5;
+}
+
+/* HERO */
 .hero{
-margin-top:60px;
-height:450px;
-background:url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f') center/cover;
-position:relative;
-display:flex;
-align-items:center;
-justify-content:center;
-color:white;
 text-align:center;
+padding:60px 20px;
+background:url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f') center/cover;
+color:white;
+position:relative;
 }
 
 .hero::after{
 content:"";
 position:absolute;
-width:100%;
-height:100%;
+top:0;left:0;right:0;bottom:0;
 background:rgba(0,0,0,0.5);
 }
 
-.hero h1{
+.hero h1,
+.hero p{
 position:relative;
-font-size:32px;
-z-index:2;
+z-index:1;
 }
 
-/* ===== STATS ===== */
-.stats{
+/* CARDS */
+.section{
+padding:30px;
+}
+
+.cards{
 display:grid;
 grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
 gap:15px;
-padding:30px;
 }
 
 .card{
 background:white;
 padding:20px;
-border-radius:12px;
-box-shadow:0 5px 15px rgba(0,0,0,0.2);
+border-radius:15px;
+box-shadow:0 5px 15px rgba(0,0,0,0.1);
 text-align:center;
-transform:perspective(500px) rotateX(5deg);
 }
 
 .card h2{
 color:#6a1b9a;
 }
 
-/* ===== SECTION ===== */
-.section{
-padding:40px;
+/* TABS CONTENT */
+.tab{
+display:none;
 }
 
-/* ===== FLOATING BUTTON ===== */
-.donate{
-position:fixed;
-bottom:20px;
-right:20px;
-background:#e91e63;
-color:white;
-padding:15px 20px;
-border-radius:50px;
-cursor:pointer;
-box-shadow:0 5px 10px rgba(0,0,0,0.3);
+.active{
+display:block;
 }
 
-/* ===== FOOTER ===== */
+/* FOOTER */
 footer{
-background:#4a148c;
+background:#6a1b9a;
 color:white;
-padding:30px;
 text-align:center;
+padding:20px;
+margin-top:30px;
 }
 
-/* ===== FLAGS ===== */
-.flag{
+/* SIMPLE FLOAT EFFECT (flowers/birds placeholder) */
+.float{
 position:fixed;
-top:80px;
+font-size:20px;
+opacity:0.4;
+animation:float 6s infinite ease-in-out;
+}
+
+@keyframes float{
+0%{transform:translateY(0)}
+50%{transform:translateY(-20px)}
+100%{transform:translateY(0)}
+}
+
+.corner-flag{
+position:fixed;
 right:10px;
-width:50px;
+top:70px;
+font-size:40px;
 }
 
-/* ===== ANIMATION FLOWERS ===== */
-.flower{
-position:fixed;
-top:-50px;
-font-size:20px;
-animation:fall 10s linear infinite;
-}
-
-@keyframes fall{
-0%{transform:translateY(-50px);}
-100%{transform:translateY(110vh);}
-}
-
-/* ===== BIRDS ===== */
-.bird{
-position:fixed;
-top:80px;
-left:-100px;
-font-size:20px;
-animation:fly 15s linear infinite;
-}
-
-@keyframes fly{
-0%{left:-100px;}
-100%{left:110%;}
-}
-
-</style>
-</head>
-
-<body>
-
-<!-- TOP BAR -->
-<div class="topbar">
+</style></head><body><div class="topbar">
 <div class="logo">🌸 Lado Women Foundation</div>
-<div class="menu">
-<a href="#">Home</a>
-<a href="#">Who We Are</a>
-<a href="#">What We Do</a>
-<a href="#">Get Involved</a>
-<a href="#">Resources</a>
-<a href="#">Campaigns</a>
-<a href="#">Contact</a>
+<div class="nav">
+<button onclick="showTab('home')">Home</button>
+<button onclick="showTab('who')">Who We Are</button>
+<button onclick="showTab('what')">What We Do</button>
+<button onclick="showTab('get')">Get Involved</button>
+<button onclick="showTab('resources')">Resources</button>
+<button onclick="showTab('campaign')">Campaigns</button>
+<button onclick="showTab('contact')">Contact</button>
 </div>
+</div><div class="hero">
+<h1>Beti Bachao Beti Padhao</h1>
+<p>Empowering Rural Women Through Education & Skills</p>
+</div><!-- HOME --><div id="home" class="tab active section">
+<h2>Impact Overview</h2>
+<div class="cards">
+<div class="card"><h2 id="shg">0</h2><p>SHG</p></div>
+<div class="card"><h2 id="members">0</h2><p>Members</p></div>
+<div class="card"><h2 id="volunteers">0</h2><p>Volunteers</p></div>
+<div class="card"><h2 id="internships">0</h2><p>Internships</p></div>
 </div>
+</div><!-- WHO --><div id="who" class="tab section">
+<h2>Who We Are</h2>
+<p>About Us | Why Lado NGO | Our Impact | Outreach Programs</p>
+</div><!-- WHAT --><div id="what" class="tab section">
+<h2>What We Do</h2>
+<p>Lado Pathshala • Arogya • Serojgar Kendra • Skill Development</p>
+</div><!-- GET INVOLVED --><div id="get" class="tab section">
+<h2>Get Involved</h2>
+<p>Volunteers • Internship • Corporate Partners • Careers</p>
+</div><!-- RESOURCES --><div id="resources" class="tab section">
+<h2>Resources</h2>
+<p>Blogs • Research • Gender Policy • Reports</p>
+</div><!-- CAMPAIGN --><div id="campaign" class="tab section">
+<h2>Campaigns</h2>
+<p>All NGO Campaigns Listed Here</p>
+</div><!-- CONTACT --><div id="contact" class="tab section">
+<h2>Contact Us</h2>
+<p>Email | Phone | Address | FAQ</p>
+<button onclick="alert('Donate via UPI: ladowomen@upi')">Donate Now</button>
+</div><footer>
+Donate for a Cause • Social Change Initiative
+</footer><!-- FLOAT ELEMENTS --><div class="float" style="left:10px;top:200px">🌸</div>
+<div class="float" style="right:30px;top:300px">🕊️</div>
+<div class="corner-flag">🇮🇳</div><script>
+function showTab(id){
+let tabs=document.querySelectorAll('.tab');
+tabs.forEach(t=>t.classList.remove('active'));
+document.getElementById(id).classList.add('active');
+}
 
-<!-- FLAG -->
-<img class="flag" src="https://upload.wikimedia.org/wikipedia/en/4/41/Flag_of_India.svg">
-
-<!-- FLOWERS -->
-<div class="flower">🌸</div>
-<div class="flower" style="left:20%">🌼</div>
-<div class="flower" style="left:40%">🌸</div>
-<div class="flower" style="left:60%">🌼</div>
-
-<!-- BIRDS -->
-<div class="bird">🕊️</div>
-
-<!-- HERO -->
-<div class="hero">
-<h1>“Beti Bachao, Beti Padhao – Empowering Rural Women”</h1>
-</div>
-
-<!-- STATS -->
-<div class="stats">
-<div class="card"><h2>1200+</h2><p>SHG Groups</p></div>
-<div class="card"><h2>5000+</h2><p>Members</p></div>
-<div class="card"><h2>300+</h2><p>Skill Centres</p></div>
-<div class="card"><h2>150+</h2><p>Livelihood Centres</p></div>
-</div>
-
-<!-- ABOUT -->
-<div class="section">
-<h2>About Us</h2>
-<p>We empower women through education, skill development and entrepreneurship.</p>
-</div>
-
-<!-- DIRECTOR MESSAGE -->
-<div class="section">
-<h2>Director Message</h2>
-<p>"Together we can build a strong rural women ecosystem."</p>
-</div>
-
-<!-- PARTNERS -->
-<div class="section">
-<h2>Our Partners</h2>
-<p>Government • CSR • NGOs • International Donors</p>
-</div>
-
-<!-- SOCIAL -->
-<div class="section">
-<h2>Social Media</h2>
-<p>Facebook | Instagram | YouTube | WhatsApp</p>
-</div>
-
-<!-- DONATE -->
-<div class="donate">💖 Donate Now</div>
-
-<!-- FOOTER -->
-<footer>
-<p>© 2026 Lado Women Foundation</p>
-<p>Beti Bachao • Beti Padhao • Women Empowerment</p>
-</footer>
-
-</body>
+fetch('YOUR_APPS_SCRIPT_URL?type=stats')
+.then(r=>r.json())
+.then(d=>{
+ document.getElementById('shg').innerText=d.shg||0;
+ document.getElementById('members').innerText=d.members||0;
+ document.getElementById('volunteers').innerText=d.volunteers||0;
+ document.getElementById('internships').innerText=d.internships||0;
+});
+</script></body>
 </html>
