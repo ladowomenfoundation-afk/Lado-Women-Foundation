@@ -1,34 +1,115 @@
-<h1>SHG Registration</h1>
-<form>
-  SHG Name: <input type="text"><br><br>
-  Village: <input type="text"><br><br>
-  President Name: <input type="text"><br><br>
-  <button>Apply</button>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>SHG Registration - Lado Women Foundation</title>
+
+<style>
+body{
+  font-family: Arial;
+  background:#f4f6f9;
+  margin:0;
+}
+
+.header{
+  background:#0b3d91;
+  color:white;
+  padding:15px;
+  text-align:center;
+}
+
+.container{
+  width:90%;
+  max-width:600px;
+  margin:20px auto;
+  background:white;
+  padding:20px;
+  border-radius:8px;
+  box-shadow:0 2px 8px rgba(0,0,0,0.1);
+}
+
+input, select{
+  width:100%;
+  padding:10px;
+  margin:8px 0;
+  border:1px solid #ccc;
+  border-radius:5px;
+}
+
+button{
+  width:100%;
+  padding:12px;
+  background:#0b3d91;
+  color:white;
+  border:none;
+  border-radius:5px;
+  font-size:16px;
+}
+
+button:hover{
+  background:#062a66;
+}
+
+.result{
+  margin-top:10px;
+  color:green;
+  font-weight:bold;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="header">
+  <h2>SHG Registration Portal</h2>
+</div>
+
+<div class="container">
+
 <form id="shgForm">
 
-<input name="shgName" placeholder="SHG Name" required><br><br>
-<input name="president" placeholder="President Name" required><br><br>
-<input name="mobile" placeholder="Mobile" required><br><br>
-<input name="village" placeholder="Village" required><br><br>
-<input name="district" placeholder="District"><br><br>
+  <input name="shgName" placeholder="SHG Name" required>
 
-<button type="submit">Submit SHG</button>
+  <input name="president" placeholder="President Name" required>
+
+  <input name="mobile" placeholder="Mobile Number" required>
+
+  <input name="village" placeholder="Village" required>
+
+  <input name="district" placeholder="District" required>
+
+  <button type="submit">Register SHG</button>
 
 </form>
+
+<div class="result" id="result"></div>
+
+</div>
 
 <script>
 document.getElementById("shgForm").addEventListener("submit", function(e){
   e.preventDefault();
 
-  fetch("https://script.google.com/macros/s/AKfycby-aRk22tChBbqLEjgPNi2y6Hu38RYwMmPzj6QS8RdkT6qVqtAAU6xpAaLSoIXHN9Rr/exec", {
+  var formData = new FormData(this);
+
+  fetch("YOUR_APPS_SCRIPT_URL", {
     method: "POST",
-    body: new FormData(this)
+    body: formData
   })
   .then(res => res.text())
   .then(data => {
-    alert("SHG Registered Successfully!");
+    document.getElementById("result").innerText =
+      "SHG Registered Successfully! ID: " + data;
     document.getElementById("shgForm").reset();
+  })
+  .catch(error => {
+    document.getElementById("result").innerText =
+      "Error submitting form!";
   });
 
 });
 </script>
+
+</body>
+</html>
