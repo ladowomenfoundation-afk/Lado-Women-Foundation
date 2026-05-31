@@ -1,19 +1,44 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>SHG Admin Panel</title>
+<title>NGO Admin Panel</title>
+
 <style>
-body{font-family:Arial;background:#f4f6f9;}
-.card{background:white;margin:10px;padding:10px;border-radius:5px;}
-button{margin:5px;padding:8px;}
-.approve{background:green;color:white;}
-.reject{background:red;color:white;}
+body{font-family:Arial;background:#f4f6f9;margin:0;}
+
+.header{
+  background:#0b3d91;
+  color:white;
+  padding:15px;
+  text-align:center;
+}
+
+.card{
+  background:white;
+  margin:10px;
+  padding:10px;
+  border-radius:6px;
+  box-shadow:0 2px 5px rgba(0,0,0,0.1);
+}
+
+button{
+  padding:8px 12px;
+  margin:5px;
+  border:none;
+  color:white;
+}
+
+.approve{background:green;}
+.reject{background:red;}
 </style>
+
 </head>
 
 <body>
 
-<h2>SHG Admin Panel</h2>
+<div class="header">
+  <h2>SHG Admin Panel (MIS)</h2>
+</div>
 
 <div id="data"></div>
 
@@ -22,35 +47,37 @@ button{margin:5px;padding:8px;}
 const API = "YOUR_APPS_SCRIPT_URL";
 
 fetch(API)
-.then(res => res.json())
-.then(data => {
+.then(res=>res.json())
+.then(data=>{
 
-  let html = "";
+  let html="";
 
-  for(let i=1;i<data.length;i++){
+  data.forEach(d=>{
 
     html += `
     <div class="card">
-      <b>${data[i][1]}</b> (ID: ${data[i][0]})<br>
-      ${data[i][3]} | ${data[i][4]}<br>
-      Status: ${data[i][7]}<br>
+      <b>${d.name}</b> (ID: ${d.shgId})<br>
+      ${d.village} | ${d.district}<br>
+      Status: ${d.status}<br>
 
-      <button class="approve" onclick="update('${data[i][0]}','Approved')">Approve</button>
-      <button class="reject" onclick="update('${data[i][0]}','Rejected')">Reject</button>
+      <button class="approve" onclick="update('${d.shgId}','approve')">Approve</button>
+      <button class="reject" onclick="update('${d.shgId}','reject')">Reject</button>
     </div>
     `;
-  }
+
+  });
 
   document.getElementById("data").innerHTML = html;
+
 });
 
-function update(id,status){
+function update(id,action){
 
-  fetch(API, {
+  fetch(API,{
     method:"POST",
-    body: new URLSearchParams({
+    body:new URLSearchParams({
       shgId:id,
-      status:status
+      action:action
     })
   })
   .then(()=>location.reload());
