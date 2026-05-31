@@ -1,6 +1,3 @@
-if(!localStorage.getItem("token")){
-  window.location.href="login.html";
-}
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,40 +6,102 @@ if(!localStorage.getItem("token")){
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
+
+/* =======================
+   BACKGROUND STYLE
+======================= */
 body{
+  margin:0;
   font-family:Arial;
-  background:#f4f6f9;
+  background:linear-gradient(135deg,#0b3d91,#00c6ff);
+  color:#333;
 }
 
+/* =======================
+   HEADER
+======================= */
 .header{
-  background:#0b3d91;
+  background:rgba(255,255,255,0.15);
   color:white;
-  padding:15px;
-  text-align:center;
-}
-
-.container{
-  display:grid;
-  grid-template-columns: repeat(auto-fit,minmax(200px,1fr));
-  gap:10px;
-  padding:10px;
-}
-
-.card{
-  background:white;
   padding:20px;
   text-align:center;
-  border-radius:8px;
-  box-shadow:0 2px 5px rgba(0,0,0,0.1);
+  font-size:22px;
+  font-weight:bold;
+  backdrop-filter: blur(10px);
 }
 
-canvas{
-  background:white;
-  padding:10px;
-  border-radius:8px;
-  margin:20px auto;
-  display:block;
+/* =======================
+   CARDS GRID
+======================= */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:15px;
+  padding:15px;
 }
+
+/* =======================
+   GLASS CARD STYLE
+======================= */
+.card{
+  background:rgba(255,255,255,0.9);
+  padding:20px;
+  border-radius:15px;
+  text-align:center;
+  box-shadow:0 5px 15px rgba(0,0,0,0.2);
+  transition:0.3s;
+}
+
+.card:hover{
+  transform:scale(1.05);
+}
+
+/* COLORS */
+.total{border-left:6px solid #007bff;}
+.approved{border-left:6px solid #28a745;}
+.pending{border-left:6px solid #ffc107;}
+.rejected{border-left:6px solid #dc3545;}
+
+/* =======================
+   CHART AREA
+======================= */
+.chartBox{
+  width:90%;
+  margin:auto;
+  background:white;
+  padding:15px;
+  border-radius:15px;
+  margin-top:10px;
+}
+
+/* =======================
+   BUTTONS
+======================= */
+.buttons{
+  text-align:center;
+  margin:20px;
+}
+
+button{
+  padding:12px 18px;
+  margin:5px;
+  border:none;
+  border-radius:8px;
+  color:white;
+  font-weight:bold;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+button:hover{
+  transform:scale(1.1);
+}
+
+.admin{background:#0b3d91;}
+.verify{background:#17a2b8;}
+.idcard{background:#28a745;}
+.control{background:#dc3545;}
+
 </style>
 
 </head>
@@ -50,19 +109,44 @@ canvas{
 <body>
 
 <div class="header">
-  <h2>Lado Women Foundation - MIS Dashboard</h2>
+🏛️ Lado Women Foundation - MIS Dashboard
 </div>
 
-<div class="container">
+<!-- STATS -->
+<div class="grid">
 
-  <div class="card">Total SHG<br><h2 id="total">0</h2></div>
-  <div class="card">Approved<br><h2 id="approved">0</h2></div>
-  <div class="card">Pending<br><h2 id="pending">0</h2></div>
-  <div class="card">Rejected<br><h2 id="rejected">0</h2></div>
+  <div class="card total">
+    📊 Total SHG<br><h2 id="total">0</h2>
+  </div>
+
+  <div class="card approved">
+    🟢 Approved<br><h2 id="approved">0</h2>
+  </div>
+
+  <div class="card pending">
+    🟡 Pending<br><h2 id="pending">0</h2>
+  </div>
+
+  <div class="card rejected">
+    🔴 Rejected<br><h2 id="rejected">0</h2>
+  </div>
 
 </div>
 
-<canvas id="chart" width="400" height="200"></canvas>
+<!-- CHART -->
+<div class="chartBox">
+<canvas id="chart"></canvas>
+</div>
+
+<!-- BUTTONS -->
+<div class="buttons">
+
+<button class="admin" onclick="location.href='admin.html'">Admin Panel</button>
+<button class="verify" onclick="location.href='verify.html'">Verify SHG</button>
+<button class="idcard" onclick="location.href='idcard.html'">ID Card</button>
+<button class="control" onclick="location.href='control.html'">Live Control Room</button>
+
+</div>
 
 <script>
 
@@ -72,25 +156,20 @@ fetch(API)
 .then(res => res.json())
 .then(data => {
 
-  // numbers
+  // STATS
   document.getElementById("total").innerText = data.total;
   document.getElementById("approved").innerText = data.approved;
   document.getElementById("pending").innerText = data.pending;
   document.getElementById("rejected").innerText = data.rejected;
 
-  // chart
+  // CHART
   new Chart(document.getElementById("chart"), {
-    type: "bar",
+    type: "doughnut",
     data: {
-      labels: ["Total", "Approved", "Pending", "Rejected"],
+      labels: ["Approved", "Pending", "Rejected"],
       datasets: [{
-        label: "SHG Stats",
-        data: [
-          data.total,
-          data.approved,
-          data.pending,
-          data.rejected
-        ]
+        data: [data.approved, data.pending, data.rejected],
+        backgroundColor: ["#28a745","#ffc107","#dc3545"]
       }]
     }
   });
