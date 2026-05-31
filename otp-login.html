@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>OTP Login - MIS</title>
+</head>
+
+<body>
+
+<h2>Secure OTP Login</h2>
+
+<div id="step1">
+
+<input id="user" placeholder="Username"><br>
+<input id="pass" type="password" placeholder="Password"><br>
+
+<button onclick="sendOtp()">Send OTP</button>
+
+</div>
+
+<div id="step2" style="display:none">
+
+<input id="otp" placeholder="Enter OTP"><br>
+<button onclick="verifyOtp()">Verify</button>
+
+</div>
+
+<p id="msg"></p>
+
+<script>
+
+const API = "YOUR_APPS_SCRIPT_URL";
+
+function sendOtp(){
+
+  fetch(API,{
+    method:"POST",
+    body:new URLSearchParams({
+      action:"sendOtp",
+      username:document.getElementById("user").value,
+      password:document.getElementById("pass").value
+    })
+  })
+  .then(res=>res.json())
+  .then(data=>{
+
+    if(data.status=="otp_sent"){
+      document.getElementById("step1").style.display="none";
+      document.getElementById("step2").style.display="block";
+      document.getElementById("msg").innerHTML="OTP sent!";
+    }
+
+  });
+
+}
+
+function verifyOtp(){
+
+  fetch(API,{
+    method:"POST",
+    body:new URLSearchParams({
+      action:"verifyOtp",
+      username:document.getElementById("user").value,
+      otp:document.getElementById("otp").value
+    })
+  })
+  .then(res=>res.json())
+  .then(data=>{
+
+    if(data.status=="success"){
+      localStorage.setItem("token",data.token);
+      window.location.href="dashboard.html";
+    }else{
+      document.getElementById("msg").innerHTML="Invalid OTP";
+    }
+
+  });
+
+}
+
+</script>
+
+</body>
+</html>
