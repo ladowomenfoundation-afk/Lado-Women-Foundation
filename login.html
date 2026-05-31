@@ -1,26 +1,59 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Login</title>
+<title>Login - Lado Women Foundation</title>
 <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
+
 <div class="overlay">
 
 <div class="card">
 <h2>Lado Women Foundation</h2>
-<p>NGO MIS Login</p>
+<p>NGO MIS Login Panel</p>
 
-<input id="u" placeholder="Username"><br><br>
-<input id="p" type="password" placeholder="Password"><br><br>
+<input id="username" placeholder="Username"><br><br>
+<input id="password" type="password" placeholder="Password"><br><br>
 
 <button onclick="login()">Login</button>
+
 <p id="msg"></p>
 </div>
 
 </div>
 
-<script src="app.js"></script>
+<script>
+const API = "PASTE_YOUR_APPS_SCRIPT_URL_HERE";
+
+function login(){
+
+let formData = new URLSearchParams();
+formData.append("action","login");
+formData.append("username",document.getElementById("username").value);
+formData.append("password",document.getElementById("password").value);
+
+fetch(API,{
+method:"POST",
+body: formData
+})
+.then(res=>res.json())
+.then(data=>{
+
+if(data.status=="success"){
+localStorage.setItem("user",JSON.stringify(data));
+window.location.href="dashboard.html";
+}else{
+document.getElementById("msg").innerText="Invalid Login";
+}
+
+})
+.catch(err=>{
+document.getElementById("msg").innerText="Server Error";
+});
+
+}
+</script>
+
 </body>
 </html>
