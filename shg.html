@@ -1,44 +1,178 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>SHG Registration</title>
+<meta charset="UTF-8">
+<title>SHG Module - Lado Women Foundation</title>
+
+<link rel="stylesheet" href="style.css">
+
+<style>
+body{
+font-family:Arial;
+background:#f4f4f4;
+margin:0;
+}
+
+.header{
+background:#6a1b9a;
+color:white;
+padding:15px;
+text-align:center;
+}
+
+.container{
+padding:20px;
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:20px;
+}
+
+.box{
+background:white;
+padding:20px;
+border-radius:10px;
+box-shadow:0 0 8px rgba(0,0,0,0.1);
+}
+
+input{
+width:90%;
+padding:10px;
+margin:5px 0;
+border:1px solid #ccc;
+border-radius:6px;
+}
+
+button{
+padding:10px 15px;
+background:#6a1b9a;
+color:white;
+border:none;
+border-radius:6px;
+cursor:pointer;
+margin-top:10px;
+}
+
+button:hover{
+background:#4a148c;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+margin-top:10px;
+}
+
+th,td{
+border:1px solid #ddd;
+padding:8px;
+text-align:left;
+font-size:14px;
+}
+
+th{
+background:#6a1b9a;
+color:white;
+}
+</style>
+
 </head>
 
 <body>
 
-<h2>SHG Registration Form</h2>
+<div class="header">
+SHG MODULE - Lado Women Foundation
+</div>
 
-<form id="shgForm">
+<div class="container">
 
-<input name="shgName" placeholder="SHG Name" required><br><br>
-<input name="president" placeholder="President Name" required><br><br>
-<input name="mobile" placeholder="Mobile" required><br><br>
-<input name="village" placeholder="Village" required><br><br>
-<input name="district" placeholder="District" required><br><br>
+<!-- FORM -->
+<div class="box">
+<h3>Create SHG</h3>
 
-<button type="submit">Submit</button>
+<input id="name" placeholder="SHG Name">
+<input id="leader" placeholder="Leader Name">
+<input id="mobile" placeholder="Mobile">
+<input id="district" placeholder="District">
+<input id="block" placeholder="Block">
+<input id="members" placeholder="No. of Members">
 
-</form>
+<button onclick="saveSHG()">SAVE SHG</button>
 
 <p id="msg"></p>
+</div>
+
+<!-- LIST -->
+<div class="box">
+<h3>SHG LIST</h3>
+
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Name</th>
+<th>Leader</th>
+<th>Status</th>
+</tr>
+</thead>
+
+<tbody id="list"></tbody>
+</table>
+
+<button onclick="loadSHG()">REFRESH</button>
+
+</div>
+
+</div>
 
 <script>
 
-document.getElementById("shgForm").addEventListener("submit", function(e){
-  e.preventDefault();
+const API = "PASTE_YOUR_APPS_SCRIPT_URL_HERE";
 
-  fetch("YOUR_APPS_SCRIPT_URL", {
-    method: "POST",
-    body: new FormData(this)
-  })
-  .then(res => res.text())
-  .then(id => {
-    document.getElementById("msg").innerHTML =
-      "SHG Registered Successfully! ID: " + id;
-    document.getElementById("shgForm").reset();
-  });
+// SAVE SHG
+function saveSHG(){
+
+fetch(API,{
+method:"POST",
+body:action=shg&name=${name.value}&leader=${leader.value}&mobile=${mobile.value}&district=${district.value}&block=${block.value}&members=${members.value}
+})
+.then(r=>r.json())
+.then(d=>{
+
+document.getElementById("msg").innerText = "SHG Created: " + d.id;
+
+loadSHG();
 
 });
+}
+
+// LOAD SHG LIST
+function loadSHG(){
+
+fetch(API+"?type=shg")
+.then(r=>r.json())
+.then(data=>{
+
+let html="";
+
+data.forEach(d=>{
+html += `
+<tr>
+<td>${d.id}</td>
+<td>${d.name}</td>
+<td>${d.leader}</td>
+<td>${d.status}</td>
+</tr>
+`;
+});
+
+document.getElementById("list").innerHTML = html;
+
+});
+
+}
+
+// INIT
+loadSHG();
 
 </script>
 
