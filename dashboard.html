@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Lado Women Foundation - Dashboard</title>
+<title>Lado Women Foundation MIS Dashboard</title>
 
 <style>
 body{
@@ -24,8 +24,9 @@ font-weight:bold;
 display:flex;
 }
 
+/* SIDEBAR */
 .sidebar{
-width:220px;
+width:230px;
 background:#2c2c2c;
 height:100vh;
 color:white;
@@ -47,11 +48,13 @@ border-bottom:1px solid #444;
 background:#6a1b9a;
 }
 
+/* MAIN */
 .main{
 flex:1;
 padding:20px;
 }
 
+/* CARDS */
 .cards{
 display:grid;
 grid-template-columns:repeat(3,1fr);
@@ -63,20 +66,21 @@ margin-bottom:20px;
 background:white;
 padding:20px;
 border-radius:10px;
-box-shadow:0 0 8px rgba(0,0,0,0.1);
+box-shadow:0 0 10px rgba(0,0,0,0.1);
 text-align:center;
 }
 
 .card h2{
-margin:0;
 color:#6a1b9a;
+margin:0;
 }
 
+/* DATA BOX */
 .box{
 background:white;
 padding:15px;
 border-radius:10px;
-box-shadow:0 0 8px rgba(0,0,0,0.1);
+box-shadow:0 0 10px rgba(0,0,0,0.1);
 }
 
 .item{
@@ -84,18 +88,23 @@ padding:10px;
 border-bottom:1px solid #eee;
 }
 
+/* USER */
+.userbox{
+margin-bottom:10px;
+font-weight:bold;
+}
+
 .logout{
 background:red;
 margin-top:20px;
 }
 </style>
-
 </head>
 
 <body>
 
 <div class="header">
-Lado Women Foundation - MIS Dashboard
+Lado Women Foundation - GOVERNMENT MIS DASHBOARD
 </div>
 
 <div class="container">
@@ -108,14 +117,16 @@ Lado Women Foundation - MIS Dashboard
 <button onclick="loadData('volunteers')">Volunteers</button>
 <button onclick="loadData('field')">Field Reports</button>
 
+<button onclick="window.location.href='control.html'">Control Room</button>
+
 <button class="logout" onclick="logout()">Logout</button>
 
 </div>
 
-<!-- MAIN -->
+<!-- MAIN AREA -->
 <div class="main">
 
-<div id="userBox"></div>
+<div class="userbox" id="userInfo"></div>
 
 <!-- STATS -->
 <div class="cards">
@@ -125,7 +136,7 @@ Lado Women Foundation - MIS Dashboard
 </div>
 
 <div class="card">
-<h2 id="memCount">0</h2>
+<h2 id="memberCount">0</h2>
 <p>Members</p>
 </div>
 
@@ -135,9 +146,9 @@ Lado Women Foundation - MIS Dashboard
 </div>
 </div>
 
-<!-- DATA AREA -->
+<!-- DATA -->
 <div class="box" id="dataBox">
-Select menu to load data
+Select menu to view data
 </div>
 
 </div>
@@ -157,8 +168,8 @@ window.location.href="login.html";
 
 user = JSON.parse(user);
 
-document.getElementById("userBox").innerHTML =
-"<h3>Welcome, " + user.username + " (" + user.role + ")</h3>";
+document.getElementById("userInfo").innerHTML =
+"Welcome: " + user.username + " | Role: " + user.role + " | Level: " + user.level;
 
 // LOAD STATS
 function loadStats(){
@@ -168,7 +179,7 @@ fetch(API)
 .then(data=>{
 
 document.getElementById("shgCount").innerText = data.total_shg || 0;
-document.getElementById("memCount").innerText = data.total_members || 0;
+document.getElementById("memberCount").innerText = data.total_members || 0;
 document.getElementById("volCount").innerText = data.total_volunteers || 0;
 
 });
