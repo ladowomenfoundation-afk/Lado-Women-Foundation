@@ -1,142 +1,165 @@
-<!DOCTYPE html>
-<html>
+<!DOCTYPE html><html>
 <head>
-<title>NGO Dashboard</title>
-<link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"><title>Lado Women Foundation Dashboard</title><style>
 
-<style>
-body{
+*{
 margin:0;
+padding:0;
+box-sizing:border-box;
 font-family:Arial;
-display:flex;
+}
+
+body{
+background:#f4f6f9;
 }
 
 .sidebar{
-width:220px;
-background:#4a148c;
+position:fixed;
+left:0;
+top:0;
+width:260px;
+height:100%;
+background:#6a1b9a;
+overflow:auto;
+}
+
+.logo{
+padding:20px;
+text-align:center;
 color:white;
-height:100vh;
-padding:15px;
+font-size:22px;
+font-weight:bold;
+border-bottom:1px solid rgba(255,255,255,.2);
 }
 
-.sidebar h2{
-font-size:18px;
-margin-bottom:20px;
+.sidebar a{
+display:block;
+padding:12px 20px;
+color:white;
+text-decoration:none;
+border-bottom:1px solid rgba(255,255,255,.08);
 }
 
-.sidebar button{
-width:100%;
-margin:5px 0;
-padding:10px;
-background:white;
-color:#4a148c;
-border:none;
-cursor:pointer;
-border-radius:5px;
+.sidebar a:hover{
+background:#8e24aa;
 }
 
 .main{
-flex:1;
+margin-left:260px;
 padding:20px;
-background:#f5f5f5;
+}
+
+.topbar{
+background:white;
+padding:15px;
+border-radius:10px;
+box-shadow:0 2px 10px rgba(0,0,0,.1);
+margin-bottom:20px;
 }
 
 .cards{
 display:grid;
-grid-template-columns:repeat(2,1fr);
-gap:10px;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:15px;
 }
 
 .card{
 background:white;
-padding:15px;
-border-radius:10px;
-box-shadow:0 0 5px rgba(0,0,0,0.1);
-}
-</style>
-
-</head>
-
-<body>
-
-<div class="sidebar">
-<h2>Lado Women Foundation</h2>
-
-<button onclick="load('members')">Members</button>
-<button onclick="load('shg')">SHG</button>
-<button onclick="load('volunteers')">Volunteers</button>
-<button onclick="load('internshipList')">Internship</button>
-<button onclick="logout()">Logout</button>
-</div>
-
-<div class="main">
-
-<h2>Dashboard</h2>
-
-<div class="cards">
-<div class="card">
-<h3>Total Members</h3>
-<p id="m">0</p>
-</div>
-
-<div class="card">
-<h3>Total SHG</h3>
-<p id="s">0</p>
-</div>
-
-<div class="card">
-<h3>Volunteers</h3>
-<p id="v">0</p>
-</div>
-
-<div class="card">
-<h3>Internships</h3>
-<p id="i">0</p>
-</div>
-</div>
-
-<br>
-
-<div class="card">
-<pre id="data">Loading...</pre>
-</div>
-
-</div>
-
-<script>
-const API = "PASTE_YOUR_SCRIPT_URL";
-
-let user = JSON.parse(localStorage.getItem("user"));
-
-if(!user){
-window.location.href="login.html";
+padding:20px;
+border-radius:12px;
+box-shadow:0 2px 10px rgba(0,0,0,.1);
+text-align:center;
 }
 
-function load(type){
-
-fetch(API+"?type="+type)
-.then(r=>r.json())
-.then(d=>{
-document.getElementById("data").innerText =
-JSON.stringify(d,null,2);
-});
+.card h2{
+font-size:30px;
+color:#6a1b9a;
 }
 
-function logout(){
-localStorage.clear();
-window.location.href="login.html";
+.banner{
+background:url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f');
+background-size:cover;
+background-position:center;
+height:250px;
+border-radius:15px;
+margin-bottom:20px;
+position:relative;
 }
 
-// load stats
+.overlay{
+position:absolute;
+width:100%;
+height:100%;
+background:rgba(0,0,0,.45);
+border-radius:15px;
+display:flex;
+align-items:center;
+justify-content:center;
+color:white;
+font-size:30px;
+font-weight:bold;
+}
+
+</style></head><body><div class="sidebar"><div class="logo">
+LADO NGO MIS
+</div><a href="#">Dashboard</a>
+<a href="#">SHG Management</a>
+<a href="#">Members</a>
+<a href="#">Committee Members</a>
+<a href="#">Volunteers</a>
+<a href="#">Field Reports</a>
+<a href="#">Projects</a>
+<a href="#">Internship</a>
+<a href="#">Certificates</a>
+<a href="#">Donations</a>
+<a href="#">Awareness Camps</a>
+<a href="#">Events & Programs</a>
+<a href="#">News & Updates</a>
+<a href="#">Gallery</a>
+<a href="#">Training Courses</a>
+<a href="#">CSR Partners</a>
+<a href="#">Complaints</a>
+<a href="#">Office Locations</a>
+<a href="#">Anu Lado Mart</a>
+<a href="#">MIS Summary</a>
+<a href="#">Approval Tracking</a>
+<a href="#">Location Master</a>
+<a href="#">Users</a>
+<a href="#">Logout</a>
+
+</div><div class="main"><div class="topbar">
+<h2>Lado Women Foundation Management System</h2>
+</div><div class="banner">
+<div class="overlay">
+Women Empowerment • Digital NGO Platform
+</div>
+</div><div class="cards"><div class="card">
+<h2 id="shg">0</h2>
+<p>Total SHG</p>
+</div><div class="card">
+<h2 id="members">0</h2>
+<p>Total Members</p>
+</div><div class="card">
+<h2 id="volunteers">0</h2>
+<p>Total Volunteers</p>
+</div><div class="card">
+<h2 id="internships">0</h2>
+<p>Total Internships</p>
+</div></div></div><script>
+
+const API="https://script.google.com/macros/s/AKfycbzkSxqeJ4IUPkJj3AMI-c6zxZvaovO_0YIGLyKjIif03xVnwknCir80CiRHqJtZw4wwPg/exec";
+
 fetch(API)
-.then(r=>r.json())
-.then(d=>{
-m.innerText = d.total_members;
-s.innerText = d.total_shg;
-v.innerText = d.total_volunteers;
-i.innerText = d.total_internships;
-});
-</script>
+.then(res=>res.json())
+.then(data=>{
 
-</body>
+document.getElementById("shg").innerHTML=data.total_shg||0;
+document.getElementById("members").innerHTML=data.total_members||0;
+document.getElementById("volunteers").innerHTML=data.total_volunteers||0;
+document.getElementById("internships").innerHTML=data.total_internships||0;
+
+});
+
+</script></body>
 </html>
