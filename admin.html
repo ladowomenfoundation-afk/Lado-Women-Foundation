@@ -1,88 +1,78 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>NGO Admin Panel</title>
+<title>Admin SHG Panel</title>
 
 <style>
-body{font-family:Arial;background:#f4f6f9;margin:0;}
-
-.header{
-  background:#0b3d91;
-  color:white;
-  padding:15px;
-  text-align:center;
-}
-
+body{font-family:Arial;background:#f4f6f9;}
 .card{
   background:white;
   margin:10px;
   padding:10px;
-  border-radius:6px;
-  box-shadow:0 2px 5px rgba(0,0,0,0.1);
+  border-left:5px solid #0b3d91;
+  border-radius:5px;
 }
-
 button{
-  padding:8px 12px;
-  margin:5px;
-  border:none;
-  color:white;
+  margin:3px;
+  padding:5px 10px;
 }
-
-.approve{background:green;}
-.reject{background:red;}
 </style>
 
 </head>
 
 <body>
 
-<div class="header">
-  <h2>SHG Admin Panel (MIS)</h2>
-</div>
+<h2>SHG Admin Panel</h2>
 
 <div id="data"></div>
 
 <script>
 
-const API = "YOUR_APPS_SCRIPT_URL";
+const API="https://script.google.com/macros/s/AKfycbxx-xBQcPPBnA14qTgjwdAJNbUDwNtwEicao0PoDrDl0gevTz7voZANpxZO77O7ai44dQ/exec";
 
-fetch(API)
-.then(res=>res.json())
+function load(){
+
+fetch(API+"?type=shg")
+.then(r=>r.json())
 .then(data=>{
 
-  let html="";
+let html="";
 
-  data.forEach(d=>{
+data.forEach(d=>{
 
-    html += `
-    <div class="card">
-      <b>${d.name}</b> (ID: ${d.shgId})<br>
-      ${d.village} | ${d.district}<br>
-      Status: ${d.status}<br>
+html+=`
+<div class="card">
+<b>${d.name}</b><br>
+Leader: ${d.leader}<br>
+Status: ${d.status}<br>
 
-      <button class="approve" onclick="update('${d.shgId}','approve')">Approve</button>
-      <button class="reject" onclick="update('${d.shgId}','reject')">Reject</button>
-    </div>
-    `;
-
-  });
-
-  document.getElementById("data").innerHTML = html;
+<button onclick="update('${d.id}','Approved')">Approve</button>
+<button onclick="update('${d.id}','Rejected')">Reject</button>
+</div>
+`;
 
 });
 
-function update(id,action){
+document.getElementById("data").innerHTML=html;
 
-  fetch(API,{
-    method:"POST",
-    body:new URLSearchParams({
-      shgId:id,
-      action:action
-    })
-  })
-  .then(()=>location.reload());
+});
 
 }
+
+function update(id,status){
+
+fetch(API,{
+method:"POST",
+body:new URLSearchParams({
+action:"updateStatus",
+id:id,
+status:status
+})
+}).then(()=>load());
+
+}
+
+load();
 
 </script>
 
