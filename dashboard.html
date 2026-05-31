@@ -1,29 +1,101 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Dashboard</title>
+<title>NGO Dashboard</title>
 <link rel="stylesheet" href="style.css">
+
+<style>
+body{
+margin:0;
+font-family:Arial;
+display:flex;
+}
+
+.sidebar{
+width:220px;
+background:#4a148c;
+color:white;
+height:100vh;
+padding:15px;
+}
+
+.sidebar h2{
+font-size:18px;
+margin-bottom:20px;
+}
+
+.sidebar button{
+width:100%;
+margin:5px 0;
+padding:10px;
+background:white;
+color:#4a148c;
+border:none;
+cursor:pointer;
+border-radius:5px;
+}
+
+.main{
+flex:1;
+padding:20px;
+background:#f5f5f5;
+}
+
+.cards{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:10px;
+}
+
+.card{
+background:white;
+padding:15px;
+border-radius:10px;
+box-shadow:0 0 5px rgba(0,0,0,0.1);
+}
+</style>
+
 </head>
 
 <body>
 
-<div class="overlay">
-
-<h2>NGO MIS DASHBOARD</h2>
-
-<div class="card">
-<p id="user"></p>
-
-<div class="nav">
+<div class="sidebar">
+<h2>Lado Women Foundation</h2>
 
 <button onclick="load('members')">Members</button>
 <button onclick="load('shg')">SHG</button>
 <button onclick="load('volunteers')">Volunteers</button>
 <button onclick="load('internshipList')">Internship</button>
-
+<button onclick="logout()">Logout</button>
 </div>
 
+<div class="main">
+
+<h2>Dashboard</h2>
+
+<div class="cards">
+<div class="card">
+<h3>Total Members</h3>
+<p id="m">0</p>
 </div>
+
+<div class="card">
+<h3>Total SHG</h3>
+<p id="s">0</p>
+</div>
+
+<div class="card">
+<h3>Volunteers</h3>
+<p id="v">0</p>
+</div>
+
+<div class="card">
+<h3>Internships</h3>
+<p id="i">0</p>
+</div>
+</div>
+
+<br>
 
 <div class="card">
 <pre id="data">Loading...</pre>
@@ -32,25 +104,38 @@
 </div>
 
 <script>
-const API = "PASTE_YOUR_APPS_SCRIPT_URL_HERE";
+const API = "PASTE_YOUR_SCRIPT_URL";
 
-let user = JSON.parse(localStorage.getItem("user") || "{}");
+let user = JSON.parse(localStorage.getItem("user"));
 
-document.getElementById("user").innerText =
-"Welcome: " + (user.role || "Guest");
+if(!user){
+window.location.href="login.html";
+}
 
 function load(type){
 
 fetch(API+"?type="+type)
-.then(res=>res.json())
-.then(data=>{
+.then(r=>r.json())
+.then(d=>{
 document.getElementById("data").innerText =
-JSON.stringify(data,null,2);
-})
-.catch(()=>{
-document.getElementById("data").innerText="Error loading data";
+JSON.stringify(d,null,2);
 });
 }
+
+function logout(){
+localStorage.clear();
+window.location.href="login.html";
+}
+
+// load stats
+fetch(API)
+.then(r=>r.json())
+.then(d=>{
+m.innerText = d.total_members;
+s.innerText = d.total_shg;
+v.innerText = d.total_volunteers;
+i.innerText = d.total_internships;
+});
 </script>
 
 </body>
