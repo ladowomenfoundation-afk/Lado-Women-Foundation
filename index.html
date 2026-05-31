@@ -5,40 +5,17 @@
 
 <style>
 
-body{
-margin:0;
-font-family:Arial;
-background:#f5f7ff;
-}
+body{margin:0;font-family:Arial;background:#f4f6ff}
 
-/* HEADER */
 header{
-background:linear-gradient(90deg,#6a1b9a,#8e24aa);
+background:#8e24aa;
 color:white;
 padding:20px;
 text-align:center;
-position:relative;
+font-size:22px;
+font-weight:bold;
 }
 
-header img{
-height:60px;
-position:absolute;
-left:20px;
-top:10px;
-border-radius:50%;
-}
-
-header h1{
-margin:0;
-font-size:28px;
-}
-
-header p{
-margin:5px;
-font-size:14px;
-}
-
-/* NAV */
 nav{
 display:flex;
 flex-wrap:wrap;
@@ -53,175 +30,157 @@ padding:12px;
 border:none;
 color:white;
 background:#3949ab;
-cursor:pointer;
 }
 
-nav button:hover{
-background:#5c6bc0;
-}
+section{display:none;padding:15px}
+.active{display:block}
 
-/* SECTIONS */
-section{
-display:none;
-padding:20px;
-min-height:80vh;
-background:white;
-}
-
-.active{
-display:block;
-}
-
-/* CARD */
 .card{
-background:#f9f9f9;
-padding:15px;
+background:white;
+padding:10px;
 margin:10px;
 border-radius:10px;
-}
-
-/* PARTNER MARQUEE */
-.marquee{
-overflow:hidden;
-white-space:nowrap;
-background:#fff;
-padding:10px;
-border-top:2px solid #eee;
-border-bottom:2px solid #eee;
-}
-
-.marquee img{
-height:50px;
-margin:0 20px;
-animation:scroll 15s linear infinite;
-}
-
-@keyframes scroll{
-0%{transform:translateX(100%)}
-100%{transform:translateX(-100%)}
-}
-
-/* SOCIAL */
-.social a{
-margin:10px;
-text-decoration:none;
-font-size:20px;
+box-shadow:0 2px 8px rgba(0,0,0,0.1);
 }
 
 </style>
-
 </head>
 
 <body>
 
-<!-- HEADER -->
-<header>
+<header>🌸 LADO WOMEN FOUNDATION</header>
 
-<img src="https://via.placeholder.com/80" id="logo">
-
-<h1>LADO WOMEN FOUNDATION</h1>
-<p>Empowering Women | Education | Livelihood | NGO MIS System</p>
-
-</header>
-
-<!-- NAV -->
 <nav>
-<button onclick="show('home')">Home</button>
+<button onclick="show('home')">Dashboard</button>
+<button onclick="show('shg')">SHG</button>
 <button onclick="show('members')">Members</button>
-<button onclick="show('partners')">Partners</button>
-<button onclick="show('projects')">Projects</button>
-<button onclick="show('intern')">Internship</button>
-<button onclick="show('social')">Social</button>
+<button onclick="show('otp')">OTP Login</button>
 </nav>
 
-<!-- HOME -->
+<!-- DASHBOARD -->
 <section id="home" class="active">
 
-<h2>Welcome Dashboard</h2>
+<div class="card" id="t"></div>
+<div class="card" id="a"></div>
+<div class="card" id="p"></div>
+<div class="card" id="r"></div>
 
-<div class="card">
-<h3>About NGO</h3>
-<p>Lado Women Foundation works for women empowerment, SHG development, skill training and livelihood programs.</p>
-</div>
+</section>
 
-<div class="card">
-<h3>Latest Updates</h3>
-<p>Scroll based dynamic updates will appear here with images & description.</p>
-</div>
+<!-- SHG -->
+<section id="shg">
+
+<h3>SHG</h3>
+
+<input placeholder="Name"><br>
+<input placeholder="Leader"><br>
+<input placeholder="Mobile"><br>
+
+<button onclick="createSHG()">Create</button>
+
+<div id="shgList"></div>
 
 </section>
 
 <!-- MEMBERS -->
 <section id="members">
 
-<h2>Members</h2>
+<h3>Members</h3>
 
-<div class="card">
-Member list will load dynamically from backend (Apps Script)
-</div>
+<input placeholder="Name"><br>
+<input placeholder="Mobile"><br>
+<input placeholder="Role"><br>
 
-</section>
+<button onclick="createMember()">Create</button>
 
-<!-- PARTNERS -->
-<section id="partners">
-
-<h2>Our Partners</h2>
-
-<div class="marquee">
-<img src="https://via.placeholder.com/100x50?text=Brand1">
-<img src="https://via.placeholder.com/100x50?text=Brand2">
-<img src="https://via.placeholder.com/100x50?text=Brand3">
-<img src="https://via.placeholder.com/100x50?text=Brand4">
-<img src="https://via.placeholder.com/100x50?text=Brand5">
-</div>
-
-<div class="card">
-Partner organizations logos auto scroll (Gov CSR style)
-</div>
+<div id="memberList"></div>
 
 </section>
 
-<!-- PROJECTS -->
-<section id="projects">
+<!-- OTP -->
+<section id="otp">
 
-<h2>Projects</h2>
+<h3>OTP LOGIN</h3>
 
-<div class="card">
-Project photos, description, location will appear here (scrollable feed style)
-</div>
+<input id="mobile" placeholder="Mobile"><br>
+<button onclick="sendOTP()">Send OTP</button><br><br>
 
-</section>
-
-<!-- INTERNSHIP -->
-<section id="intern">
-
-<h2>Internship Program</h2>
-
-<div class="card">
-Online & Offline training, certificates, attendance system
-</div>
-
-</section>
-
-<!-- SOCIAL -->
-<section id="social">
-
-<h2>Social Media Links</h2>
-
-<div class="social">
-<a href="#">Facebook</a>
-<a href="#">Instagram</a>
-<a href="#">YouTube</a>
-<a href="#">WhatsApp</a>
-</div>
+<input id="otp" placeholder="Enter OTP"><br>
+<button onclick="verifyOTP()">Verify</button>
 
 </section>
 
 <script>
 
+const API="YOUR_SCRIPT_URL_HERE";
+
 function show(id){
 document.querySelectorAll("section").forEach(s=>s.classList.remove("active"));
 document.getElementById(id).classList.add("active");
+}
+
+// DASHBOARD
+fetch(API)
+.then(r=>r.json())
+.then(d=>{
+document.getElementById("t").innerHTML="Total SHG: "+d.total;
+document.getElementById("a").innerHTML="Approved: "+d.approved;
+document.getElementById("p").innerHTML="Pending: "+d.pending;
+document.getElementById("r").innerHTML="Rejected: "+d.rejected;
+});
+
+// SHG
+function createSHG(){
+
+let i=document.querySelectorAll("#shg input");
+
+fetch(API,{
+method:"POST",
+headers:{"Content-Type":"application/x-www-form-urlencoded"},
+body:action=shg&name=${i[0].value}&leader=${i[1].value}&mobile=${i[2].value}&district=NA&block=NA&members=0
+});
+
+alert("SHG Created");
+}
+
+// MEMBERS
+function createMember(){
+
+let i=document.querySelectorAll("#members input");
+
+fetch(API,{
+method:"POST",
+headers:{"Content-Type":"application/x-www-form-urlencoded"},
+body:action=member&name=${i[0].value}&mobile=${i[1].value}&role=${i[2].value}&photo=NA&district=NA&block=NA
+});
+
+alert("Member Created");
+}
+
+// OTP
+function sendOTP(){
+
+fetch(API,{
+method:"POST",
+headers:{"Content-Type":"application/x-www-form-urlencoded"},
+body:action=sendotp&mobile=${document.getElementById("mobile").value}
+});
+
+alert("OTP Sent");
+}
+
+function verifyOTP(){
+
+fetch(API,{
+method:"POST",
+headers:{"Content-Type":"application/x-www-form-urlencoded"},
+body:action=verifyotp&mobile=${document.getElementById("mobile").value}&otp=${document.getElementById("otp").value}
+})
+.then(r=>r.json())
+.then(d=>{
+alert(d.status);
+});
+
 }
 
 </script>
