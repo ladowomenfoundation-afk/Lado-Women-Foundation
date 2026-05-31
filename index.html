@@ -1,89 +1,104 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>NGO MIS Control Room</title>
+<title>Lado Women Foundation - MIS Portal</title>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
+
 body{
-  margin:0;
-  font-family:Arial;
-  background:#eef3ff;
+margin:0;
+font-family:Arial;
+background:#f4f7ff;
 }
 
 header{
-  background:#1a237e;
-  color:white;
-  padding:15px;
-  text-align:center;
-  font-size:20px;
+background:#8e24aa;
+color:white;
+padding:15px;
+text-align:center;
+font-size:20px;
+font-weight:bold;
+}
+
+.subheader{
+background:#6a1b9a;
+color:white;
+text-align:center;
+padding:8px;
+font-size:14px;
 }
 
 nav{
-  display:flex;
-  flex-wrap:wrap;
-  background:#283593;
+display:flex;
+flex-wrap:wrap;
+background:#283593;
 }
 
 nav button{
-  flex:1;
-  padding:12px;
-  border:none;
-  cursor:pointer;
-  color:white;
-  background:#3949ab;
+flex:1;
+padding:12px;
+border:none;
+color:white;
+background:#3949ab;
+cursor:pointer;
 }
 
 nav button:hover{
-  background:#5c6bc0;
+background:#5c6bc0;
 }
 
 section{
-  display:none;
-  padding:20px;
+display:none;
+padding:15px;
 }
 
 .active{
-  display:block;
-}
-
-/* cards */
-.grid{
-  display:flex;
-  flex-wrap:wrap;
+display:block;
 }
 
 .card{
-  background:white;
-  padding:15px;
-  margin:10px;
-  border-radius:10px;
-  flex:1;
-  min-width:150px;
-  box-shadow:0 2px 8px rgba(0,0,0,0.1);
-  text-align:center;
+background:white;
+padding:12px;
+margin:10px;
+border-radius:10px;
+box-shadow:0 2px 8px rgba(0,0,0,0.1);
 }
 
-input, select{
-  padding:10px;
-  margin:5px;
-  width:200px;
+.grid{
+display:flex;
+flex-wrap:wrap;
+}
+
+input{
+padding:10px;
+margin:5px;
+width:200px;
 }
 
 button{
-  padding:10px;
-  margin:5px;
-  cursor:pointer;
+padding:10px;
+margin:5px;
+cursor:pointer;
 }
+
+.title{
+font-weight:bold;
+font-size:18px;
+color:#4a148c;
+}
+
 </style>
 
 </head>
 
 <body>
 
-<header>🏛️ NGO GOV MIS CONTROL ROOM</header>
+<header>🌸 Lado Women Foundation</header>
+<div class="subheader">MIS CONTROL & DIGITAL MANAGEMENT SYSTEM</div>
 
+<!-- NAVIGATION -->
 <nav>
 <button onclick="show('home')">Dashboard</button>
 <button onclick="show('shg')">SHG</button>
@@ -94,107 +109,170 @@ button{
 <button onclick="show('admin')">Admin</button>
 </nav>
 
-<!-- ================= HOME DASHBOARD ================= -->
+<!-- DASHBOARD -->
 <section id="home" class="active">
 
-<h2>Dashboard Overview</h2>
+<div class="title">📊 Dashboard Overview</div>
 
 <div class="grid">
-<div class="card" id="total">Total SHG</div>
-<div class="card" id="approved">Approved</div>
-<div class="card" id="pending">Pending</div>
-<div class="card" id="rejected">Rejected</div>
+<div class="card" id="t">Total SHG</div>
+<div class="card" id="a">Approved</div>
+<div class="card" id="p">Pending</div>
+<div class="card" id="r">Rejected</div>
 </div>
 
-<canvas id="chart" height="100"></canvas>
+<canvas id="chart"></canvas>
 
 </section>
 
-<!-- ================= SHG ================= -->
+<!-- SHG -->
 <section id="shg">
-<h2>SHG Management</h2>
+<div class="title">🤝 SHG Management</div>
 
-<input placeholder="Name">
-<input placeholder="Leader">
-<input placeholder="Mobile">
-<button>Create SHG</button>
+<input placeholder="SHG Name"><br>
+<input placeholder="Leader Name"><br>
+<input placeholder="Mobile"><br>
+
+<button onclick="createSHG()">Create SHG</button>
 
 <div id="shgList"></div>
 </section>
 
-<!-- ================= MEMBERS ================= -->
+<!-- MEMBERS -->
 <section id="members">
-<h2>Members & ID Cards</h2>
+<div class="title">🪪 Members & ID System</div>
 
-<input placeholder="Name">
-<input placeholder="Mobile">
-<input placeholder="Role">
-<button>Create Member</button>
+<input placeholder="Name"><br>
+<input placeholder="Mobile"><br>
+<input placeholder="Role"><br>
+
+<button onclick="createMember()">Create Member</button>
 
 <div id="memberList"></div>
 </section>
 
-<!-- ================= INTERNSHIP ================= -->
+<!-- INTERNSHIP -->
 <section id="intern">
-<h2>Internship Module</h2>
-<p>Internship registration, training, certificate system</p>
+<div class="title">🎓 Internship Module</div>
+<p>Training, Certificate, Attendance, Reports</p>
 </section>
 
-<!-- ================= PROJECTS ================= -->
+<!-- PROJECTS -->
 <section id="projects">
-<h2>Projects</h2>
-<p>Project upload, photos, videos, location tracking</p>
+<div class="title">📁 NGO Projects</div>
+<p>Project upload, images, videos, location tracking</p>
 </section>
 
-<!-- ================= REPORTS ================= -->
+<!-- REPORTS -->
 <section id="reports">
-<h2>Reports</h2>
-<canvas id="bar"></canvas>
+<div class="title">📈 Reports</div>
+<canvas id="chart2"></canvas>
 </section>
 
-<!-- ================= ADMIN ================= -->
+<!-- ADMIN -->
 <section id="admin">
-<h2>Admin Control Room</h2>
+<div class="title">🔐 Admin Login</div>
 
-<input placeholder="Username">
-<input placeholder="Password">
+<input placeholder="Username"><br>
+<input placeholder="Password"><br>
+
 <button>Login</button>
 
-<p>Role based access system (Gov MIS)</p>
 </section>
 
 <script>
 
-const API="https://script.google.com/macros/s/AKfycbzkSxqeJ4IUPkJj3AMI-c6zxZvaovO_0YIGLyKjIif03xVnwknCir80CiRHqJtZw4wwPg/exec";
+const API="YOUR_SCRIPT_URL_HERE"; // 👈 अपना Apps Script URL डालो
 
 function show(id){
-  document.querySelectorAll("section").forEach(s=>s.classList.remove("active"));
-  document.getElementById(id).classList.add("active");
+document.querySelectorAll("section").forEach(s=>s.classList.remove("active"));
+document.getElementById(id).classList.add("active");
 }
 
-// LOAD DASHBOARD
+// ================= DASHBOARD =================
+function loadDashboard(){
 fetch(API)
 .then(r=>r.json())
 .then(d=>{
 
-  document.getElementById("total").innerHTML="Total SHG<br><b>"+d.total+"</b>";
-  document.getElementById("approved").innerHTML="Approved<br><b>"+d.approved+"</b>";
-  document.getElementById("pending").innerHTML="Pending<br><b>"+d.pending+"</b>";
-  document.getElementById("rejected").innerHTML="Rejected<br><b>"+d.rejected+"</b>";
+document.getElementById("t").innerHTML="Total SHG<br><b>"+d.total+"</b>";
+document.getElementById("a").innerHTML="Approved<br><b>"+d.approved+"</b>";
+document.getElementById("p").innerHTML="Pending<br><b>"+d.pending+"</b>";
+document.getElementById("r").innerHTML="Rejected<br><b>"+d.rejected+"</b>";
 
-  new Chart(document.getElementById("chart"),{
-    type:"pie",
-    data:{
-      labels:["Approved","Pending","Rejected"],
-      datasets:[{data:[d.approved,d.pending,d.rejected]}]
-    }
-  });
-
+new Chart(document.getElementById("chart"),{
+type:"pie",
+data:{
+labels:["Approved","Pending","Rejected"],
+datasets:[{data:[d.approved,d.pending,d.rejected]}]
+}
 });
 
-// SAMPLE UI PLACEHOLDERS
-document.getElementById("shgList").innerHTML="SHG list will load from API";
-document.getElementById("memberList").innerHTML="Members list + ID card download";
+});
+}
+
+// ================= SHG =================
+function loadSHG(){
+fetch(API+"?type=shg")
+.then(r=>r.json())
+.then(d=>{
+let h="";
+d.forEach(x=>{
+h+=`<div class="card">
+<b>${x.name}</b><br>
+Leader: ${x.leader}<br>
+Status: ${x.status}
+</div>`;
+});
+document.getElementById("shgList").innerHTML=h;
+});
+}
+
+function createSHG(){
+let i=document.querySelectorAll("#shg input");
+fetch(API,{
+method:"POST",
+headers:{"Content-Type":"application/x-www-form-urlencoded"},
+body:action=shg&name=${i[0].value}&leader=${i[1].value}&mobile=${i[2].value}&district=NA&block=NA&members=0
+}).then(r=>r.json()).then(()=>{
+alert("SHG Created");
+loadSHG();
+});
+}
+
+// ================= MEMBERS =================
+function loadMembers(){
+fetch(API+"?type=members")
+.then(r=>r.json())
+.then(d=>{
+let h="";
+d.forEach(x=>{
+h+=`<div class="card">
+<b>${x.name}</b><br>
+Role: ${x.role}<br>
+Mobile: ${x.mobile}
+</div>`;
+});
+document.getElementById("memberList").innerHTML=h;
+});
+}
+
+function createMember(){
+let i=document.querySelectorAll("#members input");
+fetch(API,{
+method:"POST",
+headers:{"Content-Type":"application/x-www-form-urlencoded"},
+body:action=member&name=${i[0].value}&mobile=${i[1].value}&role=${i[2].value}&photo=https://via.placeholder.com/100&district=NA&block=NA
+}).then(r=>r.json()).then(()=>{
+alert("Member Created");
+loadMembers();
+});
+}
+
+// INIT
+loadDashboard();
+loadSHG();
+loadMembers();
 
 </script>
 
