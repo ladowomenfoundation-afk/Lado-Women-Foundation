@@ -69,3 +69,16 @@ new QRCode(document.getElementById("qr"), {
 
 </body>
 </html>
+<button onclick="downloadPDF()">Download ID Card PDF</button>
+
+<script>
+function downloadPDF(){
+
+fetch(API+"?type=pdf&id="+memberId)
+.then(r=>r.json())
+.then(d=>{
+  window.open(d.url,"_blank");
+});
+
+}
+</script>
