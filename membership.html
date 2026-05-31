@@ -1,29 +1,150 @@
-function loadMembers(){
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Members - Lado Women Foundation</title>
 
-fetch(API+"?type=members")
-.then(res=>res.json())
-.then(data=>{
+<link rel="stylesheet" href="style.css">
 
-let html="";
-
-data.forEach(m=>{
-
-html+=`
-<div class="card">
-<img src="${m.photo || 'https://via.placeholder.com/80'}" width="60"><br>
-<b>${m.name}</b><br>
-Role: ${m.role}<br>
-Mobile: ${m.mobile}
-</div>
-`;
-
-});
-
-document.querySelector("#members").innerHTML=
-"<h2>Members</h2>"+html;
-
-});
-
+<style>
+body{
+font-family:Arial;
+background:#f4f4f4;
+margin:0;
 }
 
+.header{
+background:#6a1b9a;
+color:white;
+padding:15px;
+text-align:center;
+}
+
+.container{
+padding:20px;
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:20px;
+}
+
+.box{
+background:white;
+padding:20px;
+border-radius:10px;
+box-shadow:0 0 8px rgba(0,0,0,0.1);
+}
+
+input{
+width:90%;
+padding:10px;
+margin:5px 0;
+border:1px solid #ccc;
+border-radius:6px;
+}
+
+button{
+padding:10px 15px;
+background:#6a1b9a;
+color:white;
+border:none;
+border-radius:6px;
+cursor:pointer;
+margin-top:10px;
+}
+
+button:hover{
+background:#4a148c;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+margin-top:10px;
+}
+
+th,td{
+border:1px solid #ddd;
+padding:8px;
+text-align:left;
+font-size:14px;
+}
+
+th{
+background:#6a1b9a;
+color:white;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="header">
+MEMBERS MODULE - Lado Women Foundation NGO
+</div>
+
+<div class="container">
+
+<!-- FORM -->
+<div class="box">
+<h3>Add Member</h3>
+
+<input id="name" placeholder="Full Name">
+<input id="mobile" placeholder="Mobile">
+<input id="role" placeholder="Role (Field/Intern/Admin)">
+<input id="district" placeholder="District">
+<input id="block" placeholder="Block">
+
+<button onclick="saveMember()">SAVE MEMBER</button>
+
+<p id="msg"></p>
+</div>
+
+<!-- LIST -->
+<div class="box">
+<h3>MEMBER LIST</h3>
+
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Name</th>
+<th>Mobile</th>
+<th>Role</th>
+</tr>
+</thead>
+
+<tbody id="list"></tbody>
+</table>
+
+<button onclick="loadMembers()">REFRESH</button>
+
+</div>
+
+</div>
+
+<script>
+
+const API = "PASTE_YOUR_APPS_SCRIPT_URL_HERE";
+
+// SAVE MEMBER
+function saveMember(){
+
+fetch(API,{
+method:"POST",
+body:action=member&name=${name.value}&mobile=${mobile.value}&role=${role.value}&district=${district.value}&block=${block.value}
+})
+.then(r=>r.json())
+.then(d=>{
+
+document.getElementById("msg").innerText = "Member Created: " + d.id;
+
 loadMembers();
+
+});
+}
+
+// LOAD MEMBERS
+function loadMembers(){
+
+fetch(API
