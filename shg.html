@@ -1,132 +1,72 @@
-<!DOCTYPE html><html>
+<!DOCTYPE html>
+<html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1"><title>SHG Management - Lado Women Foundation</title><style>
+<title>SHG Apply</title>
+<style>
+body{font-family:Arial;background:#f4f6f9;padding:20px;}
+.container{max-width:600px;margin:auto;background:#fff;padding:20px;border-radius:10px;}
+input,button{width:100%;padding:10px;margin:8px 0;}
+button{background:#6a1b9a;color:#fff;border:none;}
+</style>
+</head>
 
-body{
-font-family:Arial,sans-serif;
-background:#f4f6f9;
-padding:20px;
-}
+<body>
 
-.container{
-max-width:1200px;
-margin:auto;
-}
+<div class="container">
 
-.card{
-background:white;
-padding:20px;
-border-radius:12px;
-box-shadow:0 2px 10px rgba(0,0,0,.1);
-margin-bottom:20px;
-}
+<h2>🤝 SHG Registration Form</h2>
 
-h2{
-color:#6a1b9a;
-margin-bottom:15px;
-}
-
-input{
-width:100%;
-padding:10px;
-margin-bottom:10px;
-border:1px solid #ccc;
-border-radius:6px;
-}
-
-button{
-background:#6a1b9a;
-color:white;
-border:none;
-padding:10px 15px;
-border-radius:6px;
-cursor:pointer;
-}
-
-button:hover{
-background:#8e24aa;
-}
-
-table{
-width:100%;
-border-collapse:collapse;
-}
-
-table th{
-background:#6a1b9a;
-color:white;
-padding:10px;
-}
-
-table td{
-padding:10px;
-border:1px solid #ddd;
-}
-
-.success{
-color:green;
-font-weight:bold;
-margin-top:10px;
-}
-
-</style></head><body><div class="container"><div class="card"><h2>🤝 Create SHG</h2><input id="shgname" placeholder="SHG Name">
+<input id="shgname" placeholder="SHG Name">
 <input id="president" placeholder="President Name">
-<input id="mobile" placeholder="Mobile Number">
+<input id="mobile" placeholder="Mobile">
 <input id="village" placeholder="Village">
 <input id="panchayat" placeholder="Gram Panchayat">
 <input id="block" placeholder="Block">
 <input id="district" placeholder="District">
 <input id="state" placeholder="State">
-<input id="members" placeholder="Total Members"><button onclick="saveSHG()">Create SHG</button>
+<input id="members" placeholder="Total Members">
 
-<p id="msg"></p></div><div class="card"><h2>📋 SHG Records</h2><table><tr>
-<th>SHG ID</th>
-<th>Name</th>
-<th>President</th>
-<th>Mobile</th>
-<th>Members</th>
-<th>Status</th>
-</tr><tbody id="shgTable"><tr>
-<td colspan="6">Records will appear here</td>
-</tr></tbody></table></div></div><script>
+<button onclick="saveSHG()">Submit Application</button>
 
-const API="https://script.google.com/macros/s/AKfycbzkSxqeJ4IUPkJj3AMI-c6zxZvaovO_0YIGLyKjIif03xVnwknCir80CiRHqJtZw4wwPg/exec";
+<p id="msg"></p>
+
+</div>
+
+<script>
+
+const API="https://script.google.com/macros/s/YOUR_ID/exec";
 
 function saveSHG(){
 
-let formData=new URLSearchParams();
+let data=new URLSearchParams();
 
-formData.append("action","shg");
-formData.append("name",document.getElementById("shgname").value);
-formData.append("leader",document.getElementById("president").value);
-formData.append("mobile",document.getElementById("mobile").value);
-formData.append("district",document.getElementById("district").value);
-formData.append("block",document.getElementById("block").value);
-formData.append("members",document.getElementById("members").value);
+data.append("action","shg");
+data.append("name",shgname.value);
+data.append("leader",president.value);
+data.append("mobile",mobile.value);
+data.append("village",village.value);
+data.append("panchayat",panchayat.value);
+data.append("block",block.value);
+data.append("district",district.value);
+data.append("state",state.value);
+data.append("members",members.value);
 
-fetch(API,{
-method:"POST",
-body:formData
-})
+fetch(API,{method:"POST",body:data})
 .then(r=>r.json())
-.then(data=>{
+.then(res=>{
 
-if(data.status=="success"){
-
-document.getElementById("msg").innerHTML=
-"✅ SHG Created Successfully : "+data.id;
-
+if(res.status=="success"){
+msg.innerHTML="✅ Application Submitted Successfully";
 }else{
-
-document.getElementById("msg").innerHTML=
-"❌ Error";
-
+msg.innerHTML="❌ Error";
 }
 
 });
 
 }
 
-</script></body>
+</script>
+
+</body>
 </html>
