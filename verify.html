@@ -1,35 +1,49 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Verify SHG</title>
+<title>Certificate Verification</title>
 </head>
 
-<body>
+<body style="text-align:center;font-family:Arial;margin-top:100px;">
 
-<h2>SHG Verification</h2>
+<h2>Lado Women Foundation</h2>
+<h3>Certificate Verification System</h3>
 
-<div id="result">Loading...</div>
+<input id="cid" placeholder="Enter Certificate ID" style="padding:10px;width:250px;">
+<button onclick="check()">Verify</button>
+
+<p id="result"></p>
 
 <script>
 
-const urlParams = new URLSearchParams(window.location.search);
-const shg = urlParams.get("shg");
+const API = "PASTE_YOUR_APPS_SCRIPT_URL_HERE";
 
-fetch("YOUR_APPS_SCRIPT_URL?shg=" + shg)
-.then(res => res.json())
-.then(data => {
+function check(){
 
-  document.getElementById("result").innerHTML = `
-    <h3>${data.name}</h3>
-    <p><b>SHG ID:</b> ${data.shgId}</p>
-    <p><b>President:</b> ${data.president}</p>
-    <p><b>Village:</b> ${data.village}</p>
-    <p><b>District:</b> ${data.district}</p>
-    <p><b>Status:</b> ${data.status}</p>
-    <p><b>Certificate:</b> ${data.certificate}</p>
-  `;
+let id = document.getElementById("cid").value;
+
+fetch(API + "?type=verifyCertificate&id=" + id)
+.then(r=>r.json())
+.then(data=>{
+
+if(data.status=="valid"){
+
+document.getElementById("result").innerHTML = `
+<h3 style="color:green">✔️ VALID CERTIFICATE</h3>
+Name: ${data.name}<br>
+Father: ${data.father}<br>
+College: ${data.college}<br>
+Issue Date: ${data.issueDate}
+`;
+
+}else{
+document.getElementById("result").innerHTML =
+"<h3 style='color:red'>❌ INVALID CERTIFICATE</h3>";
+}
 
 });
+
+}
 
 </script>
 
